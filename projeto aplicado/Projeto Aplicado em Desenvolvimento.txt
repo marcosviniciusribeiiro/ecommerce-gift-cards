@@ -1,0 +1,23 @@
+Projeto Aplicado em Desenvolvimento de Sistemas:
+
+Critérios Mínimos p/ um tema validado
+
+- Login e senha para acessá-lo (cadastro de usuário)
+- Criptografia no banco de dados
+- Min. duas regras de negócio
+- Usar APIs e aplicações dentro do sistema (integração entre sistemas)
+
+Projeto: Ecommerce
+
+
+EPIC 1
+Cadastro de User;
+Gerenciamento de Perfil;
+Autenticação;  
+Banco de Dados; e 
+Interface de Usuário.
+
+EPIC 2
+CRUDs;
+Pelo menos duas funcionalidades distintas
+API's e/ou Aplicações
