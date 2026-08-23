@@ -4,20 +4,20 @@ import com.dao.UserRequest;
 import com.model.Tipo_User;
 import com.model.User;
 import com.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService {
-    @Autowired
     private final UserRepository userRepository;
+    private  final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Optional<User> buscarPorEmail (String email){
@@ -32,7 +32,9 @@ public class UserService {
 
         user.setNome(request.getNome());
         user.setEmail(request.getEmail());
-        user.setSenha(request.getSenha());
+
+        //metodo para encriptar a senha do usuário antes de cadastrá-lo
+        user.setSenha(passwordEncoder.encode(request.getSenha()));
         user.setTipoUser(Tipo_User.cliente);
         user.setDataCadastro(LocalDate.now());
 
