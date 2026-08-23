@@ -1,14 +1,13 @@
 package com.controller;
 
 import com.dao.UserRequest;
+import com.dao.UserResponse;
 import com.model.User;
 import com.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
-    @Autowired
     public final UserService userService;
 
     public UserController(UserService userService) {
@@ -16,8 +15,17 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public User cadastrar(@RequestBody UserRequest request){
-        return userService.cadastrar(request);
+    public UserResponse cadastrar(@RequestBody UserRequest request) {
+
+        User user = userService.cadastrar(request);
+
+        return new UserResponse(
+                user.getId(),
+                user.getNome(),
+                user.getEmail(),
+                user.getTipoUser(),
+                user.getDataCadastro()
+        );
     }
 
     @GetMapping("/users")
