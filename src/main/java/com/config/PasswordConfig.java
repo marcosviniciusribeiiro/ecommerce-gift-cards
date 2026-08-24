@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+//responsável por permitir a codificação da senha dos usuários
 @Configuration
 public class PasswordConfig {
     @Bean
@@ -12,4 +13,3 @@ public class PasswordConfig {
         return new BCryptPasswordEncoder();
     }
 }
-//responsável por permitir a codificação da senha dos usuários

@@ -4,6 +4,7 @@ import com.dao.UserRequest;
 import com.dao.UserResponse;
 import com.model.User;
 import com.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,8 +15,13 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/users")
+    public User retornarUser(@RequestParam String email){
+        return userService.buscarPorEmail(email).orElse(null);
+    }
+
     @PostMapping("/users")
-    public UserResponse cadastrar(@RequestBody UserRequest request) {
+    public UserResponse cadastrar(@Valid @RequestBody UserRequest request) {
 
         User user = userService.cadastrar(request);
 
@@ -26,10 +32,5 @@ public class UserController {
                 user.getTipoUser(),
                 user.getDataCadastro()
         );
-    }
-
-    @GetMapping("/users")
-    public User findByEmail(@RequestParam String email){
-        return userService.buscarPorEmail(email).orElse(null);
     }
 }
