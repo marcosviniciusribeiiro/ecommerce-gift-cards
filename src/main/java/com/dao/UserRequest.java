@@ -2,6 +2,7 @@ package com.dao;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class UserRequest {
@@ -11,8 +12,13 @@ public class UserRequest {
     private String nome;
 
     @NotBlank(message = "O email é obrigatório!")
+    //Validar o endereço de email do usuário
     @Email(message = "O email informado é inválido.")
     @Size(max = 120, message = "O email deve possui no máximo 120 caracteres")
+
+    //Exige uma extensão válida para o email
+    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z0]{2,}$",
+            message = "O e-mail deve possuir um domínio válido, como teste@email.com")
     private String email;
 
     @NotBlank(message = "A senha é obrigatória!")
