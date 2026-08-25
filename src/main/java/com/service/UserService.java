@@ -1,6 +1,8 @@
 package com.service;
 
 import com.dao.UserRequest;
+import com.exception.EmailAlreadyExistsException;
+import com.exception.InvalidCredentialsException;
 import com.model.Tipo_User;
 import com.model.User;
 import com.repository.UserRepository;
@@ -26,7 +28,7 @@ public class UserService {
 
     public User cadastrar (UserRequest request){
         if (userRepository.findByEmail(request.getEmail()).isPresent()){
-            throw new RuntimeException("Email já cadastrado!");
+            throw new EmailAlreadyExistsException("E-mail já cadastrado.");
         }
         User user = new User();
 
@@ -39,5 +41,15 @@ public class UserService {
         user.setDataCadastro(LocalDate.now());
 
         return userRepository.save(user);
+    }
+
+    public User login(String email, String senha){
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new InvalidCredentialsException("Email ou senha incorreta."));
+
+        if (!passwordEncoder.matches(senha, user.getSenha())){
+            throw new InvalidCredentialsException("Email ou senha incorreta.");
+        }
+
+        return user;
     }
 }

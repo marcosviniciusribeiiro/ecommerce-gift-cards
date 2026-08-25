@@ -1,5 +1,7 @@
 package com.controller;
 
+import com.dao.LoginRequest;
+import com.dao.LoginResponse;
 import com.dao.UserRequest;
 import com.dao.UserResponse;
 import com.model.User;
@@ -16,11 +18,11 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public User retornarUser(@RequestParam String email){
+    public User retornar(@RequestParam String email){
         return userService.buscarPorEmail(email).orElse(null);
     }
 
-    @PostMapping("/users")
+    @PostMapping("/users/new")
     public UserResponse cadastrar(@Valid @RequestBody UserRequest request) {
 
         User user = userService.cadastrar(request);
@@ -31,6 +33,18 @@ public class UserController {
                 user.getEmail(),
                 user.getTipoUser(),
                 user.getDataCadastro()
+        );
+    }
+
+    @PostMapping("/user/login")
+    public LoginResponse login(@Valid @RequestBody LoginRequest request){
+        User user = userService.login(request.getEmail(), request.getSenha());
+        
+        return new LoginResponse(
+                user.getId(),
+                user.getNome(), 
+                user.getEmail(),
+                user.getTipoUser()
         );
     }
 }
