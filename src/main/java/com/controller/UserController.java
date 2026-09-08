@@ -41,9 +41,4 @@ public class UserController {
     public LoginResponse login(@Valid @RequestBody LoginRequest request){
         return userService.login(request.getEmail(), request.getSenha());
     }
-
-    @GetMapping("/teste")
-    public  String testarAuto(){
-        return "usuário autorizado!";
-    }
 }
