@@ -1,5 +1,6 @@
 package com.service;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +17,10 @@ public class JwtService {
 
     public JwtService (@Value("${jwt.secret}") String secret){
         this.chave = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    }
+
+    private Claims obterClaims(String token){
+        return Jwts.parser().verifyWith(chave).build().parseSignedClaims(token).getPayload();
     }
 
     public String gerarToken(Integer id, String email, String tipoUser){
@@ -38,5 +43,13 @@ public class JwtService {
         } catch (Exception e){
             return false;
         }
+    }
+
+    public String extrairEmail(String token){
+        return obterClaims(token).get("email", String.class);
+    }
+
+    public Integer extrairIdUsuario(String token){
+        return Integer.valueOf(obterClaims(token).getSubject());
     }
 }
