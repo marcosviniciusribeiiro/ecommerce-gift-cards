@@ -23,16 +23,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     public void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        String autorizationHeader = request.getHeader("Authorization");
+        String authorizationHeader = request.getHeader("Authorization");
 
-        if(autorizationHeader == null || !autorizationHeader.endsWith("Bearer")){
+        if (authorizationHeader == null ||
+                !authorizationHeader.startsWith("Bearer ")) {
+
             filterChain.doFilter(request, response);
+            return;
         }
 
-        String token = autorizationHeader.substring(7);
+        String token = authorizationHeader.substring(7);
 
         if(jwtService.validarToken(token)){
             String email = jwtService.extrairEmail(token);
+
+            System.out.println("TOKEN VÁLIDO");
+            System.out.println("USUÁRIO: " + email);
+
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(email, null, Collections.emptyList());
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
