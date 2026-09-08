@@ -38,13 +38,6 @@ public class UserController {
 
     @PostMapping("/user/login")
     public LoginResponse login(@Valid @RequestBody LoginRequest request){
-        User user = userService.login(request.getEmail(), request.getSenha());
-        
-        return new LoginResponse(
-                user.getId(),
-                user.getNome(), 
-                user.getEmail(),
-                user.getTipoUser()
-        );
+        return userService.login(request.getEmail(), request.getSenha());
     }
 }
