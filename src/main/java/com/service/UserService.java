@@ -1,5 +1,6 @@
 package com.service;
 
+import com.dao.LoginResponse;
 import com.dao.UserRequest;
 import com.exception.EmailAlreadyExistsException;
 import com.exception.InvalidCredentialsException;
@@ -8,7 +9,9 @@ import com.model.User;
 import com.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.tokens.KeyToken;
 
+import javax.crypto.SecretKey;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -16,10 +19,12 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private  final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
     public Optional<User> buscarPorEmail (String email){
@@ -43,13 +48,26 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User login(String email, String senha){
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new InvalidCredentialsException("Email ou senha incorreta."));
+    public LoginResponse login(String email, String senha){
+        User user = userRepository.findByEmail(email).orElseThrow(
+                () -> new InvalidCredentialsException("Email ou senha incorreta."));
 
         if (!passwordEncoder.matches(senha, user.getSenha())){
             throw new InvalidCredentialsException("Email ou senha incorreta.");
         }
 
-        return user;
+        String token = jwtService.gerarToken(
+                user.getId(),
+                user.getEmail(),
+                user.getTipoUser().name()
+        );
+
+        return new LoginResponse(
+                user.getId(),
+                user.getNome(),
+                user.getEmail(),
+                user.getTipoUser(),
+                token
+        );
     }
 }
