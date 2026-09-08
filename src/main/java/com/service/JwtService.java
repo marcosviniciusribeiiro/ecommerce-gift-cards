@@ -49,6 +49,10 @@ public class JwtService {
         return obterClaims(token).get("email", String.class);
     }
 
+    public String extrairTipo(String token){
+        return obterClaims(token).get("tipo_User", String.class);
+    }
+
     public Integer extrairIdUsuario(String token){
         return Integer.valueOf(obterClaims(token).getSubject());
     }
