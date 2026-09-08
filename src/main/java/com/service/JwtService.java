@@ -50,7 +50,7 @@ public class JwtService {
     }
 
     public String extrairTipo(String token){
-        return obterClaims(token).get("tipo_user", String.class);
+        return obterClaims(token).get("tipoUser", String.class);
     }
 
     public Integer extrairIdUsuario(String token){
