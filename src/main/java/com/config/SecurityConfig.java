@@ -35,6 +35,7 @@ public class SecurityConfig {
                                 "/users/new",
                                 "/users/login"
                         ).permitAll()
+                        .requestMatchers("/users/admin/**").hasRole("ADM")
                         .anyRequest().authenticated()
                 )
 
