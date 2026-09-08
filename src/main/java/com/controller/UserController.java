@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/users")
 public class UserController {
     public final UserService userService;
 
@@ -17,12 +18,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/users")
+    @GetMapping("/")
     public User retornar(@RequestParam String email){
         return userService.buscarPorEmail(email).orElse(null);
     }
 
-    @PostMapping("/users/new")
+    @PostMapping("/new")
     public UserResponse cadastrar(@Valid @RequestBody UserRequest request) {
 
         User user = userService.cadastrar(request);
@@ -36,8 +37,13 @@ public class UserController {
         );
     }
 
-    @PostMapping("/user/login")
+    @PostMapping("/login")
     public LoginResponse login(@Valid @RequestBody LoginRequest request){
         return userService.login(request.getEmail(), request.getSenha());
+    }
+
+    @GetMapping("/teste")
+    public  String testarAuto(){
+        return "usuário autorizado!";
     }
 }
