@@ -1,9 +1,9 @@
 package com.controller;
 
-import com.dao.LoginRequest;
-import com.dao.LoginResponse;
-import com.dao.UserRequest;
-import com.dao.UserResponse;
+import com.dto.LoginRequest;
+import com.dto.LoginResponse;
+import com.dto.UserRequest;
+import com.dto.UserResponse;
 import com.model.User;
 import com.service.UserService;
 import jakarta.validation.Valid;

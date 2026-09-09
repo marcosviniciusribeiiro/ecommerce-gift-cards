@@ -1,7 +1,7 @@
 package com.service;
 
-import com.dao.LoginResponse;
-import com.dao.UserRequest;
+import com.dto.LoginResponse;
+import com.dto.UserRequest;
 import com.exception.EmailAlreadyExistsException;
 import com.exception.InvalidCredentialsException;
 import com.model.Tipo_User;
@@ -9,9 +9,7 @@ import com.model.User;
 import com.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.yaml.snakeyaml.tokens.KeyToken;
 
-import javax.crypto.SecretKey;
 import java.time.LocalDate;
 import java.util.Optional;
 
