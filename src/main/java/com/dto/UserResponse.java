@@ -1,4 +1,4 @@
-package com.dao;
+package com.dto;
 
 import com.model.Tipo_User;
 
