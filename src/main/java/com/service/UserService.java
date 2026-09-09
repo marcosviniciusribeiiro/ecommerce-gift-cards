@@ -21,14 +21,19 @@ public class UserService {
     private  final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
+    public UserService(
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder,
+            JwtService jwtService
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
     }
 
     public Optional<User> buscarPorEmail (String email){
-        return userRepository.findByEmail(email);
+        return userRepository
+                .findByEmail(email);
     }
 
     public User cadastrar (UserRequest request){
@@ -36,7 +41,6 @@ public class UserService {
             throw new EmailAlreadyExistsException("E-mail já cadastrado.");
         }
         User user = new User();
-
         user.setNome(request.getNome());
         user.setEmail(request.getEmail());
 
@@ -48,8 +52,11 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public LoginResponse login(String email, String senha){
-        User user = userRepository.findByEmail(email).orElseThrow(
+    public LoginResponse login(String email,
+                               String senha){
+        User user = userRepository
+                .findByEmail(email)
+                .orElseThrow(
                 () -> new InvalidCredentialsException("Email ou senha incorreta."));
 
         if (!passwordEncoder.matches(senha, user.getSenha())){

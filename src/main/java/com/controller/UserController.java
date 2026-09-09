@@ -39,6 +39,9 @@ public class UserController {
 
     @PostMapping("/login")
     public LoginResponse login(@Valid @RequestBody LoginRequest request){
-        return userService.login(request.getEmail(), request.getSenha());
+        return userService.login(
+                request.getEmail(),
+                request.getSenha()
+        );
     }
 }

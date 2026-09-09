@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
 
         String mensagem = exception.getBindingResult()
                 .getFieldErrors()
-                .get(0)
+                .getFirst()
                 .getDefaultMessage();
 
         ErrorResponse error = new ErrorResponse(
@@ -48,7 +48,9 @@ public class GlobalExceptionHandler {
                 exception.getMessage()
         );
 
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+        return ResponseEntity
+                .status(HttpStatus
+                        .UNAUTHORIZED)
+                .body(error);
     }
-
 }

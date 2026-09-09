@@ -9,7 +9,13 @@ public class LoginResponse {
     private Tipo_User tipo_User;
     private String token;
 
-    public LoginResponse(Integer id, String nome, String email, Tipo_User tipo_User, String token) {
+    public LoginResponse(
+            Integer id,
+            String nome,
+            String email,
+            Tipo_User tipo_User,
+            String token
+    ) {
         this.id = id;
         this.nome = nome;
         this.email = email;

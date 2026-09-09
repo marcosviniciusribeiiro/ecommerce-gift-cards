@@ -11,7 +11,13 @@ public class UserResponse {
     private Tipo_User tipoUser;
     private LocalDate dataCadastro;
 
-    public UserResponse(Integer id, String nome, String email, Tipo_User tipoUser, LocalDate dataCadastro) {
+    public UserResponse(
+            Integer id,
+            String nome,
+            String email,
+            Tipo_User tipoUser,
+            LocalDate dataCadastro
+    ) {
         this.id = id;
         this.nome = nome;
         this.email = email;

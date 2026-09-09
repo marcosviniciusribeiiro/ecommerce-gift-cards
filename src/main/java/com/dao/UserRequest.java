@@ -12,7 +12,7 @@ public class UserRequest {
     private String nome;
 
     @NotBlank(message = "O email é obrigatório.")
-    //Validar o endereço de email do usuário
+
     @Email(message = "O email informado é inválido.")
     @Size(max = 120, message = "O email deve possui no máximo 120 caracteres.")
 

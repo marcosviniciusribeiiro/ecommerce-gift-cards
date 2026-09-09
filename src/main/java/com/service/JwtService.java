@@ -20,7 +20,11 @@ public class JwtService {
     }
 
     private Claims obterClaims(String token){
-        return Jwts.parser().verifyWith(chave).build().parseSignedClaims(token).getPayload();
+        return Jwts.parser()
+                .verifyWith(chave)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
     public String gerarToken(Integer id, String email, String tipoUser){
@@ -38,7 +42,10 @@ public class JwtService {
 
     public boolean validarToken(String token){
         try {
-            Jwts.parser().verifyWith(chave).build().parseSignedClaims(token);
+            Jwts.parser()
+                    .verifyWith(chave)
+                    .build()
+                    .parseSignedClaims(token);
             return true;
         } catch (Exception e){
             return false;
@@ -46,14 +53,16 @@ public class JwtService {
     }
 
     public String extrairEmail(String token){
-        return obterClaims(token).get("email", String.class);
+        return obterClaims(token)
+                .get("email", String.class);
     }
 
     public String extrairTipo(String token){
-        return obterClaims(token).get("tipoUser", String.class);
+        return obterClaims(token)
+                .get("tipoUser", String.class);
     }
 
-    public Integer extrairIdUsuario(String token){
-        return Integer.valueOf(obterClaims(token).getSubject());
-    }
+//    public Integer extrairIdUsuario(String token){
+//        return Integer.valueOf(obterClaims(token).getSubject());
+//    }
 }
