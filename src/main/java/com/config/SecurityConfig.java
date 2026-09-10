@@ -36,7 +36,7 @@ public class SecurityConfig {
                                 "/api/users/new",
                                 "/api/users/login"
                         ).permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/products").hasRole("ADM")
+                        .requestMatchers(HttpMethod.POST, "/api/products").hasRole("ADMINISTRADOR")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(

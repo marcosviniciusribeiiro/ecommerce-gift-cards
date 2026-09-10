@@ -23,7 +23,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_user", nullable = false)
-    private Tipo_User tipoUser;
+    private TipoUser tipoUser;
 
     @Column(name = "data_cadastro")
     private LocalDate dataCadastro;
@@ -60,11 +60,11 @@ public class User {
         this.senha = senha;
     }
 
-    public Tipo_User getTipoUser() {
+    public TipoUser getTipoUser() {
         return tipoUser;
     }
 
-    public void setTipoUser(Tipo_User tipoUser) {
+    public void setTipoUser(TipoUser tipoUser) {
         this.tipoUser = tipoUser;
     }
 

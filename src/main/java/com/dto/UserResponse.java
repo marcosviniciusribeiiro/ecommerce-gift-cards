@@ -1,6 +1,6 @@
 package com.dto;
 
-import com.model.Tipo_User;
+import com.model.TipoUser;
 
 import java.time.LocalDate;
 
@@ -8,14 +8,14 @@ public class UserResponse {
     private Integer id;
     private String nome;
     private String email;
-    private Tipo_User tipoUser;
+    private TipoUser tipoUser;
     private LocalDate dataCadastro;
 
     public UserResponse(
             Integer id,
             String nome,
             String email,
-            Tipo_User tipoUser,
+            TipoUser tipoUser,
             LocalDate dataCadastro
     ) {
         this.id = id;
@@ -49,11 +49,11 @@ public class UserResponse {
         this.email = email;
     }
 
-    public Tipo_User getTipoUser() {
+    public TipoUser getTipoUser() {
         return tipoUser;
     }
 
-    public void setTipoUser(Tipo_User tipoUser) {
+    public void setTipoUser(TipoUser tipoUser) {
         this.tipoUser = tipoUser;
     }
 

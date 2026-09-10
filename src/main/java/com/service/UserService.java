@@ -4,7 +4,7 @@ import com.dto.LoginResponse;
 import com.dto.UserRequest;
 import com.exception.EmailAlreadyExistsException;
 import com.exception.InvalidCredentialsException;
-import com.model.Tipo_User;
+import com.model.TipoUser;
 import com.model.User;
 import com.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,7 +44,7 @@ public class UserService {
 
         //metodo para encriptar a senha do usuário antes de cadastrá-lo
         user.setSenha(passwordEncoder.encode(request.getSenha()));
-        user.setTipoUser(Tipo_User.cliente);
+        user.setTipoUser(TipoUser.cliente);
         user.setDataCadastro(LocalDate.now());
 
         return userRepository.save(user);
