@@ -36,4 +36,16 @@ public class ProductService {
                 .findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
     }
+
+    public Product atualizar(Integer id, ProductRequest request){
+        Product produto = productRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
+
+        produto.setNome(request.getNome());
+        produto.setDescricao(request.getDescricao());
+        produto.setPlataforma(request.getPlataforma());
+        produto.setValor(request.getValor());
+
+        return productRepository.save(produto);
+    }
 }
