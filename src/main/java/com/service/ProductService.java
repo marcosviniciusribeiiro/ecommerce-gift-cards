@@ -5,6 +5,8 @@ import com.model.Product;
 import com.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
@@ -14,6 +16,7 @@ public class ProductService {
     }
 
     public Product cadastrar(ProductRequest request){
+
         Product produto = new Product();
 
         produto.setNome(request.getNome());
@@ -22,5 +25,15 @@ public class ProductService {
         produto.setValor(request.getValor());
 
         return productRepository.save(produto);
+    }
+
+    public List<Product> listarTodos(){
+        return productRepository.findAll();
+    }
+
+    public Product buscarPorId(Integer id){
+        return productRepository
+                .findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
     }
 }
