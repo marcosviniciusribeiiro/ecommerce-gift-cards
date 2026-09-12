@@ -18,7 +18,8 @@ public class CodigoGiftCardService {
 
     public CodigoGiftCard atribuirCodigo(
             Produto produto,
-            ItemPedido itemPedido) {
+            ItemPedido itemPedido
+    ) {
         CodigoGiftCard codigoGiftCard = repository.findFirstByProdutoAndStatus(
                 produto,
                 StatusCodigo.disponivel

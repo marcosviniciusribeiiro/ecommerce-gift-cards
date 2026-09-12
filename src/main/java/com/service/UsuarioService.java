@@ -31,8 +31,7 @@ public class UsuarioService {
     }
 
     public Optional<Usuario> buscarPorEmail (String email){
-        return repository
-                .findByEmail(email);
+        return repository.findByEmail(email);
     }
 
     public Usuario cadastrar (UsuarioRequest request){
