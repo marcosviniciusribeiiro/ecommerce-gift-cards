@@ -7,13 +7,10 @@ import com.dto.UsuarioResponse;
 import com.model.Usuario;
 import com.service.UsuarioService;
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/usuarios")
 public class UsuarioController {
     public final UsuarioService service;
 
