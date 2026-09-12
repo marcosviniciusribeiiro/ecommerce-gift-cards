@@ -22,7 +22,7 @@ public class CodigoGiftCard {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private StatusGiftCard status;
+    private StatusCodigo status;
 
     public Integer getId() {
         return id;
@@ -56,11 +56,11 @@ public class CodigoGiftCard {
         this.codigo = codigo;
     }
 
-    public StatusGiftCard getStatus() {
+    public StatusCodigo getStatus() {
         return status;
     }
 
-    public void setStatus(StatusGiftCard status) {
+    public void setStatus(StatusCodigo status) {
         this.status = status;
     }
 }
