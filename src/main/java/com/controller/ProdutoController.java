@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/api/produtos")
 public class ProdutoController {
     private final ProdutoService service;
 
@@ -61,7 +61,7 @@ public class ProdutoController {
         );
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id){
         service.deletar(id);
 
