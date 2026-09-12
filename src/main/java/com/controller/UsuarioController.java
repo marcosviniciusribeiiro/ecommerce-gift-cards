@@ -48,24 +48,4 @@ public class UsuarioController {
                 request.getSenha()
         );
     }
-
-    @GetMapping("/all")
-    public ResponseEntity<List<UsuarioResponse>> listarTodos(){
-        List<UsuarioResponse> usuarios = service.listarTodos()
-                .stream()
-                .map(this::converterParaResponse)
-                .toList();
-
-        return ResponseEntity.ok(usuarios);
-    }
-
-    private UsuarioResponse converterParaResponse(Usuario usuario){
-        return new UsuarioResponse(
-                usuario.getId(),
-                usuario.getNome(),
-                usuario.getEmail(),
-                usuario.getTipoUsuario(),
-                usuario.getDataCadastro()
-        );
-    }
 }

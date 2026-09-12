@@ -76,8 +76,4 @@ public class UsuarioService {
                 token
         );
     }
-
-    public List<Usuario> listarTodos(){
-        return repository.findAll();
-    }
 }
