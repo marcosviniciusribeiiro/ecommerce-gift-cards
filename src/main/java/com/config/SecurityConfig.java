@@ -39,6 +39,11 @@ public class SecurityConfig {
                         ).permitAll()
 
                         .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/users/all"
+                        ).hasRole("ADMINISTRADOR")
+
+                        .requestMatchers(
                                 HttpMethod.POST,
                                 "/api/products/new"
                         ).hasRole("ADMINISTRADOR")
