@@ -1,12 +1,12 @@
 package com.service;
 
 import com.dto.LoginResponse;
-import com.dto.UserRequest;
+import com.dto.UsuarioRequest;
 import com.exception.EmailAlreadyExistsException;
 import com.exception.InvalidCredentialsException;
-import com.model.TipoUser;
+import com.model.TipoUsuario;
 import com.model.Usuario;
-import com.repository.UserRepository;
+import com.repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +14,13 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
-public class UserService {
-    private final UserRepository repository;
+public class UsuarioService {
+    private final UsuarioRepository repository;
     private  final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-    public UserService(
-            UserRepository repository,
+    public UsuarioService(
+            UsuarioRepository repository,
             PasswordEncoder passwordEncoder,
             JwtService jwtService
     ) {
@@ -34,7 +34,7 @@ public class UserService {
                 .findByEmail(email);
     }
 
-    public Usuario cadastrar (UserRequest request){
+    public Usuario cadastrar (UsuarioRequest request){
         if (repository.findByEmail(request.getEmail()).isPresent()){
             throw new EmailAlreadyExistsException("E-mail já cadastrado.");
         }
@@ -44,7 +44,7 @@ public class UserService {
 
         //metodo para encriptar a senha do usuário antes de cadastrá-lo
         usuario.setSenha(passwordEncoder.encode(request.getSenha()));
-        usuario.setTipoUser(TipoUser.cliente);
+        usuario.setTipoUsuario(TipoUsuario.cliente);
         usuario.setDataCadastro(LocalDate.now());
 
         return repository.save(usuario);
@@ -64,14 +64,14 @@ public class UserService {
         String token = jwtService.gerarToken(
                 usuario.getId(),
                 usuario.getEmail(),
-                usuario.getTipoUser().name()
+                usuario.getTipoUsuario().name()
         );
 
         return new LoginResponse(
                 usuario.getId(),
                 usuario.getNome(),
                 usuario.getEmail(),
-                usuario.getTipoUser(),
+                usuario.getTipoUsuario(),
                 token
         );
     }

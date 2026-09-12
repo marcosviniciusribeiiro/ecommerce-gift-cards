@@ -27,11 +27,11 @@ public class JwtService {
                 .getPayload();
     }
 
-    public String gerarToken(Integer id, String email, String tipoUser){
+    public String gerarToken(Integer id, String email, String tipoUsuario){
         return Jwts.builder()
                 .subject(String.valueOf(id))
                 .claim("email", email)
-                .claim("tipoUser", tipoUser)
+                .claim("tipoUsuario", tipoUsuario)
                 .issuedAt(new Date())
                 //1 hora de validade para o token
                 .expiration(new Date(System.currentTimeMillis() + 3600000))
@@ -59,7 +59,7 @@ public class JwtService {
 
     public String extrairTipo(String token){
         return obterClaims(token)
-                .get("tipoUser", String.class);
+                .get("tipoUsuario", String.class);
     }
 
 //    public Integer extrairIdUsuario(String token){

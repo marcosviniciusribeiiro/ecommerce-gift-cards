@@ -1,6 +1,6 @@
 package com.model;
 
-public enum TipoUser {
+public enum TipoUsuario {
     cliente,
     administrador
 }

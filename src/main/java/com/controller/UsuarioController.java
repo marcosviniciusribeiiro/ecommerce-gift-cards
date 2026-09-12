@@ -2,19 +2,19 @@ package com.controller;
 
 import com.dto.LoginRequest;
 import com.dto.LoginResponse;
-import com.dto.UserRequest;
-import com.dto.UserResponse;
+import com.dto.UsuarioRequest;
+import com.dto.UsuarioResponse;
 import com.model.Usuario;
-import com.service.UserService;
+import com.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
-public class UserController {
-    public final UserService service;
+public class UsuarioController {
+    public final UsuarioService service;
 
-    public UserController(UserService service) {
+    public UsuarioController(UsuarioService service) {
         this.service = service;
     }
 
@@ -25,15 +25,15 @@ public class UserController {
     }
 
     @PostMapping("/new")
-    public UserResponse cadastrar(@Valid @RequestBody UserRequest request) {
+    public UsuarioResponse cadastrar(@Valid @RequestBody UsuarioRequest request) {
 
         Usuario usuario = service.cadastrar(request);
 
-        return new UserResponse(
+        return new UsuarioResponse(
                 usuario.getId(),
                 usuario.getNome(),
                 usuario.getEmail(),
-                usuario.getTipoUser(),
+                usuario.getTipoUsuario(),
                 usuario.getDataCadastro()
         );
     }

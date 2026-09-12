@@ -1,9 +1,9 @@
 package com.controller;
 
-import com.dto.ProductRequest;
-import com.dto.ProductResponse;
+import com.dto.ProdutoRequest;
+import com.dto.ProdutoResponse;
 import com.model.Produto;
-import com.service.ProductService;
+import com.service.ProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,19 +13,19 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
-public class ProductController {
-    private final ProductService service;
+public class ProdutoController {
+    private final ProdutoService service;
 
-    public ProductController(ProductService service) {
+    public ProdutoController(ProdutoService service) {
         this.service = service;
     }
 
     @PostMapping("/new")
-    public ResponseEntity<ProductResponse> cadastrar(@Valid @RequestBody ProductRequest request){
+    public ResponseEntity<ProdutoResponse> cadastrar(@Valid @RequestBody ProdutoRequest request){
 
         Produto produto = service.cadastrar(request);
 
-        ProductResponse response = converterParaResponse(produto);
+        ProdutoResponse response = converterParaResponse(produto);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -33,8 +33,8 @@ public class ProductController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<ProductResponse>> listarTodos(){
-        List<ProductResponse> produtos = service.listarTodos()
+    public ResponseEntity<List<ProdutoResponse>> listarTodos(){
+        List<ProdutoResponse> produtos = service.listarTodos()
                 .stream()
                 .map(this::converterParaResponse)
                 .toList();
@@ -43,7 +43,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponse> buscarPorId(@PathVariable Integer id){
+    public ResponseEntity<ProdutoResponse> buscarPorId(@PathVariable Integer id){
         Produto produto = service.buscarPorId(id);
 
         return ResponseEntity.ok(
@@ -52,8 +52,8 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductResponse> atualizar(@PathVariable Integer id,
-                                                          @Valid @RequestBody ProductRequest request){
+    public ResponseEntity<ProdutoResponse> atualizar(@PathVariable Integer id,
+                                                     @Valid @RequestBody ProdutoRequest request){
         Produto produto = service.atualizar(id, request);
 
         return ResponseEntity.ok(
@@ -68,8 +68,8 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 
-    private ProductResponse converterParaResponse(Produto produto){
-        return new ProductResponse(
+    private ProdutoResponse converterParaResponse(Produto produto){
+        return new ProdutoResponse(
                 produto.getId(),
                 produto.getNome(),
                 produto.getDescricao(),

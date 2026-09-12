@@ -2,7 +2,7 @@ package com.dto;
 
 import jakarta.validation.constraints.*;
 
-public class UserRequest {
+public class UsuarioRequest {
 
     @NotNull(message = "O nome é obrigatório.")
     @Size(max = 80, message = "O nome deve possui no máximo 80 caracteres.")
