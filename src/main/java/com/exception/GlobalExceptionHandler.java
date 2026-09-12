@@ -53,4 +53,18 @@ public class GlobalExceptionHandler {
                         .UNAUTHORIZED)
                 .body(error);
     }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<ErrorResponse> productNotFound(
+            ProductNotFoundException exception) {
+
+        ErrorResponse error = new ErrorResponse(
+                404,
+                exception.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(error);
+    }
 }
