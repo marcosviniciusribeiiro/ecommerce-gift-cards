@@ -7,9 +7,7 @@ import com.repository.ProdutoRepository;
 import com.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Service
 public class PedidoService {
