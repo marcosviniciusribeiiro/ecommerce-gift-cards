@@ -34,28 +34,28 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
 
                         .requestMatchers(
-                                "/api/users/new",
-                                "/api/users/login"
+                                "/api/usuarios/new",
+                                "/api/usuarios/login"
                         ).permitAll()
 
                         .requestMatchers(
                                 HttpMethod.POST,
-                                "/api/products/new"
+                                "/api/produtos/new"
                         ).hasRole("ADMINISTRADOR")
 
                         .requestMatchers(
                                 HttpMethod.PUT,
-                                "/api/products/**"
+                                "/api/produtos/**"
                         ).hasRole("ADMINISTRADOR")
 
                         .requestMatchers(
                                 HttpMethod.DELETE,
-                                "/api/product/{id}"
+                                "/api/produtos/{id}"
                         ).hasRole("ADMINISTRADOR")
 
                         .requestMatchers(
                                 HttpMethod.GET,
-                                "/api/products/**"
+                                "/api/produtos/**"
                         ).permitAll()
 
                         .anyRequest().authenticated()
