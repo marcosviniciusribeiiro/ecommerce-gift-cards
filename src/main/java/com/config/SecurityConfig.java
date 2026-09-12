@@ -35,7 +35,8 @@ public class SecurityConfig {
 
                         .requestMatchers(
                                 "/api/usuarios/new",
-                                "/api/usuarios/login"
+                                "/api/usuarios/login",
+                                "/api/produtos/all"
                         ).permitAll()
 
                         .requestMatchers(
