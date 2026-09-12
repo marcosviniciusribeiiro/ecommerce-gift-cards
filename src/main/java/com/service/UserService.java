@@ -5,7 +5,7 @@ import com.dto.UserRequest;
 import com.exception.EmailAlreadyExistsException;
 import com.exception.InvalidCredentialsException;
 import com.model.TipoUser;
-import com.model.User;
+import com.model.Usuario;
 import com.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,63 +15,63 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-    private final UserRepository userRepository;
+    private final UserRepository repository;
     private  final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
     public UserService(
-            UserRepository userRepository,
+            UserRepository repository,
             PasswordEncoder passwordEncoder,
             JwtService jwtService
     ) {
-        this.userRepository = userRepository;
+        this.repository = repository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
     }
 
-    public Optional<User> buscarPorEmail (String email){
-        return userRepository
+    public Optional<Usuario> buscarPorEmail (String email){
+        return repository
                 .findByEmail(email);
     }
 
-    public User cadastrar (UserRequest request){
-        if (userRepository.findByEmail(request.getEmail()).isPresent()){
+    public Usuario cadastrar (UserRequest request){
+        if (repository.findByEmail(request.getEmail()).isPresent()){
             throw new EmailAlreadyExistsException("E-mail já cadastrado.");
         }
-        User user = new User();
-        user.setNome(request.getNome());
-        user.setEmail(request.getEmail());
+        Usuario usuario = new Usuario();
+        usuario.setNome(request.getNome());
+        usuario.setEmail(request.getEmail());
 
         //metodo para encriptar a senha do usuário antes de cadastrá-lo
-        user.setSenha(passwordEncoder.encode(request.getSenha()));
-        user.setTipoUser(TipoUser.cliente);
-        user.setDataCadastro(LocalDate.now());
+        usuario.setSenha(passwordEncoder.encode(request.getSenha()));
+        usuario.setTipoUser(TipoUser.cliente);
+        usuario.setDataCadastro(LocalDate.now());
 
-        return userRepository.save(user);
+        return repository.save(usuario);
     }
 
     public LoginResponse login(String email,
                                String senha){
-        User user = userRepository
+        Usuario usuario = repository
                 .findByEmail(email)
                 .orElseThrow(
                 () -> new InvalidCredentialsException("Email ou senha incorreta."));
 
-        if (!passwordEncoder.matches(senha, user.getSenha())){
+        if (!passwordEncoder.matches(senha, usuario.getSenha())){
             throw new InvalidCredentialsException("Email ou senha incorreta.");
         }
 
         String token = jwtService.gerarToken(
-                user.getId(),
-                user.getEmail(),
-                user.getTipoUser().name()
+                usuario.getId(),
+                usuario.getEmail(),
+                usuario.getTipoUser().name()
         );
 
         return new LoginResponse(
-                user.getId(),
-                user.getNome(),
-                user.getEmail(),
-                user.getTipoUser(),
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getEmail(),
+                usuario.getTipoUser(),
                 token
         );
     }

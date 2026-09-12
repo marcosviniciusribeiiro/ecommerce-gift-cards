@@ -7,18 +7,18 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "tb_usuarios")
-public class User {
+public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(length = 80, nullable = false)
+    @Column(length = 80, nullable = false, name = "nome_usuario")
     private String nome;
 
-    @Column(length = 120, nullable = false, unique = true)
+    @Column(length = 120, nullable = false, unique = true, name = "email_usuario")
     private String email;
 
-    @Column(length = 60, nullable = false)
+    @Column(length = 60, nullable = false, name = "senha_usuario")
     private String senha;
 
     @Enumerated(EnumType.STRING)

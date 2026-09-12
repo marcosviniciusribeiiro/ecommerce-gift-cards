@@ -2,7 +2,7 @@ package com.controller;
 
 import com.dto.ProductRequest;
 import com.dto.ProductResponse;
-import com.model.Product;
+import com.model.Produto;
 import com.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -14,16 +14,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
-    private final ProductService productService;
+    private final ProductService service;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
+    public ProductController(ProductService service) {
+        this.service = service;
     }
 
     @PostMapping("/new")
     public ResponseEntity<ProductResponse> cadastrar(@Valid @RequestBody ProductRequest request){
 
-        Product produto = productService.cadastrar(request);
+        Produto produto = service.cadastrar(request);
 
         ProductResponse response = converterParaResponse(produto);
 
@@ -34,7 +34,7 @@ public class ProductController {
 
     @GetMapping("/all")
     public ResponseEntity<List<ProductResponse>> listarTodos(){
-        List<ProductResponse> produtos = productService.listarTodos()
+        List<ProductResponse> produtos = service.listarTodos()
                 .stream()
                 .map(this::converterParaResponse)
                 .toList();
@@ -44,7 +44,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> buscarPorId(@PathVariable Integer id){
-        Product produto = productService.buscarPorId(id);
+        Produto produto = service.buscarPorId(id);
 
         return ResponseEntity.ok(
                 converterParaResponse(produto)
@@ -52,16 +52,23 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductResponse> atualizarPorId(@PathVariable Integer id,
+    public ResponseEntity<ProductResponse> atualizar(@PathVariable Integer id,
                                                           @Valid @RequestBody ProductRequest request){
-        Product produto = productService.atualizar(id, request);
+        Produto produto = service.atualizar(id, request);
 
         return ResponseEntity.ok(
                 converterParaResponse(produto)
         );
     }
 
-    private ProductResponse converterParaResponse(Product produto){
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Integer id){
+        service.deletar(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    private ProductResponse converterParaResponse(Produto produto){
         return new ProductResponse(
                 produto.getId(),
                 produto.getNome(),

@@ -6,22 +6,22 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "tb_produtos")
-public class Product {
+public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(length = 80, nullable = false)
+    @Column(length = 80, nullable = false, name = "nome_produto")
     private String nome;
 
-    @Column(length = 255)
+    @Column(length = 255, name = "descricao_produto")
     private String descricao;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Plataforma plataforma;
 
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(nullable = false, precision = 10, scale = 2, name = "valor_produto")
     private BigDecimal valor;
 
     public Integer getId() {
