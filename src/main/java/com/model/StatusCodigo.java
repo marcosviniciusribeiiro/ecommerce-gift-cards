@@ -1,6 +1,6 @@
 package com.model;
 
-public enum StatusGiftCard {
+public enum StatusCodigo {
     disponivel,
     vendido
 }
