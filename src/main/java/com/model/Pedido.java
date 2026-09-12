@@ -13,7 +13,7 @@ public class Pedido {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
+    @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
 
     @Enumerated(EnumType.STRING)
