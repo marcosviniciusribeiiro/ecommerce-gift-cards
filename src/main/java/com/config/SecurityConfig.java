@@ -32,11 +32,32 @@ public class SecurityConfig {
                 )
 
                 .authorizeHttpRequests(auth -> auth
+
                         .requestMatchers(
                                 "/api/users/new",
                                 "/api/users/login"
                         ).permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/products").hasRole("ADMINISTRADOR")
+
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/products/new"
+                        ).hasRole("ADMINISTRADOR")
+
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/api/products/**"
+                        ).hasRole("ADMINISTRADOR")
+
+                        .requestMatchers(
+                                HttpMethod.DELETE,
+                                "/api/product/{id}"
+                        ).hasRole("ADMINISTRADOR")
+
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/products/**"
+                        ).permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(
