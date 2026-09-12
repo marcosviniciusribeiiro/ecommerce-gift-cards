@@ -67,4 +67,18 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(error);
     }
+
+    @ExceptionHandler(CodeNotFoundException.class)
+    public ResponseEntity<ErrorResponse> codeNotFound(
+            CodeNotFoundException exception
+    ){
+        ErrorResponse error = new ErrorResponse(
+                404,
+                exception.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(error);
+    }
 }
