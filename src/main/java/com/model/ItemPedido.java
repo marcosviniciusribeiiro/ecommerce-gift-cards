@@ -26,9 +26,7 @@ public class ItemPedido {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public void setId(Integer id) { this.id = id; }
 
     public Produto getProduto() {
         return produto;
