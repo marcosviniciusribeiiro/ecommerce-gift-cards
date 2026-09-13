@@ -7,24 +7,24 @@ import jakarta.validation.constraints.Positive;
 public class CodigoGiftCardRequest {
     @NotNull(message = "O ID do produto é obrigatório.")
     @Positive(message = "O ID do produto deve ser maior que zero.")
-    private Integer id;
+    private Integer idProduto;
 
     @NotBlank(message = "O código é obrigatório.")
-    private String codigoGiftCard;
+    private String codigo;
 
-    public Integer getId() {
-        return id;
+    public Integer getIdProduto() {
+        return idProduto;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdProduto(Integer idProduto) {
+        this.idProduto = idProduto;
     }
 
-    public String getCodigoGiftCard() {
-        return codigoGiftCard;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setCodigoGiftCard(String codigoGiftCard) {
-        this.codigoGiftCard = codigoGiftCard;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 }
