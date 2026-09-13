@@ -1,8 +1,6 @@
 package com.repository;
 
-import com.model.CodigoGiftCard;
-import com.model.Produto;
-import com.model.StatusCodigo;
+import com.model.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -13,4 +11,6 @@ public interface CodigoGiftCardRepository
             Produto produto,
             StatusCodigo status
     );
+
+    Optional<CodigoGiftCard> findFirstByItemPedido(ItemPedido itemPedido);
 }
