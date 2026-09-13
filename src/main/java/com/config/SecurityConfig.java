@@ -46,7 +46,8 @@ public class SecurityConfig {
 
                         .requestMatchers(
                                 HttpMethod.POST,
-                                "/api/produtos/new"
+                                "/api/produtos/new",
+                                "/api/codigos"
                         ).hasRole("ADMINISTRADOR")
 
                         .requestMatchers(
