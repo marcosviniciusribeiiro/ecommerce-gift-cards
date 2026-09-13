@@ -45,7 +45,7 @@ public class PedidoController {
                 .body(response);
     }
 
-    @PostMapping("/{id}/confirmar")
+    @PutMapping("/{id}/confirmar")
     public ResponseEntity<PedidoConfirmadoResponse> confirmarPedido(
             @PathVariable Integer id
     ){
