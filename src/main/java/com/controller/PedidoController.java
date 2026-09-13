@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.dto.PedidoConfirmadoResponse;
 import com.dto.PedidoRequest;
 import com.dto.PedidoResponse;
 import com.model.Pedido;
@@ -42,5 +43,15 @@ public class PedidoController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(response);
+    }
+
+    @PostMapping("/{id}/confirmar")
+    public ResponseEntity<PedidoConfirmadoResponse> confirmarPedido(
+            @PathVariable Integer id
+    ){
+        PedidoConfirmadoResponse response = service
+                .confirmarPedido(id);
+
+        return ResponseEntity.ok(response);
     }
 }
