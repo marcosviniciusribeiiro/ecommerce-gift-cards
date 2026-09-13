@@ -1,5 +1,9 @@
 package com.service;
 
+import com.dto.PedidoConfirmadoResponse;
+import com.exception.CodeConflictException;
+import com.exception.CodeNotFoundException;
+import com.exception.ProductNotFoundException;
 import com.model.*;
 import com.repository.ItemPedidoRepository;
 import com.repository.PedidoRepository;
@@ -16,16 +20,20 @@ public class PedidoService {
     private final PedidoRepository pedidoRepository;
     private final ItemPedidoRepository itemPedidoRepository;
 
+    private final CodigoGiftCardService codigoGiftCardService;
+
     public PedidoService(
             UsuarioRepository usuarioRepository,
             ProdutoRepository produtoRepository,
             PedidoRepository pedidoRepository,
-            ItemPedidoRepository itemPedidoRepository
+            ItemPedidoRepository itemPedidoRepository,
+            CodigoGiftCardService codigoGiftCardService
     ) {
         this.usuarioRepository = usuarioRepository;
         this.produtoRepository = produtoRepository;
         this.pedidoRepository = pedidoRepository;
         this.itemPedidoRepository = itemPedidoRepository;
+        this.codigoGiftCardService = codigoGiftCardService;
     }
 
     public Pedido criarPedido(
@@ -55,5 +63,36 @@ public class PedidoService {
         itemPedidoRepository.save(itemPedido);
 
         return pedido;
+    }
+
+    public PedidoConfirmadoResponse confirmarPedido(Integer idPedido){
+        Pedido pedido = pedidoRepository.findById(idPedido)
+                .orElseThrow(() ->
+                        new ProductNotFoundException("Pedido não encontrado."));
+
+        if(pedido.getStatus() != StatusPedido.pendente){
+            throw new CodeConflictException("Somente pedidos pendentes podem ser confirmados.");
+        }
+
+        ItemPedido itemPedido = itemPedidoRepository.findFirstByPedido(pedido)
+                .orElseThrow(() ->
+                        new ProductNotFoundException("Item do pedido não encontrado."));
+
+        CodigoGiftCard codigoGiftCard = codigoGiftCardService
+                .atribuirCodigo(
+                        itemPedido.getProduto(),
+                        itemPedido
+                );
+
+        pedido.setStatus(StatusPedido.pago);
+
+        pedidoRepository.save(pedido);
+
+        return new PedidoConfirmadoResponse(
+                pedido.getId(),
+                pedido.getStatus(),
+                pedido.getValorTotal(),
+                codigoGiftCard.getCodigo()
+        );
     }
 }
