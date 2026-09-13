@@ -81,4 +81,18 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(error);
     }
+
+    @ExceptionHandler(CodeConflictException.class)
+    public ResponseEntity<ErrorResponse> codeConflict(
+            CodeConflictException exception
+    ){
+        ErrorResponse error = new ErrorResponse(
+                409,
+                exception.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(error);
+    }
 }
