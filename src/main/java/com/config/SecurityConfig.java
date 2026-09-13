@@ -40,6 +40,11 @@ public class SecurityConfig {
                         ).permitAll()
 
                         .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/produtos/**"
+                        ).permitAll()
+
+                        .requestMatchers(
                                 HttpMethod.POST,
                                 "/api/produtos/new"
                         ).hasRole("ADMINISTRADOR")
@@ -50,14 +55,14 @@ public class SecurityConfig {
                         ).hasRole("ADMINISTRADOR")
 
                         .requestMatchers(
-                                HttpMethod.DELETE,
-                                "/api/produtos/{id}"
+                                HttpMethod.PUT,
+                                "/api/pedidos/*/confirmar"
                         ).hasRole("ADMINISTRADOR")
 
                         .requestMatchers(
-                                HttpMethod.GET,
-                                "/api/produtos/**"
-                        ).permitAll()
+                                HttpMethod.DELETE,
+                                "/api/produtos/{id}"
+                        ).hasRole("ADMINISTRADOR")
 
                         .anyRequest().authenticated()
                 )
