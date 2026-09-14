@@ -7,6 +7,8 @@ import com.dto.UsuarioResponse;
 import com.model.Usuario;
 import com.service.UsuarioService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,24 +27,37 @@ public class UsuarioController {
     }
 
     @PostMapping("/new")
-    public UsuarioResponse cadastrar(@Valid @RequestBody UsuarioRequest request) {
+    public ResponseEntity<UsuarioResponse> cadastrar(@Valid @RequestBody UsuarioRequest request) {
 
         Usuario usuario = service.cadastrar(request);
 
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(converterParaResponse(usuario));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request){
+        LoginResponse login = service.login(
+                request.getEmail(),
+                request.getSenha()
+        );
+
+        return ResponseEntity.ok(login);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UsuarioResponse> atualizar(@PathVariable Integer id){
+        return null;
+    }
+
+    public UsuarioResponse converterParaResponse(Usuario usuario){
         return new UsuarioResponse(
                 usuario.getId(),
                 usuario.getNome(),
                 usuario.getEmail(),
                 usuario.getTipoUsuario(),
                 usuario.getDataCadastro()
-        );
-    }
-
-    @PostMapping("/login")
-    public LoginResponse login(@Valid @RequestBody LoginRequest request){
-        return service.login(
-                request.getEmail(),
-                request.getSenha()
         );
     }
 }
