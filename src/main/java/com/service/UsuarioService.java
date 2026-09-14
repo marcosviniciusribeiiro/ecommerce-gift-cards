@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,6 +29,7 @@ public class UsuarioService {
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
     }
+
 
     public Optional<Usuario> buscarPorEmail (String email){
         return repository.findByEmail(email);
@@ -51,16 +51,34 @@ public class UsuarioService {
         return repository.save(usuario);
     }
 
-    public Usuario atualizar(Integer id, UsuarioRequest request){
-        Usuario usuario = repository.findById(id)
+    public Usuario atualizar(String emailUsuario, UsuarioRequest request){
+        Usuario usuario = repository.findByEmail(emailUsuario)
                 .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado."));
+
+        Optional<Usuario> usuarioComEmail = repository.findByEmail(request.getEmail());
+
+        if (usuarioComEmail.isPresent()
+                &&
+        !usuarioComEmail.get().getId().equals(usuario.getId())){
+            throw new EmailAlreadyExistsException("Email já cadastrado.");
+        }
 
         usuario.setNome(request.getNome());
         usuario.setEmail(request.getEmail());
-        usuario.setSenha(request.getSenha());
+        usuario.setSenha(
+                passwordEncoder.encode(request.getEmail())
+        );
 
         return repository.save(usuario);
     }
+
+    public void deletar(Integer id){
+        Usuario usuario = repository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado."));
+
+        repository.delete(usuario);
+    }
+
 
     public LoginResponse login(String email,
                                String senha){
