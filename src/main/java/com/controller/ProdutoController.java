@@ -54,7 +54,10 @@ public class ProdutoController {
     @PutMapping("/{id}")
     public ResponseEntity<ProdutoResponse> atualizar(@PathVariable Integer id,
                                                      @Valid @RequestBody ProdutoRequest request){
-        Produto produto = service.atualizar(id, request);
+        Produto produto = service.atualizar(
+                id,
+                request
+        );
 
         return ResponseEntity.ok(
                 converterParaResponse(produto)
@@ -65,7 +68,9 @@ public class ProdutoController {
     public ResponseEntity<Void> deletar(@PathVariable Integer id){
         service.deletar(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity
+                .noContent()
+                .build();
     }
 
     private ProdutoResponse converterParaResponse(Produto produto){
