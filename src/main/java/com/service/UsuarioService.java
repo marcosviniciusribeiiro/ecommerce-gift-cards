@@ -4,6 +4,7 @@ import com.dto.LoginResponse;
 import com.dto.UsuarioRequest;
 import com.exception.EmailAlreadyExistsException;
 import com.exception.InvalidCredentialsException;
+import com.exception.UserNotFoundException;
 import com.model.TipoUsuario;
 import com.model.Usuario;
 import com.repository.UsuarioRepository;
@@ -46,6 +47,17 @@ public class UsuarioService {
         usuario.setSenha(passwordEncoder.encode(request.getSenha()));
         usuario.setTipoUsuario(TipoUsuario.cliente);
         usuario.setDataCadastro(LocalDate.now());
+
+        return repository.save(usuario);
+    }
+
+    public Usuario atualizar(Integer id, UsuarioRequest request){
+        Usuario usuario = repository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado."));
+
+        usuario.setNome(request.getNome());
+        usuario.setEmail(request.getEmail());
+        usuario.setSenha(request.getSenha());
 
         return repository.save(usuario);
     }
