@@ -2,6 +2,7 @@ package com.controller;
 
 import com.dto.CodigoGiftCardRequest;
 import com.dto.CodigoGiftCardResponse;
+import com.dto.EstoqueProdutoResponse;
 import com.model.CodigoGiftCard;
 import com.model.Produto;
 import com.model.StatusCodigo;
@@ -79,6 +80,14 @@ public class CodigoGiftCardController {
     }
 
     @GetMapping("/produto/{idProduto}/estoque")
+    public ResponseEntity<EstoqueProdutoResponse> consultarEstoqueProduto(@PathVariable Integer idProduto) {
+        long quantidade = service.contarDisponiveisPorProduto(idProduto);
+
+        return ResponseEntity.ok(new EstoqueProdutoResponse(
+                idProduto,
+                quantidade
+        ));
+    }
 
 
     public CodigoGiftCardResponse converterParaResponse(
