@@ -66,14 +66,14 @@ public class UsuarioService {
         usuario.setNome(request.getNome());
         usuario.setEmail(request.getEmail());
         usuario.setSenha(
-                passwordEncoder.encode(request.getEmail())
+                passwordEncoder.encode(request.getSenha())
         );
 
         return repository.save(usuario);
     }
 
-    public void deletar(Integer id){
-        Usuario usuario = repository.findById(id)
+    public void deletar(String emailUsuario){
+        Usuario usuario = repository.findByEmail(emailUsuario)
                 .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado."));
 
         repository.delete(usuario);
@@ -104,5 +104,11 @@ public class UsuarioService {
                 usuario.getTipoUsuario(),
                 token
         );
+    }
+
+    public Usuario buscarUsuarioAutenticado(String email){
+        return repository.findByEmail(email)
+                .orElseThrow(() ->
+                        new UserNotFoundException("Usuário não encontrado."));
     }
 }
