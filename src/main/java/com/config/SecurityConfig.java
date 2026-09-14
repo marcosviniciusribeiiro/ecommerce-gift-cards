@@ -45,6 +45,14 @@ public class SecurityConfig {
                         ).permitAll()
 
                         .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/codigos",
+                                "/api/codigos/**",
+                                "/api/codigos/produto/*",
+                                "/api/codigos/produto/*/disponiveis"
+                        ).hasRole("ADMINISTRADOR")
+
+                        .requestMatchers(
                                 HttpMethod.POST,
                                 "/api/produtos/new",
                                 "/api/codigos"
