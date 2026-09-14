@@ -33,47 +33,55 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
+                        // Rotas públicas
                         .requestMatchers(
                                 "/api/usuarios/new",
-                                "/api/usuarios/login",
-                                "/api/produtos/all"
+                                "/api/usuarios/login"
                         ).permitAll()
 
+                        // Catálogo público
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/api/produtos/**"
                         ).permitAll()
 
+                        // Códigos - somente administrador
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/api/codigos",
-                                "/api/codigos/**",
-                                "/api/codigos/produto/*",
-                                "/api/codigos/produto/*/disponiveis",
-                                "/api/codigos/produto/{idProduto}/estoque"
+                                "/api/codigos/**"
                         ).hasRole("ADMINISTRADOR")
 
                         .requestMatchers(
                                 HttpMethod.POST,
-                                "/api/produtos/new",
                                 "/api/codigos"
                         ).hasRole("ADMINISTRADOR")
 
+                        // Cadastro de produto - somente administrador
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/produtos/new"
+                        ).hasRole("ADMINISTRADOR")
+
+                        // Atualização de produto - somente administrador
                         .requestMatchers(
                                 HttpMethod.PUT,
                                 "/api/produtos/**"
                         ).hasRole("ADMINISTRADOR")
 
+                        // Confirmação de pedido - somente administrador
                         .requestMatchers(
                                 HttpMethod.PUT,
                                 "/api/pedidos/*/confirmar"
                         ).hasRole("ADMINISTRADOR")
 
+                        // Exclusão de produtos - somente administrador
                         .requestMatchers(
                                 HttpMethod.DELETE,
                                 "/api/produtos/{id}"
                         ).hasRole("ADMINISTRADOR")
 
+                        // Todo o restante exige autenticação
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(
