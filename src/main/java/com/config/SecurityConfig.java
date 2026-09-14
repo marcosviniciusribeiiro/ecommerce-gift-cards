@@ -49,7 +49,8 @@ public class SecurityConfig {
                                 "/api/codigos",
                                 "/api/codigos/**",
                                 "/api/codigos/produto/*",
-                                "/api/codigos/produto/*/disponiveis"
+                                "/api/codigos/produto/*/disponiveis",
+                                "/api/codigos/produto/{idProduto}/estoque"
                         ).hasRole("ADMINISTRADOR")
 
                         .requestMatchers(
