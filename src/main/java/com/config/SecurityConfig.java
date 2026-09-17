@@ -81,6 +81,12 @@ public class SecurityConfig {
                                 "/api/produtos/{id}"
                         ).hasRole("ADMINISTRADOR")
 
+                        // Consultar todos os pedidos - somente adiministrador
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/pedidos/all"
+                        ).hasRole("ADMINISTRADOR")
+
                         // Todo o restante exige autenticação
                         .anyRequest().authenticated()
                 )
