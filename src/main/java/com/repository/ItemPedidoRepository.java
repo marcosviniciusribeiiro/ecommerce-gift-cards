@@ -10,5 +10,4 @@ public interface ItemPedidoRepository
         extends JpaRepository<ItemPedido, Integer> {
 
     Optional<ItemPedido> findFirstByPedido(Pedido pedido);
-
 }

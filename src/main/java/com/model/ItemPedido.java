@@ -19,7 +19,7 @@ public class ItemPedido {
     @JoinColumn(name = "id_pedido", nullable = false)
     private Pedido pedido;
 
-    @Column(name = "valor_unitario", nullable = false, precision = 10, scale = 2)
+    @Column(name = "valor_unitario", precision = 10, scale = 2, nullable = false)
     private BigDecimal valorUnitario;
 
     public Integer getId() {

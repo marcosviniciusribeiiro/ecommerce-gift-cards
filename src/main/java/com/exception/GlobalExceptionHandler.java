@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(EmailAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handleEmailAlreadyExists(
-            EmailAlreadyExistsException exception) {
 
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> emailAlreadyExists(
+            EmailAlreadyExistsException exception
+    ) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.CONFLICT.value(),
                 exception.getMessage()
@@ -23,9 +24,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleValidationErrors(
-            MethodArgumentNotValidException exception) {
-
+    public ResponseEntity<ErrorResponse> validationErrors(
+            MethodArgumentNotValidException exception
+    ) {
         String mensagem = exception.getBindingResult()
                 .getFieldErrors()
                 .getFirst()
@@ -42,7 +43,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(InvalidCredentialsException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidCredentials(InvalidCredentialsException exception){
+    public ResponseEntity<ErrorResponse> invalidCredentials(
+            InvalidCredentialsException exception
+    ) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.UNAUTHORIZED.value(),
                 exception.getMessage()
@@ -54,54 +57,27 @@ public class GlobalExceptionHandler {
                 .body(error);
     }
 
-    @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<ErrorResponse> productNotFound(
-            ProductNotFoundException exception) {
-
-        ErrorResponse error = new ErrorResponse(
-                404,
-                exception.getMessage()
-        );
-
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(error);
-    }
-
-    @ExceptionHandler(CodeNotFoundException.class)
-    public ResponseEntity<ErrorResponse> codeNotFound(
-            CodeNotFoundException exception
-    ){
-        ErrorResponse error = new ErrorResponse(
-                404,
-                exception.getMessage()
-        );
-
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(error);
-    }
-
-    @ExceptionHandler(CodeConflictException.class)
-    public ResponseEntity<ErrorResponse> codeConflict(
-            CodeConflictException exception
-    ){
-        ErrorResponse error = new ErrorResponse(
-                409,
-                exception.getMessage()
-        );
-
-        return ResponseEntity
-                .status(HttpStatus.CONFLICT)
-                .body(error);
-    }
-
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorResponse> userNotFound(
             UserNotFoundException exception
-    ){
+    ) {
         ErrorResponse error = new ErrorResponse(
-                404,
+                HttpStatus.NOT_FOUND.value(),
+                exception.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(error);
+    }
+
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<ErrorResponse> productNotFound(
+            ProductNotFoundException exception
+    ) {
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
                 exception.getMessage()
         );
 
@@ -113,9 +89,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(PedidoNotFoundException.class)
     public ResponseEntity<ErrorResponse> pedidoNotFound(
             PedidoNotFoundException exception
-    ){
+    ) {
         ErrorResponse error = new ErrorResponse(
-                404,
+                HttpStatus.NOT_FOUND.value(),
                 exception.getMessage()
         );
 
@@ -124,26 +100,55 @@ public class GlobalExceptionHandler {
                 .body(error);
     }
 
+
     @ExceptionHandler(ItemPedidoNotFoundException.class)
     public ResponseEntity<ErrorResponse> itemNotFound(
             ItemPedidoNotFoundException exception
-    ){
+    ) {
         ErrorResponse error = new ErrorResponse(
-                404,
+                HttpStatus.NOT_FOUND.value(),
                 exception.getMessage()
         );
 
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
+                .body(error);
+    }
+
+    @ExceptionHandler(CodeNotFoundException.class)
+    public ResponseEntity<ErrorResponse> codeNotFound(
+            CodeNotFoundException exception
+    ) {
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                exception.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(error);
+    }
+
+    @ExceptionHandler(CodeConflictException.class)
+    public ResponseEntity<ErrorResponse> codeConflict(
+            CodeConflictException exception
+    ) {
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                exception.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
                 .body(error);
     }
 
     @ExceptionHandler(PedidoCanceladoException.class)
     public ResponseEntity<ErrorResponse> cancelamentoConflict(
             PedidoCanceladoException exception
-    ){
+    ) {
         ErrorResponse error = new ErrorResponse(
-                409,
+                HttpStatus.CONFLICT.value(),
                 exception.getMessage()
         );
 
@@ -155,9 +160,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EstoqueIndisponivelException.class)
     public ResponseEntity<ErrorResponse> estoqueConflict(
             EstoqueIndisponivelException exception
-    ){
+    ) {
         ErrorResponse error = new ErrorResponse(
-                409,
+                HttpStatus.CONFLICT.value(),
                 exception.getMessage()
         );
 

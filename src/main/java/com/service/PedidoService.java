@@ -1,14 +1,12 @@
 package com.service;
 
+import com.dto.CodigoCompradoResponse;
 import com.dto.PedidoAdmResponse;
 import com.dto.PedidoConfirmadoResponse;
 import com.dto.PedidoResponse;
 import com.exception.*;
 import com.model.*;
-import com.repository.ItemPedidoRepository;
-import com.repository.PedidoRepository;
-import com.repository.ProdutoRepository;
-import com.repository.UsuarioRepository;
+import com.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -48,6 +46,14 @@ public class PedidoService {
         Produto produto = produtoRepository
                 .findById(idProduto)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado."));
+
+        long quantidadeDisponivel = codigoGiftCardService.contarDisponiveisPorProduto(idProduto);
+
+        if (quantidadeDisponivel == 0){
+            throw new EstoqueIndisponivelException(
+                    "Não há códigos disponíveis para este produto."
+            );
+        }
 
         Pedido pedido = new Pedido();
         pedido.setUsuario(usuario);
@@ -137,6 +143,35 @@ public class PedidoService {
         pedidoRepository.save(pedido);
 
         return converterParaResponse(pedido);
+    }
+
+    public CodigoCompradoResponse buscarCodigoComprado(Integer id, String email){
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new UserNotFoundException("Usuário não encontrado."));
+
+        Pedido pedido = pedidoRepository.findByIdAndUsuario(id, usuario)
+                .orElseThrow(() ->
+                        new PedidoNotFoundException("Pedido não encontrado."));
+
+        if (pedido.getStatus() != StatusPedido.pago) {
+            throw new CodeConflictException(
+                    "O código só está disponível para pedidos pagos."
+            );
+        }
+
+        ItemPedido itemPedido = itemPedidoRepository.findFirstByPedido(pedido)
+                .orElseThrow(() ->
+                        new ItemPedidoNotFoundException("Item do pedido não encontrado."));
+
+        CodigoGiftCard codigo = codigoGiftCardService.buscarPorItemPedido(itemPedido);
+
+        return new CodigoCompradoResponse(
+                pedido.getId(),
+                itemPedido.getProduto().getId(),
+                itemPedido.getProduto().getNome(),
+                codigo.getCodigo()
+        );
     }
 
     public List<PedidoAdmResponse> todosPedidos(){

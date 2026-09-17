@@ -4,7 +4,6 @@ import com.dto.LoginRequest;
 import com.dto.LoginResponse;
 import com.dto.UsuarioRequest;
 import com.dto.UsuarioResponse;
-import com.exception.UserNotFoundException;
 import com.model.Usuario;
 import com.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -13,20 +12,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/api/usuarios")
 public class UsuarioController {
-    public final UsuarioService service;
+    public final UsuarioService usuarioService;
 
-    public UsuarioController(UsuarioService service) {
-        this.service = service;
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
     }
 
     @GetMapping("/me")
-    public ResponseEntity<UsuarioResponse> retornarUsuario(Authentication authentication){
-        Usuario usuario = service.buscarUsuarioAutenticado(
+    public ResponseEntity<UsuarioResponse> retornarUsuario(Authentication authentication) {
+        Usuario usuario = usuarioService.buscarUsuarioAutenticado(
                 authentication.getName()
         );
 
@@ -37,8 +34,7 @@ public class UsuarioController {
 
     @PostMapping("/new")
     public ResponseEntity<UsuarioResponse> cadastrar(@Valid @RequestBody UsuarioRequest request) {
-
-        Usuario usuario = service.cadastrar(request);
+        Usuario usuario = usuarioService.cadastrar(request);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -46,8 +42,8 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request){
-        LoginResponse login = service.login(
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
+        LoginResponse login = usuarioService.login(
                 request.getEmail(),
                 request.getSenha()
         );
@@ -56,24 +52,25 @@ public class UsuarioController {
     }
 
     @PutMapping("/me")
-    public ResponseEntity<UsuarioResponse> atualizar(@Valid @RequestBody UsuarioRequest request, Authentication authentication){
-
+    public ResponseEntity<UsuarioResponse> atualizar(
+            @Valid @RequestBody UsuarioRequest request,
+            Authentication authentication
+    ) {
         String email = authentication.getName();
 
-        Usuario usuario = service.atualizar(
+        Usuario usuario = usuarioService.atualizar(
                 email,
                 request
         );
 
-        return ResponseEntity
-                .ok(converterParaResponse(usuario));
+        return ResponseEntity.ok(converterParaResponse(usuario));
     }
 
     @DeleteMapping("/me")
     public ResponseEntity<Void> deletar(Authentication authentication){
         String email = authentication.getName();
 
-        service.deletar(email);
+        usuarioService.deletar(email);
 
         return ResponseEntity
                 .noContent()

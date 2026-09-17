@@ -11,17 +11,17 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(length = 80, nullable = false, name = "nome_produto")
+    @Column(name = "nome_produto", length = 80, nullable = false)
     private String nome;
 
-    @Column(length = 255, name = "descricao_produto")
+    @Column(name = "descricao_produto", length = 255)
     private String descricao;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Plataforma plataforma;
 
-    @Column(nullable = false, precision = 10, scale = 2, name = "valor_produto")
+    @Column(name = "valor_produto", precision = 10, scale = 2, nullable = false)
     private BigDecimal valor;
 
     public Integer getId() {

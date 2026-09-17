@@ -16,27 +16,27 @@ import java.util.Optional;
 
 @Service
 public class UsuarioService {
-    private final UsuarioRepository repository;
+    private final UsuarioRepository usuarioRepository;
     private  final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
     public UsuarioService(
-            UsuarioRepository repository,
+            UsuarioRepository usuarioRepository,
             PasswordEncoder passwordEncoder,
             JwtService jwtService
     ) {
-        this.repository = repository;
+        this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
     }
 
 
     public Optional<Usuario> buscarPorEmail (String email){
-        return repository.findByEmail(email);
+        return usuarioRepository.findByEmail(email);
     }
 
-    public Usuario cadastrar (UsuarioRequest request){
-        if (repository.findByEmail(request.getEmail()).isPresent()){
+    public Usuario cadastrar (UsuarioRequest request) {
+        if (usuarioRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new EmailAlreadyExistsException("E-mail já cadastrado.");
         }
         Usuario usuario = new Usuario();
@@ -48,50 +48,61 @@ public class UsuarioService {
         usuario.setTipoUsuario(TipoUsuario.cliente);
         usuario.setDataCadastro(LocalDate.now());
 
-        return repository.save(usuario);
+        return usuarioRepository.save(usuario);
     }
 
-    public Usuario atualizar(String emailUsuario, UsuarioRequest request){
-        Usuario usuario = repository.findByEmail(emailUsuario)
-                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado."));
+    public Usuario atualizar(
+            String emailUsuario,
+            UsuarioRequest request
+    ) {
+        Usuario usuario = usuarioRepository
+                .findByEmail(emailUsuario)
+                .orElseThrow(
+                        () -> new UserNotFoundException("Usuário não encontrado.")
+                );
 
-        Optional<Usuario> usuarioComEmail = repository.findByEmail(request.getEmail());
+        Optional<Usuario> usuarioComEmail = usuarioRepository.findByEmail(request.getEmail());
 
         if (usuarioComEmail.isPresent()
                 &&
         !usuarioComEmail.get().getId().equals(usuario.getId())){
             throw new EmailAlreadyExistsException("Email já cadastrado.");
         }
-
         usuario.setNome(request.getNome());
         usuario.setEmail(request.getEmail());
         usuario.setSenha(
                 passwordEncoder.encode(request.getSenha())
         );
 
-        return repository.save(usuario);
+        return usuarioRepository.save(usuario);
     }
 
     public void deletar(String emailUsuario){
-        Usuario usuario = repository.findByEmail(emailUsuario)
-                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado."));
+        Usuario usuario = usuarioRepository
+                .findByEmail(emailUsuario)
+                .orElseThrow(
+                        () -> new UserNotFoundException("Usuário não encontrado.")
+                );
 
-        repository.delete(usuario);
+        usuarioRepository.delete(usuario);
     }
 
-
-    public LoginResponse login(String email,
-                               String senha){
-        Usuario usuario = repository
+    public LoginResponse login(
+            String email,
+            String senha
+    ) {
+        Usuario usuario = usuarioRepository
                 .findByEmail(email)
                 .orElseThrow(
-                () -> new InvalidCredentialsException("Email ou senha incorreta."));
+                        () -> new InvalidCredentialsException("Email ou senha incorreta.")
+                );
 
-        if (!passwordEncoder.matches(senha, usuario.getSenha())){
+        if (!passwordEncoder.matches(senha, usuario.getSenha())) {
             throw new InvalidCredentialsException("Email ou senha incorreta.");
         }
 
-        String token = jwtService.gerarToken(
+        String token = jwtService
+                .gerarToken(
                 usuario.getId(),
                 usuario.getEmail(),
                 usuario.getTipoUsuario().name()
@@ -106,9 +117,11 @@ public class UsuarioService {
         );
     }
 
-    public Usuario buscarUsuarioAutenticado(String email){
-        return repository.findByEmail(email)
-                .orElseThrow(() ->
-                        new UserNotFoundException("Usuário não encontrado."));
+    public Usuario buscarUsuarioAutenticado(String email) {
+        return usuarioRepository
+                .findByEmail(email)
+                .orElseThrow(
+                        () -> new UserNotFoundException("Usuário não encontrado.")
+                );
     }
 }

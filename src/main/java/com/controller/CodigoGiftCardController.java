@@ -16,22 +16,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/codigos")
 public class CodigoGiftCardController {
-    private final CodigoGiftCardService service;
+    private final CodigoGiftCardService codigoGiftCardService;
 
-    public CodigoGiftCardController(CodigoGiftCardService service) {
-        this.service = service;
+    public CodigoGiftCardController(CodigoGiftCardService codigoGiftCardService) {
+        this.codigoGiftCardService = codigoGiftCardService;
     }
 
     @PostMapping
-    public ResponseEntity<CodigoGiftCardResponse> cadastrar(
-            @Valid @RequestBody CodigoGiftCardRequest request) {
-        CodigoGiftCard codigoGiftCard = service.cadastrar(
+    public ResponseEntity<CodigoGiftCardResponse> cadastrar(@Valid @RequestBody CodigoGiftCardRequest request) {
+        CodigoGiftCard codigoGiftCard = codigoGiftCardService.cadastrar(
                 request.getIdProduto(),
                 request.getCodigo()
         );
 
-        CodigoGiftCardResponse response =
-                converterParaResponse(codigoGiftCard);
+        CodigoGiftCardResponse response = converterParaResponse(codigoGiftCard);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -39,58 +37,64 @@ public class CodigoGiftCardController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CodigoGiftCardResponse>> listarTodos(){
-        List<CodigoGiftCardResponse> codigos = service.listarTodos()
+    public ResponseEntity<List<CodigoGiftCardResponse>> listarTodos() {
+        List<CodigoGiftCardResponse> codigos = codigoGiftCardService
+                .listarTodos()
                 .stream()
                 .map(this::converterParaResponse)
                 .toList();
 
-        return ResponseEntity.ok(codigos);
+        return ResponseEntity
+                .ok()
+                .body(codigos);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CodigoGiftCardResponse> buscarPorId(@PathVariable Integer id){
-        CodigoGiftCard codigo = service.buscarPorId(id);
+    public ResponseEntity<CodigoGiftCardResponse> buscarPorId(@PathVariable Integer id) {
+        CodigoGiftCard codigo = codigoGiftCardService.buscarPorId(id);
 
-        return ResponseEntity.ok(
-                converterParaResponse(codigo)
-        );
+        return ResponseEntity
+                .ok()
+                .body(converterParaResponse(codigo));
     }
 
     @GetMapping("/produto/{id}")
-    public ResponseEntity<List<CodigoGiftCardResponse>> buscarPorProduto(@PathVariable Integer id){
-        List<CodigoGiftCardResponse> codigos = service
+    public ResponseEntity<List<CodigoGiftCardResponse>> buscarPorProduto(@PathVariable Integer id) {
+        List<CodigoGiftCardResponse> codigos = codigoGiftCardService
                 .buscarPorIdProduto(id)
                 .stream()
                 .map(this::converterParaResponse)
                 .toList();
 
-        return ResponseEntity.ok(codigos);
+        return ResponseEntity
+                .ok()
+                .body(codigos);
     }
 
     @GetMapping("/produto/{id}/disponiveis")
-    public ResponseEntity<List<CodigoGiftCardResponse>> buscarCodigosDisponiveis(@PathVariable Integer id){
-        List<CodigoGiftCardResponse> codigos = service.buscarProdutoPeloStatus(id, StatusCodigo.disponivel)
+    public ResponseEntity<List<CodigoGiftCardResponse>> buscarCodigosDisponiveis(@PathVariable Integer id) {
+        List<CodigoGiftCardResponse> codigos = codigoGiftCardService.buscarProdutoPeloStatus(id, StatusCodigo.disponivel)
                 .stream()
                 .map(this::converterParaResponse)
                 .toList();
 
-        return ResponseEntity.ok(codigos);
+        return ResponseEntity
+                .ok()
+                .body(codigos);
     }
 
     @GetMapping("/produto/{id}/estoque")
     public ResponseEntity<EstoqueProdutoResponse> consultarEstoqueProduto(@PathVariable Integer id) {
-        long quantidade = service.contarDisponiveisPorProduto(id);
+        long quantidade = codigoGiftCardService.contarDisponiveisPorProduto(id);
 
-        return ResponseEntity.ok(new EstoqueProdutoResponse(
-                id,
-                quantidade
-        ));
+        return ResponseEntity
+                .ok()
+                .body(
+                        new EstoqueProdutoResponse(id, quantidade)
+                );
     }
 
-
-    public CodigoGiftCardResponse converterParaResponse(
-            CodigoGiftCard codigo){
+    public CodigoGiftCardResponse converterParaResponse(CodigoGiftCard codigo) {
         return new CodigoGiftCardResponse(
                 codigo.getId(),
                 codigo.getProduto().getId(),

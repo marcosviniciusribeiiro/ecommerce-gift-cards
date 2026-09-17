@@ -14,21 +14,27 @@ import java.util.Date;
 public class JwtService {
     private final SecretKey chave;
 
-
-    public JwtService (@Value("${jwt.secret}") String secret){
+    public JwtService (
+            @Value("${jwt.secret}") String secret
+    ) {
         this.chave = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
     private Claims obterClaims(String token){
-        return Jwts.parser()
+        return Jwts
+                .parser()
                 .verifyWith(chave)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
     }
 
-    public String gerarToken(Integer id, String email, String tipoUsuario){
-        return Jwts.builder()
+    public String gerarToken(
+            Integer id,
+            String email,
+            String tipoUsuario){
+        return Jwts
+                .builder()
                 .subject(String.valueOf(id))
                 .claim("email", email)
                 .claim("tipoUsuario", tipoUsuario)
@@ -37,12 +43,12 @@ public class JwtService {
                 .expiration(new Date(System.currentTimeMillis() + 3600000))
                 .signWith(chave)
                 .compact();
-
     }
 
     public boolean validarToken(String token){
         try {
-            Jwts.parser()
+            Jwts
+                    .parser()
                     .verifyWith(chave)
                     .build()
                     .parseSignedClaims(token);
@@ -61,8 +67,4 @@ public class JwtService {
         return obterClaims(token)
                 .get("tipoUsuario", String.class);
     }
-
-//    public Integer extrairIdUsuario(String token){
-//        return Integer.valueOf(obterClaims(token).getSubject());
-//    }
 }

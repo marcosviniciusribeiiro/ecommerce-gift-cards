@@ -37,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String token = authorizationHeader.substring(7);
 
-        if(jwtService.validarToken(token)){
+        if (jwtService.validarToken(token)){
             String email = jwtService.extrairEmail(token);
             String tipo_user = jwtService.extrairTipo(token);
 

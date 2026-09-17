@@ -8,7 +8,6 @@ import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 
 public class ProdutoRequest {
-
     @NotNull(message = "O nome do produto é obrigatório.")
     @Size(max = 80, message = "O nome deve possuir no máximo 80 caracteres.")
     private String nome;

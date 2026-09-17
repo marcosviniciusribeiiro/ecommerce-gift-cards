@@ -23,7 +23,7 @@ public class Pedido {
     @Column(name = "data_pedido", nullable = false)
     private LocalDateTime dataPedido;
 
-    @Column(name = "valor_total", nullable = false, precision = 10, scale = 2)
+    @Column(name = "valor_total", precision = 10, scale = 2, nullable = false)
     private BigDecimal valorTotal;
 
     public Integer getId() {

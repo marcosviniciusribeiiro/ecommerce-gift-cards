@@ -26,12 +26,13 @@ public class CodigoGiftCardService {
     }
 
     public CodigoGiftCard cadastrar(
-            Integer idProduto,
+            Integer id,
             String codigo
-    ){
-        Produto produto = produtoRepository.findById(idProduto)
-                .orElseThrow(() ->
-                        new ProductNotFoundException("Produto não encontrado.")
+    ) {
+        Produto produto = produtoRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> new ProductNotFoundException("Produto não encontrado.")
                 );
 
         CodigoGiftCard codigoGiftCard = new CodigoGiftCard();
@@ -45,15 +46,15 @@ public class CodigoGiftCardService {
 
     public CodigoGiftCard atribuirCodigo(
             Produto produto,
-            ItemPedido itemPedido
+            ItemPedido item
     ) {
-        CodigoGiftCard codigoGiftCard = codigoGiftCardRepository.findFirstByProdutoAndStatus(
-                produto,
-                StatusCodigo.disponivel
-        ).orElseThrow(() ->
-                new CodeNotFoundException("Não há códigos disponíveis para esse produto."));
+        CodigoGiftCard codigoGiftCard = codigoGiftCardRepository
+                .findFirstByProdutoAndStatus(produto, StatusCodigo.disponivel)
+                .orElseThrow(
+                        () -> new CodeNotFoundException("Não há códigos disponíveis para esse produto.")
+                );
 
-        codigoGiftCard.setItemPedido(itemPedido);
+        codigoGiftCard.setItemPedido(item);
         codigoGiftCard.setStatus(StatusCodigo.vendido);
 
         return codigoGiftCardRepository.save(codigoGiftCard);
@@ -63,36 +64,51 @@ public class CodigoGiftCardService {
         return codigoGiftCardRepository.findAll();
     }
 
-    public CodigoGiftCard buscarPorId(Integer id){
+    public CodigoGiftCard buscarPorId(Integer id) {
         return codigoGiftCardRepository
                 .findById(id)
-                .orElseThrow(() -> new CodeNotFoundException("Código não encontrado."));
+                .orElseThrow(
+                        () -> new CodeNotFoundException("Código não encontrado.")
+                );
     }
 
-    public List<CodigoGiftCard> buscarPorIdProduto(Integer idProduto) {
-        Produto produto = produtoRepository.findById(idProduto)
-                .orElseThrow(() ->
-                        new ProductNotFoundException("Produto não encontrado.")
+    public List<CodigoGiftCard> buscarPorIdProduto(Integer id) {
+        Produto produto = produtoRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> new ProductNotFoundException("Produto não encontrado.")
                 );
 
         return codigoGiftCardRepository.findByProduto(produto);
     }
 
     public List<CodigoGiftCard> buscarProdutoPeloStatus(
-            Integer idProduto,
+            Integer id,
             StatusCodigo status
     ){
-        Produto produto = produtoRepository.findById(idProduto)
-                .orElseThrow(() ->
-                        new ProductNotFoundException("Produto não encontrado."));
+        Produto produto = produtoRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> new ProductNotFoundException("Produto não encontrado.")
+                );
 
         return codigoGiftCardRepository.findByProdutoAndStatus(produto, status);
     }
 
-    public long contarDisponiveisPorProduto(Integer idProduto){
-        Produto produto = produtoRepository.findById(idProduto)
-                .orElseThrow(() ->
-                        new ProductNotFoundException("Produto não encontrado."));
+    public CodigoGiftCard buscarPorItemPedido(ItemPedido item){
+        return codigoGiftCardRepository
+                .findFirstByItemPedido(item)
+                .orElseThrow(
+                        () -> new CodeNotFoundException("Código do pedido não encontrado.")
+                );
+    }
+
+    public long contarDisponiveisPorProduto(Integer id){
+        Produto produto = produtoRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> new ProductNotFoundException("Produto não encontrado.")
+                );
 
         return codigoGiftCardRepository.countByProdutoAndStatus(produto, StatusCodigo.disponivel);
     }

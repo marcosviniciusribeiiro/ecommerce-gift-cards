@@ -9,7 +9,6 @@ public class UsuarioRequest {
     private String nome;
 
     @NotNull(message = "O email é obrigatório.")
-
     @Email(message = "O email informado é inválido.")
     @Size(max = 120, message = "O email deve possui no máximo 120 caracteres.")
     //Exige uma extensão válida para o email

@@ -1,9 +1,6 @@
 package com.controller;
 
-import com.dto.PedidoAdmResponse;
-import com.dto.PedidoConfirmadoResponse;
-import com.dto.PedidoRequest;
-import com.dto.PedidoResponse;
+import com.dto.*;
 import com.model.Pedido;
 import com.service.PedidoService;
 import jakarta.validation.Valid;
@@ -49,17 +46,14 @@ public class PedidoController {
     }
 
     @PutMapping("/{id}/confirmar")
-    public ResponseEntity<PedidoConfirmadoResponse> confirmarPedido(
-            @PathVariable Integer id
-    ){
-        PedidoConfirmadoResponse response = service
-                .confirmarPedido(id);
+    public ResponseEntity<PedidoConfirmadoResponse> confirmarPedido(@PathVariable Integer id) {
+        PedidoConfirmadoResponse response = service.confirmarPedido(id);
 
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/me")
-    public ResponseEntity<List<PedidoResponse>> listaPedidosUsuario(Authentication authentication){
+    public ResponseEntity<List<PedidoResponse>> listaPedidosUsuario(Authentication authentication) {
         String email = authentication.getName();
 
         List<PedidoResponse> pedidos = service.pedidosUsuario(email);
@@ -68,28 +62,53 @@ public class PedidoController {
     }
 
     @GetMapping("/me/{id}")
-    public ResponseEntity<PedidoResponse> buscarPedidoPorId(@PathVariable Integer id, Authentication authentication){
+    public ResponseEntity<PedidoResponse> buscarPedidoPorId(
+            @PathVariable Integer id,
+            Authentication authentication
+    ) {
         String email = authentication.getName();
 
         PedidoResponse pedido = service.buscarPorId(id, email);
 
-        return ResponseEntity.ok().body(pedido);
+        return ResponseEntity
+                .ok()
+                .body(pedido);
     }
 
     @PutMapping("/me/{id}/cancelar")
-    public ResponseEntity<PedidoResponse> cancelarPedido(@PathVariable Integer id, Authentication authentication){
+    public ResponseEntity<PedidoResponse> cancelarPedido(
+            @PathVariable Integer id,
+            Authentication authentication
+    ) {
         String email = authentication.getName();
 
         PedidoResponse pedido = service.cancelarPorId(id, email);
 
-        return ResponseEntity.ok().body(pedido);
+        return ResponseEntity
+                .ok()
+                .body(pedido);
+    }
+
+    @GetMapping("/me/{id}/codigos")
+    public ResponseEntity<CodigoCompradoResponse> buscarCodigoComprado(
+            @PathVariable Integer id,
+            Authentication authentication
+    ) {
+        String email = authentication.getName();
+
+        CodigoCompradoResponse codigo = service.buscarCodigoComprado(id, email);
+
+        return ResponseEntity
+                .ok()
+                .body(codigo);
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<PedidoAdmResponse>> listarTodosPedidos (){
         List<PedidoAdmResponse> pedidos = service.todosPedidos();
 
-        return ResponseEntity.ok().body(pedidos);
+        return ResponseEntity
+                .ok()
+                .body(pedidos);
     }
-
 }
