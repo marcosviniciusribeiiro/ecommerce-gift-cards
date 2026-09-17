@@ -1,9 +1,11 @@
 package com.service;
 
 import com.dto.PedidoConfirmadoResponse;
+import com.dto.PedidoResponse;
 import com.exception.CodeConflictException;
 import com.exception.CodeNotFoundException;
 import com.exception.ProductNotFoundException;
+import com.exception.UserNotFoundException;
 import com.model.*;
 import com.repository.ItemPedidoRepository;
 import com.repository.PedidoRepository;
@@ -12,6 +14,7 @@ import com.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class PedidoService {
@@ -93,6 +96,34 @@ public class PedidoService {
                 pedido.getStatus(),
                 pedido.getValorTotal(),
                 codigoGiftCard.getCodigo()
+        );
+    }
+
+    public List<PedidoResponse> pedidosUsuario(String email){
+        Usuario usuario = usuarioRepository
+                .findByEmail(email)
+                .orElseThrow(() ->
+                        new UserNotFoundException("Usuário não encontrado."));
+
+        return pedidoRepository
+                .findByUsuario(usuario)
+                .stream()
+                .map(this::converterParaResponse)
+                .toList();
+    }
+
+    private PedidoResponse converterParaResponse(Pedido pedido) {
+
+        ItemPedido itemPedido = itemPedidoRepository.findFirstByPedido(pedido)
+                .orElseThrow(() ->
+                        new ProductNotFoundException("Item do produto não encontrado."));
+
+        return new PedidoResponse(
+                pedido.getId(),
+                itemPedido.getProduto().getId(),
+                pedido.getStatus(),
+                pedido.getDataPedido(),
+                pedido.getValorTotal()
         );
     }
 }
