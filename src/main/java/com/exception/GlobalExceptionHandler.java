@@ -109,4 +109,60 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(error);
     }
+
+    @ExceptionHandler(PedidoNotFoundException.class)
+    public ResponseEntity<ErrorResponse> pedidoNotFound(
+            PedidoNotFoundException exception
+    ){
+        ErrorResponse error = new ErrorResponse(
+                404,
+                exception.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(error);
+    }
+
+    @ExceptionHandler(ItemPedidoNotFoundException.class)
+    public ResponseEntity<ErrorResponse> itemNotFound(
+            ItemPedidoNotFoundException exception
+    ){
+        ErrorResponse error = new ErrorResponse(
+                404,
+                exception.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(error);
+    }
+
+    @ExceptionHandler(PedidoCanceladoException.class)
+    public ResponseEntity<ErrorResponse> cancelamentoConflict(
+            PedidoCanceladoException exception
+    ){
+        ErrorResponse error = new ErrorResponse(
+                409,
+                exception.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(error);
+    }
+
+    @ExceptionHandler(EstoqueIndisponivelException.class)
+    public ResponseEntity<ErrorResponse> estoqueConflict(
+            EstoqueIndisponivelException exception
+    ){
+        ErrorResponse error = new ErrorResponse(
+                409,
+                exception.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(error);
+    }
 }
