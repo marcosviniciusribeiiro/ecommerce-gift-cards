@@ -4,7 +4,6 @@ import com.dto.CodigoGiftCardRequest;
 import com.dto.CodigoGiftCardResponse;
 import com.dto.EstoqueProdutoResponse;
 import com.model.CodigoGiftCard;
-import com.model.Produto;
 import com.model.StatusCodigo;
 import com.service.CodigoGiftCardService;
 import jakarta.validation.Valid;
@@ -58,10 +57,10 @@ public class CodigoGiftCardController {
         );
     }
 
-    @GetMapping("/produto/{idProduto}")
-    public ResponseEntity<List<CodigoGiftCardResponse>> buscarPorProduto(@PathVariable Integer idProduto){
+    @GetMapping("/produto/{id}")
+    public ResponseEntity<List<CodigoGiftCardResponse>> buscarPorProduto(@PathVariable Integer id){
         List<CodigoGiftCardResponse> codigos = service
-                .buscarPorIdProduto(idProduto)
+                .buscarPorIdProduto(id)
                 .stream()
                 .map(this::converterParaResponse)
                 .toList();
@@ -69,9 +68,9 @@ public class CodigoGiftCardController {
         return ResponseEntity.ok(codigos);
     }
 
-    @GetMapping("/produto/{idProduto}/disponiveis")
-    public ResponseEntity<List<CodigoGiftCardResponse>> buscarCodigosDisponiveis(@PathVariable Integer idProduto){
-        List<CodigoGiftCardResponse> codigos = service.buscarProdutoPeloStatus(idProduto, StatusCodigo.disponivel)
+    @GetMapping("/produto/{id}/disponiveis")
+    public ResponseEntity<List<CodigoGiftCardResponse>> buscarCodigosDisponiveis(@PathVariable Integer id){
+        List<CodigoGiftCardResponse> codigos = service.buscarProdutoPeloStatus(id, StatusCodigo.disponivel)
                 .stream()
                 .map(this::converterParaResponse)
                 .toList();
@@ -79,12 +78,12 @@ public class CodigoGiftCardController {
         return ResponseEntity.ok(codigos);
     }
 
-    @GetMapping("/produto/{idProduto}/estoque")
-    public ResponseEntity<EstoqueProdutoResponse> consultarEstoqueProduto(@PathVariable Integer idProduto) {
-        long quantidade = service.contarDisponiveisPorProduto(idProduto);
+    @GetMapping("/produto/{id}/estoque")
+    public ResponseEntity<EstoqueProdutoResponse> consultarEstoqueProduto(@PathVariable Integer id) {
+        long quantidade = service.contarDisponiveisPorProduto(id);
 
         return ResponseEntity.ok(new EstoqueProdutoResponse(
-                idProduto,
+                id,
                 quantidade
         ));
     }

@@ -1,11 +1,9 @@
 package com.service;
 
+import com.dto.PedidoAdmResponse;
 import com.dto.PedidoConfirmadoResponse;
 import com.dto.PedidoResponse;
-import com.exception.CodeConflictException;
-import com.exception.CodeNotFoundException;
-import com.exception.ProductNotFoundException;
-import com.exception.UserNotFoundException;
+import com.exception.*;
 import com.model.*;
 import com.repository.ItemPedidoRepository;
 import com.repository.PedidoRepository;
@@ -79,7 +77,7 @@ public class PedidoService {
 
         ItemPedido itemPedido = itemPedidoRepository.findFirstByPedido(pedido)
                 .orElseThrow(() ->
-                        new ProductNotFoundException("Item do pedido não encontrado."));
+                        new PedidoNotFoundException("Item do pedido não encontrado."));
 
         CodigoGiftCard codigoGiftCard = codigoGiftCardService
                 .atribuirCodigo(
@@ -112,15 +110,71 @@ public class PedidoService {
                 .toList();
     }
 
+    public PedidoResponse buscarPorId(Integer id, String email){
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new UserNotFoundException("Usuário não encontrado."));
+
+        Pedido pedido = pedidoRepository.findByIdAndUsuario(id, usuario)
+                .orElseThrow(() -> new PedidoNotFoundException("Pedido não encontrado"));
+
+        return converterParaResponse(pedido);
+    }
+
+    public PedidoResponse cancelarPorId(Integer id, String email){
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new UserNotFoundException("Usuário não encontrado."));
+
+        Pedido pedido = pedidoRepository.findByIdAndUsuario(id, usuario)
+                .orElseThrow(() -> new PedidoNotFoundException("Pedido não encontrado."));
+
+        if (pedido.getStatus() != StatusPedido.pendente){
+            throw new PedidoCanceladoException("Não foi possível cancelar o pedido.");
+        }
+
+        pedido.setStatus(StatusPedido.cancelado);
+        pedidoRepository.save(pedido);
+
+        return converterParaResponse(pedido);
+    }
+
+    public List<PedidoAdmResponse> todosPedidos(){
+        return pedidoRepository
+                .findAll()
+                .stream()
+                .map(this::converterParaAdmResponse)
+                .toList();
+    }
+
     private PedidoResponse converterParaResponse(Pedido pedido) {
 
         ItemPedido itemPedido = itemPedidoRepository.findFirstByPedido(pedido)
                 .orElseThrow(() ->
-                        new ProductNotFoundException("Item do produto não encontrado."));
+                        new ItemPedidoNotFoundException("Item pedido não encontrado."));
 
         return new PedidoResponse(
                 pedido.getId(),
                 itemPedido.getProduto().getId(),
+                pedido.getStatus(),
+                pedido.getDataPedido(),
+                pedido.getValorTotal()
+        );
+    }
+
+    private PedidoAdmResponse converterParaAdmResponse(Pedido pedido){
+        Usuario usuario = pedido.getUsuario();
+
+        ItemPedido item = itemPedidoRepository.findFirstByPedido(pedido)
+                .orElseThrow(() ->
+                        new ItemPedidoNotFoundException("Item pedido não encontrado."));
+
+        return new PedidoAdmResponse(
+                pedido.getId(),
+                pedido.getUsuario().getId(),
+                usuario.getNome(),
+                usuario.getEmail(),
+                item.getProduto().getId(),
                 pedido.getStatus(),
                 pedido.getDataPedido(),
                 pedido.getValorTotal()

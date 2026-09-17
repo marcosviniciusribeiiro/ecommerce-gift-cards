@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.dto.PedidoAdmResponse;
 import com.dto.PedidoConfirmadoResponse;
 import com.dto.PedidoRequest;
 import com.dto.PedidoResponse;
@@ -65,4 +66,30 @@ public class PedidoController {
 
         return ResponseEntity.ok().body(pedidos);
     }
+
+    @GetMapping("/me/{id}")
+    public ResponseEntity<PedidoResponse> buscarPedidoPorId(@PathVariable Integer id, Authentication authentication){
+        String email = authentication.getName();
+
+        PedidoResponse pedido = service.buscarPorId(id, email);
+
+        return ResponseEntity.ok().body(pedido);
+    }
+
+    @PutMapping("/me/{id}/cancelar")
+    public ResponseEntity<PedidoResponse> cancelarPedido(@PathVariable Integer id, Authentication authentication){
+        String email = authentication.getName();
+
+        PedidoResponse pedido = service.cancelarPorId(id, email);
+
+        return ResponseEntity.ok().body(pedido);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<PedidoAdmResponse>> listarTodosPedidos (){
+        List<PedidoAdmResponse> pedidos = service.todosPedidos();
+
+        return ResponseEntity.ok().body(pedidos);
+    }
+
 }
