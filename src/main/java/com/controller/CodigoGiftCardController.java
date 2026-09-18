@@ -54,8 +54,9 @@ public class CodigoGiftCardController {
         CodigoGiftCard codigo = codigoGiftCardService.buscarPorId(id);
 
         return ResponseEntity
-                .ok()
-                .body(converterParaResponse(codigo));
+                .ok(
+                        converterParaResponse(codigo)
+                );
     }
 
     @GetMapping("/produto/{id}")
@@ -66,9 +67,7 @@ public class CodigoGiftCardController {
                 .map(this::converterParaResponse)
                 .toList();
 
-        return ResponseEntity
-                .ok()
-                .body(codigos);
+        return ResponseEntity.ok(codigos);
     }
 
     @GetMapping("/produto/{id}/disponiveis")
@@ -78,9 +77,7 @@ public class CodigoGiftCardController {
                 .map(this::converterParaResponse)
                 .toList();
 
-        return ResponseEntity
-                .ok()
-                .body(codigos);
+        return ResponseEntity.ok(codigos);
     }
 
     @GetMapping("/produto/{id}/estoque")
@@ -88,8 +85,7 @@ public class CodigoGiftCardController {
         long quantidade = codigoGiftCardService.contarDisponiveisPorProduto(id);
 
         return ResponseEntity
-                .ok()
-                .body(
+                .ok(
                         new EstoqueProdutoResponse(id, quantidade)
                 );
     }

@@ -58,7 +58,7 @@ public class PedidoController {
 
         List<PedidoResponse> pedidos = service.pedidosUsuario(email);
 
-        return ResponseEntity.ok().body(pedidos);
+        return ResponseEntity.ok(pedidos);
     }
 
     @GetMapping("/me/{id}")
@@ -70,9 +70,7 @@ public class PedidoController {
 
         PedidoResponse pedido = service.buscarPorId(id, email);
 
-        return ResponseEntity
-                .ok()
-                .body(pedido);
+        return ResponseEntity.ok(pedido);
     }
 
     @PutMapping("/me/{id}/cancelar")
@@ -84,9 +82,7 @@ public class PedidoController {
 
         PedidoResponse pedido = service.cancelarPorId(id, email);
 
-        return ResponseEntity
-                .ok()
-                .body(pedido);
+        return ResponseEntity.ok(pedido);
     }
 
     @GetMapping("/me/{id}/codigos")
@@ -98,17 +94,13 @@ public class PedidoController {
 
         CodigoCompradoResponse codigo = service.buscarCodigoComprado(id, email);
 
-        return ResponseEntity
-                .ok()
-                .body(codigo);
+        return ResponseEntity.ok(codigo);
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<PedidoAdmResponse>> listarTodosPedidos (){
         List<PedidoAdmResponse> pedidos = service.todosPedidos();
 
-        return ResponseEntity
-                .ok()
-                .body(pedidos);
+        return ResponseEntity.ok(pedidos);
     }
 }

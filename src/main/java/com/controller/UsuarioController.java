@@ -1,9 +1,6 @@
 package com.controller;
 
-import com.dto.LoginRequest;
-import com.dto.LoginResponse;
-import com.dto.UsuarioRequest;
-import com.dto.UsuarioResponse;
+import com.dto.*;
 import com.model.Usuario;
 import com.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -28,8 +25,9 @@ public class UsuarioController {
         );
 
         return ResponseEntity
-                .ok()
-                .body(converterParaResponse(usuario));
+                .ok(
+                        converterParaResponse(usuario)
+                );
     }
 
     @PostMapping("/new")
@@ -63,7 +61,9 @@ public class UsuarioController {
                 request
         );
 
-        return ResponseEntity.ok(converterParaResponse(usuario));
+        return ResponseEntity.ok(
+                converterParaResponse(usuario)
+        );
     }
 
     @DeleteMapping("/me")
