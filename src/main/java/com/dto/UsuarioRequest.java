@@ -4,11 +4,11 @@ import jakarta.validation.constraints.*;
 
 public class UsuarioRequest {
 
-    @NotNull(message = "O nome é obrigatório.")
+    @NotBlank(message = "O nome é obrigatório.")
     @Size(max = 80, message = "O nome deve possui no máximo 80 caracteres.")
     private String nome;
 
-    @NotNull(message = "O email é obrigatório.")
+    @NotBlank(message = "O email é obrigatório.")
     @Email(message = "O email informado é inválido.")
     @Size(max = 120, message = "O email deve possui no máximo 120 caracteres.")
     //Exige uma extensão válida para o email
@@ -16,7 +16,7 @@ public class UsuarioRequest {
             message = "O e-mail deve possuir um domínio válido, como teste@email.com.")
     private String email;
 
-    @NotNull(message = "A senha é obrigatória.")
+    @NotBlank(message = "A senha é obrigatória.")
     @Size(min = 8, max = 32, message = "A senha deve possuir entre 8 a 32 caracteres.")
     private String senha;
 

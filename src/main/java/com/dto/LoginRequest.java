@@ -1,14 +1,14 @@
 package com.dto;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 public class LoginRequest {
-    @NotNull(message = "O email é obrigatório.")
+    @NotBlank(message = "O email é obrigatório.")
     @Email(message = "O email é inválido.")
     private String email;
 
-    @NotNull(message = "A senha é obrigatória.")
+    @NotBlank(message = "A senha é obrigatória.")
     private String senha;
 
     public String getEmail() {
