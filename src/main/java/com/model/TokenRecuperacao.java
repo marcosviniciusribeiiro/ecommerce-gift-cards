@@ -22,7 +22,7 @@ public class TokenRecuperacao {
     private LocalDateTime dataExpiracao;
 
     @Column(nullable = false)
-    private boolean utilizado;
+    private boolean utilizado = false;
 
     public String getId() {
         return id;
@@ -56,7 +56,7 @@ public class TokenRecuperacao {
         this.dataExpiracao = dataExpiracao;
     }
 
-    public boolean isUtilizado() {
+    public boolean getUtilizado() {
         return utilizado;
     }
 
