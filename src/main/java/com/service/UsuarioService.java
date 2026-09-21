@@ -1,5 +1,6 @@
 package com.service;
 
+import com.dto.RecuperarSenhaRequest;
 import com.dto.LoginResponse;
 import com.dto.UsuarioRequest;
 import com.exception.EmailAlreadyExistsException;
@@ -23,13 +24,11 @@ public class UsuarioService {
     public UsuarioService(
             UsuarioRepository usuarioRepository,
             PasswordEncoder passwordEncoder,
-            JwtService jwtService
-    ) {
+            JwtService jwtService) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
     }
-
 
     public Optional<Usuario> buscarPorEmail (String email){
         return usuarioRepository.findByEmail(email);
@@ -53,8 +52,7 @@ public class UsuarioService {
 
     public Usuario atualizar(
             String emailUsuario,
-            UsuarioRequest request
-    ) {
+            UsuarioRequest request) {
         Usuario usuario = usuarioRepository
                 .findByEmail(emailUsuario)
                 .orElseThrow(
@@ -89,8 +87,7 @@ public class UsuarioService {
 
     public LoginResponse login(
             String email,
-            String senha
-    ) {
+            String senha) {
         Usuario usuario = usuarioRepository
                 .findByEmail(email)
                 .orElseThrow(
@@ -106,7 +103,7 @@ public class UsuarioService {
                 usuario.getId(),
                 usuario.getEmail(),
                 usuario.getTipoUsuario().name()
-        );
+                );
 
         return new LoginResponse(
                 usuario.getId(),
@@ -115,6 +112,15 @@ public class UsuarioService {
                 usuario.getTipoUsuario(),
                 token
         );
+    }
+
+    public Usuario novaSenha(RecuperarSenhaRequest request) {
+        Usuario usuario = usuarioRepository
+                .findByEmail(request.getEmail())
+                .orElseThrow(() ->
+                        new UserNotFoundException("Usuário não encontrado."));
+
+        return null;
     }
 
     public Usuario buscarUsuarioAutenticado(String email) {
