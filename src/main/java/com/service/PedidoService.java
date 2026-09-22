@@ -26,8 +26,7 @@ public class PedidoService {
             ProdutoRepository produtoRepository,
             PedidoRepository pedidoRepository,
             ItemPedidoRepository itemPedidoRepository,
-            CodigoGiftCardService codigoGiftCardService
-    ) {
+            CodigoGiftCardService codigoGiftCardService) {
         this.usuarioRepository = usuarioRepository;
         this.produtoRepository = produtoRepository;
         this.pedidoRepository = pedidoRepository;
@@ -37,8 +36,7 @@ public class PedidoService {
 
     public Pedido criarPedido(
             String email,
-            Integer idProduto
-    ){
+            Integer idProduto){
         Usuario usuario = usuarioRepository
                 .findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("E-mail não encontrado."));
@@ -116,7 +114,9 @@ public class PedidoService {
                 .toList();
     }
 
-    public PedidoResponse buscarPorId(Integer id, String email){
+    public PedidoResponse buscarPorId(
+            Integer id,
+            String email){
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() ->
                         new UserNotFoundException("Usuário não encontrado."));
@@ -127,7 +127,9 @@ public class PedidoService {
         return converterParaResponse(pedido);
     }
 
-    public PedidoResponse cancelarPorId(Integer id, String email){
+    public PedidoResponse cancelarPorId(
+            Integer id,
+            String email){
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() ->
                         new UserNotFoundException("Usuário não encontrado."));
@@ -145,7 +147,9 @@ public class PedidoService {
         return converterParaResponse(pedido);
     }
 
-    public CodigoCompradoResponse buscarCodigoComprado(Integer id, String email){
+    public CodigoCompradoResponse buscarCodigoComprado(
+            Integer id,
+            String email){
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() ->
                         new UserNotFoundException("Usuário não encontrado."));

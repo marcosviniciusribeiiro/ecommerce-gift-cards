@@ -21,7 +21,9 @@ public class ProdutoController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<ProdutoResponse> cadastrar(@Valid @RequestBody ProdutoRequest request){
+    public ResponseEntity<ProdutoResponse> cadastrar(
+            @Valid @RequestBody ProdutoRequest request
+    ) {
         Produto produto = produtoService.cadastrar(request);
 
         ProdutoResponse response = converterParaResponse(produto);

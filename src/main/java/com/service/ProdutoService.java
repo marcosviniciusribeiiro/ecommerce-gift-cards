@@ -17,7 +17,6 @@ public class ProdutoService {
     }
 
     public Produto cadastrar(ProdutoRequest request) {
-
         Produto produto = new Produto();
         produto.setNome(request.getNome());
         produto.setDescricao(request.getDescricao());
@@ -41,8 +40,7 @@ public class ProdutoService {
 
     public Produto atualizar(
             Integer id,
-            ProdutoRequest request
-    ) {
+            ProdutoRequest request) {
         Produto produto = produtoRepository
                 .findById(id)
                 .orElseThrow(

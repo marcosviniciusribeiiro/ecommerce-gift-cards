@@ -11,7 +11,6 @@ import java.util.Optional;
 
 public interface CodigoGiftCardRepository
         extends JpaRepository<CodigoGiftCard, Integer> {
-
     Optional<CodigoGiftCard> findFirstByProdutoAndStatus(Produto produto, StatusCodigo status);
 
     Optional<CodigoGiftCard> findFirstByItemPedido(ItemPedido itemPedido);

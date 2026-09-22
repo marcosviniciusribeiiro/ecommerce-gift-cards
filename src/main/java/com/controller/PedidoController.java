@@ -23,8 +23,7 @@ public class PedidoController {
     @PostMapping
     public ResponseEntity<PedidoResponse> criarPedido(
             @Valid @RequestBody PedidoRequest request,
-            Authentication authentication
-    ) {
+            Authentication authentication) {
         String emailUsuario = authentication.getName();
 
         Pedido pedido = service.criarPedido(
@@ -64,8 +63,7 @@ public class PedidoController {
     @GetMapping("/me/{id}")
     public ResponseEntity<PedidoResponse> buscarPedidoPorId(
             @PathVariable Integer id,
-            Authentication authentication
-    ) {
+            Authentication authentication) {
         String email = authentication.getName();
 
         PedidoResponse pedido = service.buscarPorId(id, email);
@@ -76,8 +74,7 @@ public class PedidoController {
     @PutMapping("/me/{id}/cancelar")
     public ResponseEntity<PedidoResponse> cancelarPedido(
             @PathVariable Integer id,
-            Authentication authentication
-    ) {
+            Authentication authentication) {
         String email = authentication.getName();
 
         PedidoResponse pedido = service.cancelarPorId(id, email);
@@ -88,8 +85,7 @@ public class PedidoController {
     @GetMapping("/me/{id}/codigos")
     public ResponseEntity<CodigoCompradoResponse> buscarCodigoComprado(
             @PathVariable Integer id,
-            Authentication authentication
-    ) {
+            Authentication authentication) {
         String email = authentication.getName();
 
         CodigoCompradoResponse codigo = service.buscarCodigoComprado(id, email);

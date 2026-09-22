@@ -23,7 +23,9 @@ public class CodigoGiftCardController {
     }
 
     @PostMapping
-    public ResponseEntity<CodigoGiftCardResponse> cadastrar(@Valid @RequestBody CodigoGiftCardRequest request) {
+    public ResponseEntity<CodigoGiftCardResponse> cadastrar(
+            @Valid @RequestBody CodigoGiftCardRequest request
+    ) {
         CodigoGiftCard codigoGiftCard = codigoGiftCardService.cadastrar(
                 request.getIdProduto(),
                 request.getCodigo()

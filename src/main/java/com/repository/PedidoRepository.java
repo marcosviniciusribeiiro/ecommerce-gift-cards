@@ -9,7 +9,6 @@ import java.util.Optional;
 
 public interface PedidoRepository
         extends JpaRepository<Pedido, Integer> {
-
     List<Pedido> findByUsuario(Usuario usuario);
 
     Optional<Pedido> findByIdAndUsuario(Integer id, Usuario usuario);

@@ -19,16 +19,14 @@ public class CodigoGiftCardService {
 
     public CodigoGiftCardService(
             CodigoGiftCardRepository codigoGiftCardRepository,
-            ProdutoRepository produtoRepository
-    ) {
+            ProdutoRepository produtoRepository) {
         this.codigoGiftCardRepository = codigoGiftCardRepository;
         this.produtoRepository = produtoRepository;
     }
 
     public CodigoGiftCard cadastrar(
             Integer id,
-            String codigo
-    ) {
+            String codigo) {
         Produto produto = produtoRepository
                 .findById(id)
                 .orElseThrow(
@@ -46,8 +44,7 @@ public class CodigoGiftCardService {
 
     public CodigoGiftCard atribuirCodigo(
             Produto produto,
-            ItemPedido item
-    ) {
+            ItemPedido item) {
         CodigoGiftCard codigoGiftCard = codigoGiftCardRepository
                 .findFirstByProdutoAndStatus(produto, StatusCodigo.disponivel)
                 .orElseThrow(
@@ -84,8 +81,7 @@ public class CodigoGiftCardService {
 
     public List<CodigoGiftCard> buscarProdutoPeloStatus(
             Integer id,
-            StatusCodigo status
-    ){
+            StatusCodigo status){
         Produto produto = produtoRepository
                 .findById(id)
                 .orElseThrow(
