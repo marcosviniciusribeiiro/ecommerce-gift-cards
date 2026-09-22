@@ -1,7 +1,9 @@
 package com.controller;
 
 import com.dto.*;
+import com.model.TokenRecuperacao;
 import com.model.Usuario;
+import com.service.TokenRecuperacaoService;
 import com.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -13,9 +15,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/usuarios")
 public class UsuarioController {
     public final UsuarioService usuarioService;
+    public final TokenRecuperacaoService tokenRecuperacaoService;
 
-    public UsuarioController(UsuarioService usuarioService) {
+    public UsuarioController(UsuarioService usuarioService,
+                             TokenRecuperacaoService tokenRecuperacaoService
+    ) {
         this.usuarioService = usuarioService;
+        this.tokenRecuperacaoService = tokenRecuperacaoService;
     }
 
     @GetMapping("/me")
@@ -31,7 +37,9 @@ public class UsuarioController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<UsuarioResponse> cadastrar(@Valid @RequestBody UsuarioRequest request) {
+    public ResponseEntity<UsuarioResponse> cadastrar(
+            @Valid @RequestBody UsuarioRequest request
+    ) {
         Usuario usuario = usuarioService.cadastrar(request);
 
         return ResponseEntity
@@ -40,7 +48,9 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<LoginResponse> login(
+            @Valid @RequestBody LoginRequest request
+    ) {
         LoginResponse login = usuarioService.login(
                 request.getEmail(),
                 request.getSenha()
@@ -52,8 +62,7 @@ public class UsuarioController {
     @PutMapping("/me")
     public ResponseEntity<UsuarioResponse> atualizar(
             @Valid @RequestBody UsuarioRequest request,
-            Authentication authentication
-    ) {
+            Authentication authentication) {
         String email = authentication.getName();
 
         Usuario usuario = usuarioService.atualizar(
@@ -76,6 +85,20 @@ public class UsuarioController {
                 .noContent()
                 .build();
     }
+
+    @PostMapping("/recuperar-senha")
+    public ResponseEntity<RecuperarSenhaResponse> recuperarSenha(
+            @Valid @RequestBody RecuperarSenhaRequest request){
+        TokenRecuperacao token = tokenRecuperacaoService.gerarToken(request.getEmail());
+
+        RecuperarSenhaResponse response = new RecuperarSenhaResponse(
+                token.getToken(),
+                token.getDataExpiracao()
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
 
     public UsuarioResponse converterParaResponse(Usuario usuario){
         return new UsuarioResponse(
