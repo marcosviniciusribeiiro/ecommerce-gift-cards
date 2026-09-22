@@ -35,7 +35,8 @@ public class SecurityConfig {
                         // Rotas públicas
                         .requestMatchers(
                                 "/api/usuarios/new",
-                                "/api/usuarios/login"
+                                "/api/usuarios/login",
+                                "/api/usuarios/recuperar-senha"
                         ).permitAll()
 
                         // Catálogo público
