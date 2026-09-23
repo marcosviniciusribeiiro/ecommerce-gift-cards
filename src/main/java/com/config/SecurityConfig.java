@@ -34,7 +34,11 @@ public class SecurityConfig {
 
                         // Rotas públicas
                         .requestMatchers(
+                                "/login.html",
+                                "/cadastro.html",
+                                "/recuperar-senha.html",
                                 "/api/usuarios/new",
+                                "/js/**",
                                 "/api/usuarios/login",
                                 "/api/usuarios/recuperar-senha",
                                 "/api/usuarios/redefinir-senha"
