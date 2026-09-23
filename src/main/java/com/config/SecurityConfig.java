@@ -36,7 +36,8 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/usuarios/new",
                                 "/api/usuarios/login",
-                                "/api/usuarios/recuperar-senha"
+                                "/api/usuarios/recuperar-senha",
+                                "/api/usuarios/redefinir-senha"
                         ).permitAll()
 
                         // Catálogo público

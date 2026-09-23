@@ -7,11 +7,9 @@ public class RedefinirSenhaRequest {
     @NotBlank(message = "O token é obrigatório.")
     private String token;
 
-    @NotBlank(message = "A senha é obrigatória.")
-    @Size(min = 8, max = 32, message = "A senha deve possuir entre 8 a 32 caracteres.")
-    private String senha;
-
-    private String confirmarSenha;
+    @NotBlank(message = "A nova senha é obrigatória.")
+    @Size(min = 8, max = 32, message = "A nova senha deve possuir entre 8 a 32 caracteres.")
+    private String novaSenha;
 
     public String getToken() {
         return token;
@@ -21,19 +19,12 @@ public class RedefinirSenhaRequest {
         this.token = token;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getNovaSenha() {
+        return novaSenha;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setNovaSenha(String novaSenha) {
+        this.novaSenha = novaSenha;
     }
 
-    public String getConfirmarSenha() {
-        return confirmarSenha;
-    }
-
-    public void setConfirmarSenha(String confirmarSenha) {
-        this.confirmarSenha = confirmarSenha;
-    }
 }

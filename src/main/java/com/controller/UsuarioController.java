@@ -99,6 +99,17 @@ public class UsuarioController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping("/redefinir-senha")
+    public ResponseEntity<Void> redefinirSenha(
+            @Valid @RequestBody RedefinirSenhaRequest request
+    ){
+        tokenRecuperacaoService.redefinirSenha(request.getToken(), request.getNovaSenha());
+
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
+
 
     public UsuarioResponse converterParaResponse(Usuario usuario){
         return new UsuarioResponse(
