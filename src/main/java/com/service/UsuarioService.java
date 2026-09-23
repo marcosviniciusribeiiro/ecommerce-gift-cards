@@ -114,15 +114,6 @@ public class UsuarioService {
         );
     }
 
-    public Usuario novaSenha(RecuperarSenhaRequest request) {
-        Usuario usuario = usuarioRepository
-                .findByEmail(request.getEmail())
-                .orElseThrow(() ->
-                        new UserNotFoundException("Usuário não encontrado."));
-
-        return null;
-    }
-
     public Usuario buscarUsuarioAutenticado(String email) {
         return usuarioRepository
                 .findByEmail(email)
