@@ -38,7 +38,36 @@ carregarPerfil();
 
 const logoutButton = document.getElementById("logoutButton");
 
-logoutButton.addEventListener("click", function() {
+logoutButton.addEventListener("click", function () {
     localStorage.removeItem("token");
     window.location.href = "/login.html";
-})
+});
+
+const editButton = document.getElementById("editButton");
+
+editButton.addEventListener("click", function (){
+    const nome = document.getElementById("nome").textContent;
+    const email = document.getElementById("email").textContent;
+    alert("Nome: " + nome + ", Email: " + email);
+});
+// editButton.addEventListener("click", function (){
+
+//     // const response = await fetch("/api/usuarios/me", {
+//     //     method: "PUT",
+//     //     headers: {
+//     //         "Context-Type": "application/json"
+//     //     },
+//     //     body: JSON.stringify( {
+//     //         nome: nome,
+//     //         email: email,
+//     //         senha: senha
+//     //     });
+//     // });
+//
+// });
+
+const deleteButton = document.getElementById("deleteButton");
+
+deleteButton.addEventListener("click", function () {
+    alert("ok");
+});
