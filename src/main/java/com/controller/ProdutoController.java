@@ -20,7 +20,7 @@ public class ProdutoController {
         this.produtoService = produtoService;
     }
 
-    @PostMapping("/new")
+    @PostMapping("/cadastro")
     public ResponseEntity<ProdutoResponse> cadastrar(
             @Valid @RequestBody ProdutoRequest request
     ) {
