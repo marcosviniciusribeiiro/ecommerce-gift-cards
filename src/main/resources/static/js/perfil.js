@@ -1,4 +1,5 @@
 const token = localStorage.getItem("token");
+const mensagemPerfil = document.getElementById("mensagemPerfil");
 
 if (!token) {
     window.location.href = "/login.html";
@@ -14,8 +15,8 @@ async function carregarPerfil(){
         })
 
         if (!response.ok){
-            console.log("Não foi possível carregar o perfil");
-            return;
+            mensagemPerfil.textContent =
+                data.mensagem || "Não foi possível carregar o perfil.";
         }
 
         const data = await response.json();
@@ -29,10 +30,6 @@ async function carregarPerfil(){
             localStorage.removeItem("token");
             window.location.href = "/login.html";
             return;
-        }
-
-        if (!response.ok){
-            console.log("Erro ao carregar o perfil: ", erro);
         }
     }
 }
