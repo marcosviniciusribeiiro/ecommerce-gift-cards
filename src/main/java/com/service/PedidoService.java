@@ -122,7 +122,7 @@ public class PedidoService {
                         new UserNotFoundException("Usuário não encontrado."));
 
         Pedido pedido = pedidoRepository.findByIdAndUsuario(id, usuario)
-                .orElseThrow(() -> new PedidoNotFoundException("Pedido não encontrado"));
+                .orElseThrow(() -> new PedidoNotFoundException("Pedido não encontrado."));
 
         return converterParaResponse(pedido);
     }
