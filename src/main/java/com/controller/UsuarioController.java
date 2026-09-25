@@ -36,7 +36,7 @@ public class UsuarioController {
                 );
     }
 
-    @PostMapping("/new")
+    @PostMapping("/cadastro")
     public ResponseEntity<UsuarioResponse> cadastrar(
             @Valid @RequestBody UsuarioRequest request
     ) {
