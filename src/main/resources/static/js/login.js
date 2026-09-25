@@ -22,7 +22,7 @@ formulario.addEventListener("submit", async function (event){
         const data = await response.json();
 
         if (!response.ok){
-            mensagemLogin.textContent = data.mensagem;
+            mensagemLogin.textContent = data.mensagem || "Email ou senha incorretos.";
             return;
         }
 
@@ -30,6 +30,6 @@ formulario.addEventListener("submit", async function (event){
         window.location.href = "/perfil.html";
     }catch (erro) {
         console.error("Erro ao conectar ao servidor: ", erro);
-        mensagemLogin.textContent = "Não foi possível conectar ao servidor";
+        mensagemLogin.textContent = "Não foi possível conectar ao servidor.";
     }
 });
