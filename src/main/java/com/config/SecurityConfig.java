@@ -37,8 +37,10 @@ public class SecurityConfig {
                                 "/login.html",
                                 "/cadastro.html",
                                 "/recuperar-senha.html",
-                                "/api/usuarios/new",
+                                "/perfil.html",
+                                "/atualizar-conta.html",
                                 "/js/**",
+                                "/api/usuarios/cadastro",
                                 "/api/usuarios/login",
                                 "/api/usuarios/recuperar-senha",
                                 "/api/usuarios/redefinir-senha"
@@ -65,7 +67,7 @@ public class SecurityConfig {
                         // Cadastro de produto - somente administrador
                         .requestMatchers(
                                 HttpMethod.POST,
-                                "/api/produtos/new"
+                                "/api/produtos/cadastro"
                         ).hasRole("ADMINISTRADOR")
 
                         // Atualização de produto - somente administrador
