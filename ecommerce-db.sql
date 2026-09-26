@@ -4,8 +4,8 @@ USE ecommerce_db;
 
 CREATE TABLE tb_usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome_usuario VARCHAR(80) NOT NULL,
-    email_usuario VARCHAR(120) NOT NULL UNIQUE,
+    nome_usuario VARCHAR(255) NOT NULL,
+    email_usuario VARCHAR(255) NOT NULL UNIQUE,
     senha_usuario VARCHAR(255) NOT NULL,
     tipo_usuario ENUM('cliente', 'administrador') NOT NULL DEFAULT 'cliente',
     data_cadastro DATE NOT NULL
