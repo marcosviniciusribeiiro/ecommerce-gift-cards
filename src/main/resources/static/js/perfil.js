@@ -14,12 +14,12 @@ async function carregarPerfil(){
             }
         })
 
+        const data = await response.json();
+
         if (!response.ok){
             mensagemPerfil.textContent =
                 data.mensagem || "Não foi possível carregar o perfil.";
         }
-
-        const data = await response.json();
 
         document.getElementById("nome").textContent = data.nome;
         document.getElementById("email").textContent = data.email;
@@ -44,30 +44,34 @@ logoutButton.addEventListener("click", function () {
 });
 
 const editButton = document.getElementById("editButton");
-
 editButton.addEventListener("click", function (){
-    const nome = document.getElementById("nome").textContent;
-    const email = document.getElementById("email").textContent;
-    alert("Nome: " + nome + ", Email: " + email);
+    window.location.href = "/atualizar-conta.html";
 });
-// editButton.addEventListener("click", function (){
-
-//     // const response = await fetch("/api/usuarios/me", {
-//     //     method: "PUT",
-//     //     headers: {
-//     //         "Context-Type": "application/json"
-//     //     },
-//     //     body: JSON.stringify( {
-//     //         nome: nome,
-//     //         email: email,
-//     //         senha: senha
-//     //     });
-//     // });
-//
-// });
 
 const deleteButton = document.getElementById("deleteButton");
 
-deleteButton.addEventListener("click", function () {
-    alert("ok");
+deleteButton.addEventListener("click", async function (event) {
+    event.preventDefault();
+
+    confirm("Deseja apagar os dados dessa conta?");
+
+    try {
+        const response = await fetch("/api/usuarios/me", {
+            method: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        const data = response.json();
+
+        if (!response.ok){
+            mensagemPerfil.textContent =
+                data.mensagem || "Não foi possível atualizar o perfil.";
+            return;
+        }
+    } catch (erro){
+        console.error("Erro ao conectar ao sistema.");
+    }
+    window.location.href = "/login.html";
 });
