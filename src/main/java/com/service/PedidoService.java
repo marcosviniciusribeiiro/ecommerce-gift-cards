@@ -56,7 +56,7 @@ public class PedidoService {
         Pedido pedido = new Pedido();
         pedido.setUsuario(usuario);
         pedido.setDataPedido(LocalDateTime.now());
-        pedido.setStatus(StatusPedido.pendente);
+        pedido.setStatus(StatusPedido.Pendente);
         pedido.setValorTotal(produto.getValor());
 
         pedido = pedidoRepository.save(pedido);
@@ -75,7 +75,7 @@ public class PedidoService {
                 .orElseThrow(() ->
                         new ProductNotFoundException("Pedido não encontrado."));
 
-        if(pedido.getStatus() != StatusPedido.pendente){
+        if(pedido.getStatus() != StatusPedido.Pendente){
             throw new CodeConflictException("Somente pedidos pendentes podem ser confirmados.");
         }
 
@@ -89,7 +89,7 @@ public class PedidoService {
                         itemPedido
                 );
 
-        pedido.setStatus(StatusPedido.pago);
+        pedido.setStatus(StatusPedido.Pago);
 
         pedidoRepository.save(pedido);
 
@@ -137,11 +137,11 @@ public class PedidoService {
         Pedido pedido = pedidoRepository.findByIdAndUsuario(id, usuario)
                 .orElseThrow(() -> new PedidoNotFoundException("Pedido não encontrado."));
 
-        if (pedido.getStatus() != StatusPedido.pendente){
+        if (pedido.getStatus() != StatusPedido.Pendente){
             throw new PedidoCanceladoException("Não foi possível cancelar o pedido.");
         }
 
-        pedido.setStatus(StatusPedido.cancelado);
+        pedido.setStatus(StatusPedido.Cancelado);
         pedidoRepository.save(pedido);
 
         return converterParaResponse(pedido);
@@ -158,7 +158,7 @@ public class PedidoService {
                 .orElseThrow(() ->
                         new PedidoNotFoundException("Pedido não encontrado."));
 
-        if (pedido.getStatus() != StatusPedido.pago) {
+        if (pedido.getStatus() != StatusPedido.Pago) {
             throw new CodeConflictException(
                     "O código só está disponível para pedidos pagos."
             );

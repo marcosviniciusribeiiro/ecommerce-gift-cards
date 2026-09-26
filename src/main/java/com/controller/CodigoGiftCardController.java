@@ -74,7 +74,7 @@ public class CodigoGiftCardController {
 
     @GetMapping("/produto/{id}/disponiveis")
     public ResponseEntity<List<CodigoGiftCardResponse>> buscarCodigosDisponiveis(@PathVariable Integer id) {
-        List<CodigoGiftCardResponse> codigos = codigoGiftCardService.buscarProdutoPeloStatus(id, StatusCodigo.disponivel)
+        List<CodigoGiftCardResponse> codigos = codigoGiftCardService.buscarProdutoPeloStatus(id, StatusCodigo.Disponivel)
                 .stream()
                 .map(this::converterParaResponse)
                 .toList();

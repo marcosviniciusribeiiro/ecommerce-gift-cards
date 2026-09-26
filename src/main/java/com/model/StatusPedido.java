@@ -1,7 +1,7 @@
 package com.model;
 
 public enum StatusPedido {
-    pendente,
-    pago,
-    cancelado
+    Pendente,
+    Pago,
+    Cancelado
 }

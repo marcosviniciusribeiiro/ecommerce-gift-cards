@@ -36,7 +36,7 @@ public class CodigoGiftCardService {
         CodigoGiftCard codigoGiftCard = new CodigoGiftCard();
         codigoGiftCard.setProduto(produto);
         codigoGiftCard.setCodigo(codigo);
-        codigoGiftCard.setStatus(StatusCodigo.disponivel);
+        codigoGiftCard.setStatus(StatusCodigo.Disponivel);
         codigoGiftCard.setItemPedido(null);
 
         return codigoGiftCardRepository.save(codigoGiftCard);
@@ -46,13 +46,13 @@ public class CodigoGiftCardService {
             Produto produto,
             ItemPedido item) {
         CodigoGiftCard codigoGiftCard = codigoGiftCardRepository
-                .findFirstByProdutoAndStatus(produto, StatusCodigo.disponivel)
+                .findFirstByProdutoAndStatus(produto, StatusCodigo.Disponivel)
                 .orElseThrow(
                         () -> new CodeNotFoundException("Não há códigos disponíveis para esse produto.")
                 );
 
         codigoGiftCard.setItemPedido(item);
-        codigoGiftCard.setStatus(StatusCodigo.vendido);
+        codigoGiftCard.setStatus(StatusCodigo.Vendido);
 
         return codigoGiftCardRepository.save(codigoGiftCard);
     }
@@ -106,6 +106,6 @@ public class CodigoGiftCardService {
                         () -> new ProductNotFoundException("Produto não encontrado.")
                 );
 
-        return codigoGiftCardRepository.countByProdutoAndStatus(produto, StatusCodigo.disponivel);
+        return codigoGiftCardRepository.countByProdutoAndStatus(produto, StatusCodigo.Disponivel);
     }
 }

@@ -19,8 +19,7 @@ CREATE TABLE tb_produtos(
     "steam", 
     "xbox", 
     "playstation", 
-    "nintendo",
-    "serviços_e_entretenimento"
+    "nintendo"
     ) NOT NULL,
     valor_produto DECIMAL(10,2) NOT NULL
 );

@@ -1,6 +1,5 @@
 package com.service;
 
-import com.dto.RecuperarSenhaRequest;
 import com.dto.LoginResponse;
 import com.dto.UsuarioRequest;
 import com.exception.EmailAlreadyExistsException;
@@ -44,7 +43,7 @@ public class UsuarioService {
 
         //metodo para encriptar a senha do usuário antes de cadastrá-lo
         usuario.setSenha(passwordEncoder.encode(request.getSenha()));
-        usuario.setTipoUsuario(TipoUsuario.cliente);
+        usuario.setTipoUsuario(TipoUsuario.Cliente);
         usuario.setDataCadastro(LocalDate.now());
 
         return usuarioRepository.save(usuario);
