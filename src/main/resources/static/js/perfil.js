@@ -12,7 +12,13 @@ async function carregarPerfil(){
             headers: {
                 "Authorization": "Bearer " + token
             }
-        })
+        });
+
+        if (response.status === 401 || response.status === 403) {
+            localStorage.removeItem("token");
+            window.location.href = "/login.html";
+            return;
+        }
 
         const data = await response.json();
 
@@ -26,11 +32,11 @@ async function carregarPerfil(){
         document.getElementById("tipoUsuario").textContent = data.tipoUsuario;
 
     } catch (erro) {
-        if (response.status === 401 || response.status === 403) {
-            localStorage.removeItem("token");
-            window.location.href = "/login.html";
-            return;
-        }
+        console.error(
+            "Erro ao conectar ao servidor:",erro
+        );
+
+        mensagemPerfil.textContent = "Não foi possível conectar ao servidor.";
     }
 }
 
