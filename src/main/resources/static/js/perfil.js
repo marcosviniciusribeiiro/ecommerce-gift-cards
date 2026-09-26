@@ -53,7 +53,11 @@ const deleteButton = document.getElementById("deleteButton");
 deleteButton.addEventListener("click", async function (event) {
     event.preventDefault();
 
-    confirm("Deseja apagar os dados dessa conta?");
+    const confirmarExclusao = confirm("Deseja apagar os dados dessa conta?");
+
+    if (!confirmarExclusao){
+        return;
+    }
 
     try {
         const response = await fetch("/api/usuarios/me", {
@@ -63,15 +67,15 @@ deleteButton.addEventListener("click", async function (event) {
             }
         });
 
-        const data = response.json();
-
         if (!response.ok){
+            const data = response.json();
             mensagemPerfil.textContent =
                 data.mensagem || "Não foi possível atualizar o perfil.";
             return;
         }
     } catch (erro){
         console.error("Erro ao conectar ao sistema.");
+        mensagemPerfil.textContent = "Não foi possível conectar ao servidor.";
     }
     window.location.href = "/login.html";
 });
