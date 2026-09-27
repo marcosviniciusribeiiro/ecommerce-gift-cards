@@ -7,7 +7,7 @@ CREATE TABLE tb_usuarios (
     nome_usuario VARCHAR(255) NOT NULL,
     email_usuario VARCHAR(255) NOT NULL UNIQUE,
     senha_usuario VARCHAR(255) NOT NULL,
-    tipo_usuario ENUM('cliente', 'administrador') NOT NULL DEFAULT 'cliente',
+    tipo_usuario ENUM('Cliente', 'Administrador') NOT NULL DEFAULT 'Cliente',
     data_cadastro DATE NOT NULL
 );
 
@@ -16,10 +16,10 @@ CREATE TABLE tb_produtos(
     nome_produto VARCHAR(80) NOT NULL,
     descricao_produto VARCHAR(255),
     plataforma ENUM(
-    "steam", 
-    "xbox", 
-    "playstation", 
-    "nintendo"
+    "Steam", 
+    "Xbox", 
+    "Playstation", 
+    "Nintendo"
     ) NOT NULL,
     valor_produto DECIMAL(10,2) NOT NULL
 );
@@ -28,10 +28,10 @@ CREATE TABLE tb_pedidos(
 	id INT PRIMARY KEY AUTO_INCREMENT,
     id_usuario INT NOT NULL,
     status ENUM(
-		'pendente',
-        'pago',
-        'cancelado'
-    )NOT NULL DEFAULT 'pendente',
+		'Pendente',
+        'Pago',
+        'Cancelado'
+    )NOT NULL DEFAULT 'Pendente',
     data_pedido DATETIME NOT NULL,
     valor_total DECIMAL(10,2) NOT NULL,
     FOREIGN KEY(id_usuario) REFERENCES tb_usuarios(id)
@@ -52,9 +52,9 @@ CREATE TABLE tb_codigos_giftcard(
     id_item_pedido INT UNIQUE NOT NULL,
     codigo VARCHAR(255) NOT NULL UNIQUE,
     status ENUM(
-		'disponivel',
-        'vendido'
-    ) NOT NULL DEFAULT 'disponivel',
+		'Disponivel',
+        'Vendido'
+    ) NOT NULL DEFAULT 'Disponivel',
     FOREIGN KEY(id_produto) REFERENCES tb_produtos(id),
     FOREIGN KEY(id_item_pedido) REFERENCES tb_itens_pedido(id)
 );
@@ -72,8 +72,18 @@ CREATE TABLE tb_tokens_recuperacao(
 DESC tb_tokens_recuperacao;
 
 UPDATE tb_usuarios
-SET tipo_usuario = 'administrador'
-WHERE email_usuario = 'joao@gmail.com' and "eduardo@gmail.com" and "carlos@gmail.com";
+SET tipo_usuario = 'Administrador'
+WHERE email_usuario = 'joao@gmail.com';
+
+INSERT INTO tb_produtos (id, nome_produto, descricao_produto, plataforma, valor_produto)
+VALUES 
+(DEFAULT, 'Gift Card Nintendo Switch R$ 250', 'Gift card digital para Nintendo Switch', 'Nintendo', 250),
+(DEFAULT, 'Gift Card Xbox R$ 100', 'Gift card digital para Xbox', 'Xbox', 100),
+(DEFAULT, 'Gift Card Xbox R$ 150', 'Gift card digital para Xbox', 'Xbox', 150),
+(DEFAULT, 'Gift Card Nintendo Switch R$ 50', 'Gift card digital para Nintendo Switch', 'Nintendo', 50),
+(DEFAULT, 'Gift Card Playstation R$ 50', 'Gift card digital para Playstation', 'Playstation', 50),
+(DEFAULT, 'Gift Card Playstation R$ 100', 'Gift card digital para Playstation', 'Playstation', 100),
+(DEFAULT, 'Gift Card Nintendo Switch R$ 100', 'Gift card digital para Nintendo Switch', 'Nintendo', 100);
 
 SELECT * FROM tb_usuarios;
 SELECT * FROM tb_produtos;
