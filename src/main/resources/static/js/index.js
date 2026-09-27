@@ -35,6 +35,11 @@ async function carregarProdutos(){
            valor.textContent = "R$ " + Number(produto.valor).toFixed(2);
            card.appendChild(valor);
 
+            const linkProduto = document.createElement("a");
+            linkProduto.textContent = "Ver produto";
+            linkProduto.href = "/produto.html?id=" + produto.id;
+            card.appendChild(linkProduto);
+
            listaProdutos.appendChild(card);
         });
     } catch (erro) {
