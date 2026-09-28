@@ -49,7 +49,7 @@ CREATE TABLE tb_itens_pedido(
 CREATE TABLE tb_codigos_giftcard(
 	id INT PRIMARY KEY AUTO_INCREMENT,
     id_produto INT NOT NULL,
-    id_item_pedido INT UNIQUE NOT NULL,
+    id_item_pedido INT UNIQUE,
     codigo VARCHAR(255) NOT NULL UNIQUE,
     status ENUM(
 		'Disponivel',
