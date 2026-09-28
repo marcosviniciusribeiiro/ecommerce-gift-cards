@@ -34,11 +34,15 @@ public class SecurityConfig {
 
                         // Rotas públicas
                         .requestMatchers(
+                                "/index.html",
+                                "/produto.html",
                                 "/login.html",
                                 "/cadastro.html",
                                 "/recuperar-senha.html",
-                                "/perfil.html",
-                                "/atualizar-conta.html",
+                                "/perfil.html", //autorização necessária
+                                "/atualizar-conta.html", //autorização necessária
+                                "/meus-pedidos.html", //autorização necessária
+                                "/pedido.html", //autorização necessária
                                 "/js/**",
                                 "/api/usuarios/cadastro",
                                 "/api/usuarios/login",
