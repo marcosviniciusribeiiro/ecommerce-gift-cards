@@ -3,6 +3,7 @@ package com.dto;
 import com.model.Plataforma;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
@@ -18,7 +19,7 @@ public class ProdutoRequest {
     @NotBlank(message = "A plataforma é obrigatória.")
     private Plataforma plataforma;
 
-    @NotBlank(message = "O valor é obrigatório.")
+    @NotNull(message = "O valor é obrigatório.")
     @DecimalMin(value = "0.01", message = "O valor deve ser maior que zero.")
     private BigDecimal valor;
 
