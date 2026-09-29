@@ -27,7 +27,7 @@ async function carregarPerfil(){
                 data.mensagem || "Não foi possível carregar o perfil.";
         }
 
-        document.getElementById("nome").textContent = data.nome;
+        document.getElementById("nome").textContent = "Nome: " + data.nome;
         document.getElementById("email").textContent = data.email;
         document.getElementById("tipoUsuario").textContent = data.tipoUsuario;
 
