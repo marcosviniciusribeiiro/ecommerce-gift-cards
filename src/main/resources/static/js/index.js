@@ -32,7 +32,7 @@ async function carregarProdutos(){
            card.appendChild(plataforma);
 
            const valor = document.createElement("p");
-           valor.textContent = "R$ " + Number(produto.valor).toFixed(2);
+           valor.textContent = "Valor: R$ " + Number(produto.valor).toFixed(2);
            card.appendChild(valor);
 
             const linkProduto = document.createElement("a");
