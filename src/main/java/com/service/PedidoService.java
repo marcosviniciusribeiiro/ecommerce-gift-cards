@@ -39,7 +39,7 @@ public class PedidoService {
             Integer idProduto){
         Usuario usuario = usuarioRepository
                 .findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("E-mail não encontrado."));
+                .orElseThrow(() -> new RuntimeException("Email não encontrado."));
 
         Produto produto = produtoRepository
                 .findById(idProduto)
@@ -110,7 +110,7 @@ public class PedidoService {
         return pedidoRepository
                 .findByUsuario(usuario)
                 .stream()
-                .map(this::converterParaResponse)
+                .map(this::converterPedidoParaResponse)
                 .toList();
     }
 
@@ -124,7 +124,7 @@ public class PedidoService {
         Pedido pedido = pedidoRepository.findByIdAndUsuario(id, usuario)
                 .orElseThrow(() -> new PedidoNotFoundException("Pedido não encontrado."));
 
-        return converterParaResponse(pedido);
+        return converterPedidoParaResponse(pedido);
     }
 
     public PedidoResponse cancelarPorId(
@@ -144,7 +144,7 @@ public class PedidoService {
         pedido.setStatus(StatusPedido.Cancelado);
         pedidoRepository.save(pedido);
 
-        return converterParaResponse(pedido);
+        return converterPedidoParaResponse(pedido);
     }
 
     public CodigoCompradoResponse buscarCodigoComprado(
@@ -186,7 +186,7 @@ public class PedidoService {
                 .toList();
     }
 
-    private PedidoResponse converterParaResponse(Pedido pedido) {
+    public PedidoResponse converterPedidoParaResponse(Pedido pedido) {
 
         ItemPedido itemPedido = itemPedidoRepository.findFirstByPedido(pedido)
                 .orElseThrow(() ->
@@ -195,6 +195,7 @@ public class PedidoService {
         return new PedidoResponse(
                 pedido.getId(),
                 itemPedido.getProduto().getId(),
+                itemPedido.getProduto().getNome(),
                 pedido.getStatus(),
                 pedido.getDataPedido(),
                 pedido.getValorTotal()
@@ -214,6 +215,7 @@ public class PedidoService {
                 usuario.getNome(),
                 usuario.getEmail(),
                 item.getProduto().getId(),
+                item.getProduto().getNome(),
                 pedido.getStatus(),
                 pedido.getDataPedido(),
                 pedido.getValorTotal()

@@ -11,7 +11,7 @@ public class UsuarioRequest {
     @Email(message = "O email informado é inválido.")
     //Exige uma extensão válida para o email
     @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z0]{2,}$",
-            message = "O e-mail deve possuir um domínio válido, como teste@email.com.")
+            message = "O email deve possuir um domínio válido, como teste@email.com.")
     private String email;
 
     @NotBlank(message = "A senha é obrigatória.")

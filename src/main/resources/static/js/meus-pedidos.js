@@ -41,19 +41,60 @@ async function carregarPedidos() {
             card.appendChild(numero);
 
             const produto = document.createElement("p");
-            produto.textContent = "Produto: " + pedido.idProduto;
+
+            const produtoStrong = document.createElement("strong");
+            produtoStrong.textContent = "Produto: ";
+
+            const produtoSpan = document.createElement("span");
+            produtoSpan.textContent = pedido.nomeProduto;
+
+            produto.appendChild(produtoStrong);
+            produto.appendChild(produtoSpan);
             card.appendChild(produto);
 
             const status = document.createElement("p");
-            status.textContent = "Status: " + pedido.statusPedido;
+
+            const statusStrong = document.createElement("strong");
+            statusStrong.textContent = "Status: ";
+
+            const statusSpan = document.createElement("span");
+            statusSpan.textContent = pedido.statusPedido;
+
+            status.appendChild(statusStrong);
+            status.appendChild(statusSpan);
             card.appendChild(status);
 
             const data = document.createElement("p");
-            data.textContent = "Data do Pedido: " + pedido.dataPedido;
+
+            const dataStrong = document.createElement("strong");
+            dataStrong.textContent = "Data do Pedido: ";
+
+            const dataSpan = document.createElement("span");
+
+            const dataPedido = new Date(pedido.dataPedido);
+            dataSpan.textContent = dataPedido.toLocaleString("pt-BR", {
+                dateStyle: "short",
+                timeStyle: "short"
+            });
+
+            data.appendChild(dataStrong);
+            data.appendChild(dataSpan);
             card.appendChild(data);
 
             const valor = document.createElement("p");
-            valor.textContent = "Valor Total: " + Number(pedido.valorTotal).toFixed(2);
+
+            const valorStrong = document.createElement("strong");
+            valorStrong.textContent = "Valor Total: ";
+
+            const valorSpan = document.createElement("span");
+            valorSpan.textContent = Number(pedido.valorTotal)
+                    .toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL"
+                    });
+
+            valor.appendChild(valorStrong);
+            valor.appendChild(valorSpan);
             card.appendChild(valor);
 
             const linkPedido = document.createElement("a");

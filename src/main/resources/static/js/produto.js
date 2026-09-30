@@ -3,6 +3,11 @@ const parametros = new URLSearchParams (window.location.search);
 const idProduto = parametros.get("id");
 const comprarButton = document.getElementById("comprarButton");
 
+const nome = document.getElementById("nomeProduto");
+const descricao = document.getElementById("descricaoProduto");
+const plataforma = document.getElementById("plataformaProduto");
+const valor = document.getElementById("valorProduto");
+
 async function carregarProduto() {
     if (!idProduto) {
         mensagemProduto.textContent = "Produto não informado."
@@ -19,15 +24,20 @@ async function carregarProduto() {
 
         const produto = await response.json();
 
-        document.getElementById("nomeProduto").textContent = produto.nome;
-        document.getElementById("descricaoProduto").textContent = produto.descricao;
-        document.getElementById("plataformaProduto").textContent = produto.plataforma;
-        document.getElementById("valorProduto").textContent = "R$ " + Number(produto.valor).toFixed(2);
+        nome.textContent = produto.nome;
+
+        descricao.textContent = produto.descricao;
+
+        plataforma.textContent = produto.plataforma;
+
+        valor.textContent = Number(produto.valor)
+            .toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL"
+            });
     } catch (erro) {
         console.error("Erro ao carregar o produto:", erro);
-
         mensagemProduto.textContent = "Não foi possível conectar ao servidor."
-
     }
 }
 

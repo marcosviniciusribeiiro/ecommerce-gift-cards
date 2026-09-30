@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedido | Gift Cards</title>
-
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
@@ -27,12 +26,12 @@
         </p>
 
         <p>
-            Status:
+            <strong>Status:</strong>
             <span id="status"></span>
         </p>
 
         <p>
-            Data do Pedido:
+            <strong>Data do Pedido:</strong>
             <span id="data"></span>
         </p>
 
@@ -42,6 +41,13 @@
         </p>
 
         <button id="cancelarButton">Cancelar Pedido</button>
+
+        <button id="codigoButton">Visualizar Código</button>
+
+        <p>
+            <strong id="codigoSpan" style="display: none">Código:</strong>
+            <span id="codigoGiftCard"></span>
+        </p>
 
         <p id="mensagemPedido"></p>
     </main>

@@ -30,7 +30,7 @@ formulario.addEventListener("submit", async function(event){
 
         window.location.href = "/login.html";
     } catch (erro){
-        console.erro("Erro ao conectar ao servidor:", erro);
+        console.error("Erro ao conectar ao servidor:", erro);
         mensagemCadastro.textContent = "Não foi possível conectar ao servidor.";
     }
 });

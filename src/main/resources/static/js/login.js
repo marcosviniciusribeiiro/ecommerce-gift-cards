@@ -19,14 +19,14 @@ formulario.addEventListener("submit", async function (event){
             })
         });
 
-        const data = await response.json();
+        const dados = await response.json();
 
         if (!response.ok){
-            mensagemLogin.textContent = data.mensagem || "Email ou senha incorretos.";
+            mensagemLogin.textContent = dados.mensagem || "Email ou senha incorretos.";
             return;
         }
 
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("token", dados.token);
         window.location.href = "/perfil.html";
     }catch (erro) {
         console.error("Erro ao conectar ao servidor: ", erro);

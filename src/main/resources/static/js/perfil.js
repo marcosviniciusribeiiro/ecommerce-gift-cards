@@ -5,6 +5,10 @@ if (!token) {
     window.location.href = "/login.html";
 }
 
+const nome =  document.getElementById("nome");
+const email = document.getElementById("email");
+const tipoUsuario = document.getElementById("tipoUsuario");
+
 async function carregarPerfil(){
     try{
         const response = await fetch("/api/usuarios/me", {
@@ -27,15 +31,12 @@ async function carregarPerfil(){
                 data.mensagem || "Não foi possível carregar o perfil.";
         }
 
-        document.getElementById("nome").textContent = "Nome: " + data.nome;
-        document.getElementById("email").textContent = data.email;
-        document.getElementById("tipoUsuario").textContent = data.tipoUsuario;
+        nome.textContent = data.nome;
+        email.textContent = data.email;
+        tipoUsuario.textContent = data.tipoUsuario;
 
     } catch (erro) {
-        console.error(
-            "Erro ao conectar ao servidor:",erro
-        );
-
+        console.error("Erro ao conectar ao servidor:",erro);
         mensagemPerfil.textContent = "Não foi possível conectar ao servidor.";
     }
 }
@@ -76,7 +77,7 @@ deleteButton.addEventListener("click", async function (event) {
         if (!response.ok){
             const data = response.json();
             mensagemPerfil.textContent =
-                data.mensagem || "Não foi possível atualizar o perfil.";
+                data.mensagem || "Não foi possível carregar o perfil.";
             return;
         }
     } catch (erro){
