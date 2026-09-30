@@ -31,17 +31,9 @@ public class PedidoController {
                 request.getIdProduto()
         );
 
-        PedidoResponse response = new PedidoResponse(
-                pedido.getId(),
-                request.getIdProduto(),
-                pedido.getStatus(),
-                pedido.getDataPedido(),
-                pedido.getValorTotal()
-        );
-
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(response);
+                .body(service.converterPedidoParaResponse(pedido));
     }
 
     @PutMapping("/{id}/confirmar")

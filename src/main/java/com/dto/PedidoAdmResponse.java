@@ -11,6 +11,7 @@ public class PedidoAdmResponse {
     private String nomeUsuario;
     private String emailUsuario;
     private Integer idProduto;
+    private String nomeProduto;
     private StatusPedido status;
     private LocalDateTime dataPedido;
     private BigDecimal valorTotal;
@@ -21,6 +22,7 @@ public class PedidoAdmResponse {
             String nomeUsuario,
             String emailUsuario,
             Integer idProduto,
+            String nomeProduto,
             StatusPedido status,
             LocalDateTime dataPedido,
             BigDecimal valorTotal
@@ -30,6 +32,7 @@ public class PedidoAdmResponse {
         this.nomeUsuario = nomeUsuario;
         this.emailUsuario = emailUsuario;
         this.idProduto = idProduto;
+        this.nomeProduto = nomeProduto;
         this.status = status;
         this.dataPedido = dataPedido;
         this.valorTotal = valorTotal;
@@ -54,6 +57,8 @@ public class PedidoAdmResponse {
     public Integer getIdProduto() {
         return idProduto;
     }
+
+    public String getNomeProduto() { return nomeProduto; }
 
     public StatusPedido getStatus() {
         return status;

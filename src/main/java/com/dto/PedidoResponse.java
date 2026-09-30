@@ -10,6 +10,8 @@ public class PedidoResponse {
 
     private Integer idProduto;
 
+    private String nomeProduto;
+
     private StatusPedido statusPedido;
 
     private LocalDateTime dataPedido;
@@ -19,12 +21,14 @@ public class PedidoResponse {
     public PedidoResponse(
             Integer id,
             Integer idProduto,
+            String nomeProduto,
             StatusPedido statusPedido,
             LocalDateTime dataPedido,
             BigDecimal valorTotal
     ) {
         this.id = id;
         this.idProduto = idProduto;
+        this.nomeProduto = nomeProduto;
         this.statusPedido = statusPedido;
         this.dataPedido = dataPedido;
         this.valorTotal = valorTotal;
@@ -36,6 +40,10 @@ public class PedidoResponse {
 
     public Integer getIdProduto() {
         return idProduto;
+    }
+
+    public String getNomeProduto() {
+        return nomeProduto;
     }
 
     public StatusPedido getStatusPedido() {
@@ -56,6 +64,10 @@ public class PedidoResponse {
 
     public void setIdProduto(Integer idProduto) {
         this.idProduto = idProduto;
+    }
+
+    public void setNomeProduto(String nomeProduto) {
+        this.nomeProduto = nomeProduto;
     }
 
     public void setStatusPedido(StatusPedido statusPedido) {
