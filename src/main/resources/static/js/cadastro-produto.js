@@ -1,7 +1,7 @@
 const formulario = document.getElementById("cadastroProdutoForm");
 const mensagemCadastro = document.getElementById("mensagemCadastro");
 const token = localStorage.getItem("token");
-alert(token);
+
 if (!token) {
     window.location.href = "/login.html";
 }
