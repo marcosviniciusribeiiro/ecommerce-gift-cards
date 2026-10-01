@@ -33,7 +33,7 @@ public class PedidoController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(service.converterPedidoParaResponse(pedido));
+                .body(service.converterParaPedidoResponse(pedido));
     }
 
     @PutMapping("/{id}/confirmar")

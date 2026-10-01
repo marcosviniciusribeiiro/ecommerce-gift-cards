@@ -16,7 +16,7 @@ public class ProdutoRequest {
     @Size(max = 255, message = "A descrição deve possuir no máximo 255 caracteres.")
     private String descricao;
 
-    @NotBlank(message = "A plataforma é obrigatória.")
+    @NotNull(message = "A plataforma é obrigatória.")
     private Plataforma plataforma;
 
     @NotNull(message = "O valor é obrigatório.")

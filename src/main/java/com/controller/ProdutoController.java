@@ -26,7 +26,7 @@ public class ProdutoController {
     ) {
         Produto produto = produtoService.cadastrar(request);
 
-        ProdutoResponse response = converterParaResponse(produto);
+        ProdutoResponse response = converterParaProdutoResponse(produto);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -38,7 +38,7 @@ public class ProdutoController {
         List<ProdutoResponse> produtos = produtoService
                 .listarTodos()
                 .stream()
-                .map(this::converterParaResponse)
+                .map(this::converterParaProdutoResponse)
                 .toList();
 
         return ResponseEntity.ok(produtos);
@@ -48,7 +48,7 @@ public class ProdutoController {
     public ResponseEntity<ProdutoResponse> buscarPorId(@PathVariable Integer id){
         Produto produto = produtoService.buscarPorId(id);
 
-        return ResponseEntity.ok(converterParaResponse(produto));
+        return ResponseEntity.ok(converterParaProdutoResponse(produto));
     }
 
     @PutMapping("/{id}")
@@ -58,7 +58,7 @@ public class ProdutoController {
     ){
         Produto produto = produtoService.atualizar(id, request);
 
-        return ResponseEntity.ok(converterParaResponse(produto));
+        return ResponseEntity.ok(converterParaProdutoResponse(produto));
     }
 
     @DeleteMapping("/{id}")
@@ -70,7 +70,7 @@ public class ProdutoController {
                 .build();
     }
 
-    private ProdutoResponse converterParaResponse(Produto produto){
+    private ProdutoResponse converterParaProdutoResponse(Produto produto){
         return new ProdutoResponse(
                 produto.getId(),
                 produto.getNome(),

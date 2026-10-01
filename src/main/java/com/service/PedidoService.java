@@ -110,7 +110,7 @@ public class PedidoService {
         return pedidoRepository
                 .findByUsuario(usuario)
                 .stream()
-                .map(this::converterPedidoParaResponse)
+                .map(this::converterParaPedidoResponse)
                 .toList();
     }
 
@@ -124,7 +124,7 @@ public class PedidoService {
         Pedido pedido = pedidoRepository.findByIdAndUsuario(id, usuario)
                 .orElseThrow(() -> new PedidoNotFoundException("Pedido não encontrado."));
 
-        return converterPedidoParaResponse(pedido);
+        return converterParaPedidoResponse(pedido);
     }
 
     public PedidoResponse cancelarPorId(
@@ -144,7 +144,7 @@ public class PedidoService {
         pedido.setStatus(StatusPedido.Cancelado);
         pedidoRepository.save(pedido);
 
-        return converterPedidoParaResponse(pedido);
+        return converterParaPedidoResponse(pedido);
     }
 
     public CodigoCompradoResponse buscarCodigoComprado(
@@ -186,7 +186,7 @@ public class PedidoService {
                 .toList();
     }
 
-    public PedidoResponse converterPedidoParaResponse(Pedido pedido) {
+    public PedidoResponse converterParaPedidoResponse(Pedido pedido) {
 
         ItemPedido itemPedido = itemPedidoRepository.findFirstByPedido(pedido)
                 .orElseThrow(() ->
