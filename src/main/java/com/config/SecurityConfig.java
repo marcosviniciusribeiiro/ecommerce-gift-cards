@@ -43,7 +43,10 @@ public class SecurityConfig {
                                 "/atualizar-conta.html", //autorização necessária
                                 "/meus-pedidos.html", //autorização necessária
                                 "/pedido.html", //autorização necessária
-                                "/admin-pedidos.html",
+                                "/admin-pedidos.html", //autorização necessária
+                                "/admin-produtos.html", //autorização necessária
+                                "/cadastro-produto.html", //autorização adm necessária
+                                "/atualizar-produto.html", //autorização adm necessária
                                 "/js/**",
                                 "/api/usuarios/cadastro",
                                 "/api/usuarios/login",
