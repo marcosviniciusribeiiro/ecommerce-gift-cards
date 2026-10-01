@@ -1,5 +1,6 @@
 const token = localStorage.getItem("token");
 const mensagemPerfil = document.getElementById("mensagemPerfil");
+const navPerfil = document.getElementById("navPerfil");
 
 if (!token) {
     window.location.href = "/login.html";
@@ -24,16 +25,41 @@ async function carregarPerfil(){
             return;
         }
 
-        const data = await response.json();
+        const dadosUsuario = await response.json();
 
         if (!response.ok){
             mensagemPerfil.textContent =
-                data.mensagem || "Não foi possível carregar o perfil.";
+                dadosUsuario.mensagem || "Não foi possível carregar o perfil.";
         }
 
-        nome.textContent = data.nome;
-        email.textContent = data.email;
-        tipoUsuario.textContent = data.tipoUsuario;
+        nome.textContent = dadosUsuario.nome;
+        email.textContent = dadosUsuario.email;
+        tipoUsuario.textContent = dadosUsuario.tipoUsuario;
+
+        if (dadosUsuario.tipoUsuario === "Administrador") {
+            const divAdmin = document.createElement("div");
+
+            const paragrafoProdutos = document.createElement("p");
+
+            const admProdutos = document.createElement("a");
+            admProdutos.textContent = "Gerenciar Produtos";
+            admProdutos.href = "/admin-produtos.html";
+
+            paragrafoProdutos.appendChild(admProdutos);
+
+            const paragrafoPedidos = document.createElement("p");
+
+            const admPedidos = document.createElement("a");
+            admPedidos.textContent = "Gerenciar Pedidos";
+            admPedidos.href = "/admin-pedidos.html";
+
+            paragrafoPedidos.appendChild(admPedidos);
+
+            divAdmin.appendChild(paragrafoProdutos);
+            divAdmin.appendChild(paragrafoPedidos);
+
+            navPerfil.appendChild(divAdmin);
+        }
 
     } catch (erro) {
         console.error("Erro ao conectar ao servidor:",erro);
