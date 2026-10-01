@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Produto | Gift Cards</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Cadastrar Produto</h1>
+
+        <nav>
+            <a href="/admin-produtos.html">Gerenciar Produtos</a>
+            <a href="/admin-pedidos.html">Gerenciar Pedidos</a>
+            <a href="/perfil.html">Perfil</a>
+        </nav>
+    </header>
+
+    <main>
+        <form id="cadastroProdutoForm">
+            <p>
+                <label for="nome">
+                    <strong>Nome:</strong>
+                </label>
+                <input type="text" id="nome" required>
+            </p>
+
+            <p>
+                <label for="descricao">
+                    <strong>Descrição:</strong>
+                    <input type="text" id="descricao" required>
+                </label>
+            </p>
+
+            <p>
+                <label for="plataforma">
+                    <strong>Plataforma:</strong>
+                </label>
+                <select id="plataforma" required>
+                    <option value="">Selecione</option>
+
+                    <option value="Steam">Steam</option>
+
+                    <option value="Xbox">Xbox</option>
+
+                    <option value="Playstation">Playstation</option>
+
+                    <option value="Nintendo">Nintendo</option>
+                </select>
+            </p>
+
+            <p>
+                <label for="valor">
+                    <strong>Valor:</strong>
+                </label>
+                <input type="number" id="valor" step="0.01" min="0.01" required>
+            </p>
+
+            <button type="submit">Cadastrar</button>
+        </form>
+
+        <p id="mensagemCadastro"></p>
+    </main>
+<script src="/js/cadastro-produto.js"></script>
+</body>
+</html>
