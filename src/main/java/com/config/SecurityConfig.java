@@ -39,6 +39,7 @@ public class SecurityConfig {
                                 "/login.html",
                                 "/cadastro.html",
                                 "/recuperar-senha.html",
+                                "/redefinir-senha.html",
                                 "/perfil.html", //autorização necessária
                                 "/atualizar-conta.html", //autorização necessária
                                 "/meus-pedidos.html", //autorização necessária
