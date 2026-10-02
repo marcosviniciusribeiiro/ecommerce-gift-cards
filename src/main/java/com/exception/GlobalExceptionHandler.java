@@ -184,4 +184,18 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.CONFLICT)
                 .body(error);
     }
+
+    @ExceptionHandler(ProdutoEmUsoException.class)
+    public ResponseEntity<ErrorResponse> produtoEmUsoConflict (
+            ProdutoEmUsoException exception
+    ) {
+        ErrorResponse erro = new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                exception.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(erro);
+    }
 }
