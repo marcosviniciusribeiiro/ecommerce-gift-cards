@@ -2,7 +2,10 @@ package com.service;
 
 import com.dto.ProdutoRequest;
 import com.exception.ProductNotFoundException;
+import com.exception.ProdutoEmUsoException;
 import com.model.Produto;
+import com.repository.CodigoGiftCardRepository;
+import com.repository.ItemPedidoRepository;
 import com.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +14,15 @@ import java.util.List;
 @Service
 public class ProdutoService {
     private final ProdutoRepository produtoRepository;
+    private final ItemPedidoRepository itemPedidoRepository;
+    private final CodigoGiftCardRepository codigoGiftCardRepository;
 
-    public ProdutoService(ProdutoRepository produtoRepository) {
+    public ProdutoService(ProdutoRepository produtoRepository,
+                          ItemPedidoRepository itemPedidoRepository,
+                          CodigoGiftCardRepository codigoGiftCardRepository) {
         this.produtoRepository = produtoRepository;
+        this.itemPedidoRepository = itemPedidoRepository;
+        this.codigoGiftCardRepository = codigoGiftCardRepository;
     }
 
     public Produto cadastrar(ProdutoRequest request) {
@@ -62,6 +71,10 @@ public class ProdutoService {
                         () -> new ProductNotFoundException("Produto não encontrado.")
                 );
 
+        if (itemPedidoRepository.existsByProduto(produto)
+                || codigoGiftCardRepository.existsByProduto(produto)){
+            throw new ProdutoEmUsoException("Não é possível excluir um produto com pedidos ou códigos associados.");
+        }
         produtoRepository.delete(produto);
     }
 }
