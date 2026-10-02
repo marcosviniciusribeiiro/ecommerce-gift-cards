@@ -20,4 +20,6 @@ public interface CodigoGiftCardRepository
     List<CodigoGiftCard> findByProdutoAndStatus(Produto produto, StatusCodigo status);
 
     long countByProdutoAndStatus(Produto produto, StatusCodigo status);
+
+    boolean existsByProduto(Produto produto);
 }
