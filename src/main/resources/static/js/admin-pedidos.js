@@ -27,7 +27,7 @@ async function carregarPedidos() {
 
         const pedidos = await response.json();
 
-        if (pedidos === 0) {
+        if (pedidos.length === 0) {
             mensagemPedidos.textContent = "Nenhum pedido encontrado.";
             return;
         }
@@ -58,6 +58,16 @@ async function carregarPedidos() {
 
             const statusSpan = document.createElement("span");
             statusSpan.textContent = pedido.status;
+
+            if (pedido.status === "Pago") {
+                statusSpan.classList.add("status-pago");
+
+            } else if (pedido.status === "Pendente") {
+                statusSpan.classList.add("status-pendente");
+
+            } else if (pedido.status === "Cancelado") {
+                statusSpan.classList.add("status-cancelado");
+            }
 
             status.appendChild(statusStrong);
             status.appendChild(statusSpan);
@@ -102,7 +112,7 @@ async function carregarPedidos() {
                 confirmarButton.addEventListener("click",function () {
                     confirmarPagamento(
                         pedido.idPedido,
-                        status,
+                        statusSpan,
                         confirmarButton
                     );
                 })
@@ -159,7 +169,10 @@ async function confirmarPagamento(
             return;
         }
 
-        elementoStatus.textContent = "Status: Pago";
+        elementoStatus.textContent = "Pago";
+        elementoStatus.classList.remove("status-pendente");
+        elementoStatus.classList.add("status-pago");
+
 
         botao.remove();
 
