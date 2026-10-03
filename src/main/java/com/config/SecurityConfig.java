@@ -49,6 +49,7 @@ public class SecurityConfig {
                                 "/cadastro-produto.html", //autorização adm necessária
                                 "/atualizar-produto.html", //autorização adm necessária
                                 "/js/**",
+                                "/css/**",
                                 "/api/usuarios/cadastro",
                                 "/api/usuarios/login",
                                 "/api/usuarios/recuperar-senha",
