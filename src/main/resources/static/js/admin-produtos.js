@@ -81,9 +81,12 @@ function exibirProdutos(produtos) {
         valor.appendChild(valorSpan);
         card.appendChild(valor);
 
+
         const linkEditar = document.createElement("a");
         linkEditar.textContent = "Editar";
         linkEditar.href = "/atualizar-produto.html?id=" + produto.id;
+
+
         card.appendChild(linkEditar);
 
         const excluirButton = document.createElement("button");
