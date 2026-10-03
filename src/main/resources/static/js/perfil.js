@@ -37,28 +37,18 @@ async function carregarPerfil(){
         tipoUsuario.textContent = dadosUsuario.tipoUsuario;
 
         if (dadosUsuario.tipoUsuario === "Administrador") {
-            const divAdmin = document.createElement("div");
-
-            const paragrafoProdutos = document.createElement("p");
 
             const admProdutos = document.createElement("a");
             admProdutos.textContent = "Gerenciar Produtos";
             admProdutos.href = "/admin-produtos.html";
 
-            paragrafoProdutos.appendChild(admProdutos);
-
-            const paragrafoPedidos = document.createElement("p");
 
             const admPedidos = document.createElement("a");
             admPedidos.textContent = "Gerenciar Pedidos";
             admPedidos.href = "/admin-pedidos.html";
 
-            paragrafoPedidos.appendChild(admPedidos);
-
-            divAdmin.appendChild(paragrafoProdutos);
-            divAdmin.appendChild(paragrafoPedidos);
-
-            navPerfil.appendChild(divAdmin);
+            navPerfil.appendChild(admProdutos);
+            navPerfil.appendChild(admPedidos);
         }
 
     } catch (erro) {
