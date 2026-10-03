@@ -51,10 +51,18 @@ async function carregarPedido() {
         pedido.textContent = "Pedido # " + dadosPedido.id;
         produto.textContent = dadosPedido.nomeProduto;
 
-        status.textContent = dadosPedido.statusPedido;
-        if (dadosPedido.statusPedido === "Pendente") {
+        const statusPedido = dadosPedido.statusPedido;
+
+        status.textContent = statusPedido;
+
+        if (statusPedido === "Pago") {
+            status.classList.add("status-pago");
+        }
+        else if (statusPedido === "Pendente") {
+            status.classList.add("status-pendente");
             cancelarButton.style.display = "block";
-        } else if (dadosPedido.statusPedido === "Pago") {
+        } else if (statusPedido === "Pago") {
+            status.classList.add("status-cancelado");
             codigoButton.style.display = "block";
         }
 
