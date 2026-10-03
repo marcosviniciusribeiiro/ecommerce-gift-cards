@@ -60,6 +60,16 @@ async function carregarPedidos() {
             const statusSpan = document.createElement("span");
             statusSpan.textContent = pedido.statusPedido;
 
+            if (pedido.statusPedido === "Pago") {
+                statusSpan.classList.add("status-pago");
+
+            } else if (pedido.statusPedido === "Pendente") {
+                statusSpan.classList.add("status-pendente");
+
+            } else if (pedido.statusPedido === "Cancelado") {
+                statusSpan.classList.add("status-cancelado");
+            }
+
             status.appendChild(statusStrong);
             status.appendChild(statusSpan);
             card.appendChild(status);
