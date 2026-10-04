@@ -20,13 +20,37 @@ formulario.addEventListener("submit", async function(event) {
         const dadosRecuperacao = await response.json();
 
         if (!response.ok) {
-            mensagemRecuperar.textContent = dadosRecuperacao.mensagem || "Usuário não encontrado.";
+            exibirMensagem(
+                mensagemRecuperar,
+                dadosRecuperacao.mensagem || "Usuário não encontrado.",
+                "erro"
+            );
             return;
         }
 
         window.location.href = "/redefinir-senha.html?token=" + encodeURIComponent(dadosRecuperacao.token);
     } catch (erro) {
         console.error("Erro ao enviar o formulário:", erro);
-        mensagemRecuperar.textContent = "Não foi possível conectar ao servidor."
+
+        exibirMensagem(
+            mensagemRecuperar,
+            "Não foi possível conectar ao servidor.",
+            "erro"
+        );
     }
 });
+
+function exibirMensagem(elemento, mensagem, tipo) {
+    elemento.textContent = mensagem;
+
+    elemento.classList.remove(
+        "mensagem-sucesso",
+        "mensagem-erro"
+    );
+
+    if (tipo === "sucesso") {
+        elemento.classList.add("mensagem-sucesso");
+    } else if (tipo === "erro") {
+        elemento.classList.add("mensagem-erro");
+    }
+}
