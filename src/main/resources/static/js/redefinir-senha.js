@@ -4,8 +4,11 @@ const parametros = new URLSearchParams(window.location.search);
 const token = parametros.get("token");
 
 if (!token) {
-    mensagemRedefinir.textContent =
-        "Token de recuperação não informado.";
+    exibirMensagem(
+        mensagemRedefinir,
+        "Token de recuperação não informado.",
+        "erro"
+    );
 }
 
 formulario.addEventListener("submit", async function(event){
@@ -19,7 +22,11 @@ formulario.addEventListener("submit", async function(event){
     const confirmarSenha = document.getElementById("confirmarSenha").value;
 
     if (novaSenha !== confirmarSenha){
-        mensagemRedefinir.textContent = "Os senhas informadas não são iguais.";
+        exibirMensagem(
+            mensagemRedefinir,
+            "Os senhas informadas não são iguais.",
+            "erro"
+        );
         return;
     }
 
@@ -38,11 +45,19 @@ formulario.addEventListener("submit", async function(event){
         if (!response.ok) {
             const erro = await response.json();
 
-            mensagemRedefinir.textContent = erro.mensagem || "Não foi possível redefinir a senha.";
+            exibirMensagem(
+                mensagemRedefinir,
+                erro.mensagem || "Não foi possível redefinir a senha.",
+                "erro"
+            );
             return;
         }
 
-        mensagemRedefinir.textContent = "Senha redefinida com sucesso!";
+        exibirMensagem(
+            mensagemRedefinir,
+            "Senha redefinida com sucesso!",
+            "sucesso"
+        );
 
         setTimeout(function () {
             window.location.href = "/login.html";
@@ -50,6 +65,26 @@ formulario.addEventListener("submit", async function(event){
 
     } catch (erro) {
         console.error("Erro ao redefinir senha:", erro);
-        mensagemRedefinir.textContent = "Não foi possível conectar ao servidor.";
+
+        exibirMensagem(
+            mensagemRedefinir,
+            "Não foi possível conectar ao servidor.",
+            "erro"
+        );
     }
 });
+
+function exibirMensagem(elemento, mensagem, tipo) {
+    elemento.textContent = mensagem;
+
+    elemento.classList.remove(
+        "mensagem-sucesso",
+        "mensagem-erro"
+    );
+
+    if (tipo === "sucesso") {
+        elemento.classList.add("mensagem-sucesso");
+    } else if (tipo === "erro") {
+        elemento.classList.add("mensagem-erro");
+    }
+}
