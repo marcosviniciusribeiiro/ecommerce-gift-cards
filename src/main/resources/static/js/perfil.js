@@ -28,8 +28,11 @@ async function carregarPerfil(){
         const dadosUsuario = await response.json();
 
         if (!response.ok){
-            mensagemPerfil.textContent =
-                dadosUsuario.mensagem || "Não foi possível carregar o perfil.";
+            exibirMensagem(
+                mensagemPerfil,
+                dadosUsuario.mensagem || "Não foi possível carregar o perfil.",
+                "erro"
+            );
         }
 
         nome.textContent = dadosUsuario.nome;
@@ -42,7 +45,6 @@ async function carregarPerfil(){
             admProdutos.textContent = "Gerenciar Produtos";
             admProdutos.href = "/admin-produtos.html";
 
-
             const admPedidos = document.createElement("a");
             admPedidos.textContent = "Gerenciar Pedidos";
             admPedidos.href = "/admin-pedidos.html";
@@ -50,10 +52,14 @@ async function carregarPerfil(){
             navPerfil.appendChild(admProdutos);
             navPerfil.appendChild(admPedidos);
         }
-
     } catch (erro) {
         console.error("Erro ao conectar ao servidor:",erro);
-        mensagemPerfil.textContent = "Não foi possível conectar ao servidor.";
+
+        exibirMensagem(
+            mensagemPerfil,
+            "Não foi possível conectar ao servidor.",
+            "erro"
+        );
     }
 }
 
@@ -92,13 +98,37 @@ deleteButton.addEventListener("click", async function (event) {
 
         if (!response.ok){
             const data = response.json();
-            mensagemPerfil.textContent =
-                data.mensagem || "Não foi possível carregar o perfil.";
+
+            exibirMensagem(
+                mensagemPerfil,
+                data.mensagem || "Não foi possível carregar o perfil.",
+                "erro"
+            );
             return;
         }
     } catch (erro){
         console.error("Erro ao conectar ao sistema.");
-        mensagemPerfil.textContent = "Não foi possível conectar ao servidor.";
+
+        exibirMensagem(
+            mensagemPerfil,
+            "Não foi possível conectar ao servidor.",
+            "erro"
+        );
     }
     window.location.href = "/login.html";
 });
+
+function exibirMensagem(elemento, mensagem, tipo) {
+    elemento.textContent = mensagem;
+
+    elemento.classList.remove(
+        "mensagem-sucesso",
+        "mensagem-erro"
+    );
+
+    if (tipo === "sucesso") {
+        elemento.classList.add("mensagem-sucesso");
+    } else if (tipo === "erro") {
+        elemento.classList.add("mensagem-erro");
+    }
+}
