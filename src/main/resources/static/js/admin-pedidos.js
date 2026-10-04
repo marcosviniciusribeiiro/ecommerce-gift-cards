@@ -16,19 +16,31 @@ async function carregarPedidos() {
         });
 
         if (response.status === 401 || response.status === 403) {
-            mensagemPedidos.textContent = "Você não possui permissão para acessar esta página.";
+            exibirMensagem(
+                mensagemPedidos,
+                "Você não possui permissão para acessar esta página.",
+                "erro"
+            );
             return;
         }
 
         if (!response.ok) {
-            mensagemPedidos.textContent = "Não foi possível carregar os pedidos.";
+            exibirMensagem(
+                mensagemPedidos,
+                "Não foi possível carregar os pedidos.",
+                "erro"
+            );
             return;
         }
 
         const pedidos = await response.json();
 
         if (pedidos.length === 0) {
-            mensagemPedidos.textContent = "Nenhum pedido encontrado.";
+            exibirMensagem(
+                mensagemPedidos,
+                "Nenhum pedido encontrado.",
+                "erro"
+            );
             return;
         }
 
@@ -124,7 +136,12 @@ async function carregarPedidos() {
 
     } catch (erro) {
         console.error("Erro ao carregar os pedidos:", erro);
-        mensagemPedidos.textContent = "Não foi possível conectar ao servidor.";
+
+        exibirMensagem(
+            mensagemPedidos,
+            "Não foi possível conectar ao servidor.",
+            "erro"
+        );
     }
 }
 
@@ -158,14 +175,22 @@ async function confirmarPagamento(
         }
 
         if (response.status === 403) {
-            mensagemPedidos.textContent =
-                "Você não possui permissão para confirmar pedidos.";
+            exibirMensagem(
+                mensagemPedidos,
+                "Você não possui permissão para confirmar pedidos.",
+                "erro"
+            );
             return;
         }
 
         if (!response.ok) {
             const erro = await response.json();
-            mensagemPedidos.textContent = erro.mensagem || "Não foi possível confirmar o pagamento.";
+
+            exibirMensagem(
+                mensagemPedidos,
+                erro.mensagem || "Não foi possível confirmar o pagamento.",
+                "erro"
+            );
             return;
         }
 
@@ -176,10 +201,34 @@ async function confirmarPagamento(
 
         botao.remove();
 
-        mensagemPedidos.textContent = "Pagamento confirmado com sucesso!";
+        exibirMensagem(
+            mensagemPedidos,
+            "Pagamento confirmado com sucesso!",
+            "sucesso"
+        )
 
     } catch (erro) {
         console.error("Erro ao confirmar pagamento:", erro);
-        mensagemPedidos.textContent = "Não foi possível conectar ao servidor.";
+
+        exibirMensagem(
+            mensagemPedidos,
+            "Não foi possível conectar ao servidor.",
+            "erro"
+        );
+    }
+}
+
+function exibirMensagem(elemento, mensagem, tipo) {
+    elemento.textContent = mensagem;
+
+    elemento.classList.remove(
+        "mensagem-sucesso",
+        "mensagem-erro"
+    );
+
+    if (tipo === "sucesso") {
+        elemento.classList.add("mensagem-sucesso");
+    } else if (tipo === "erro") {
+        elemento.classList.add("mensagem-erro");
     }
 }
