@@ -15,7 +15,11 @@ const valor = document.getElementById("valor");
 
 async function carregarProduto() {
     if (!idProduto) {
-        mensagemAtualizar.textContent = "Produto não informado.";
+        exibirMensagem(
+            mensagemAtualizar,
+            "Produto não informado.",
+            "erro"
+        );
         return;
     }
 
@@ -28,7 +32,11 @@ async function carregarProduto() {
         );
 
         if (!response.ok) {
-            mensagemAtualizar.textContent = "Não foi possível encontrar o produto.";
+            exibirMensagem(
+                mensagemAtualizar,
+                "Não foi possível encontrar o produto.",
+                "erro"
+            );
             return;
         }
 
@@ -41,7 +49,12 @@ async function carregarProduto() {
 
     } catch (erro) {
         console.error("Erro ao carregar produto:", erro);
-        mensagemAtualizar.textContent = "Não foi possível conectar ao servidor.";
+
+        exibirMensagem(
+            mensagemAtualizar,
+            "Não foi possível conectar ao servidor.",
+            "erro"
+        );
     }
 }
 
@@ -77,20 +90,53 @@ formulario.addEventListener("submit", async function (event){
         }
 
         if (response.status === 403) {
-            mensagemAtualizar.textContent = "Você não possui permissão para atualizar produtos.";
+            exibirMensagem(
+                mensagemAtualizar,
+                "Você não possui permissão para atualizar produtos.",
+                "erro"
+            );
             return;
         }
 
         if (!response.ok) {
             const erro = await response.json();
-            mensagemAtualizar.textContent = erro.mensagem || "Não foi possível atualizar o produto.";
+
+            exibirMensagem(
+                mensagemAtualizar,
+                erro.mensagem || "Não foi possível atualizar o produto.",
+                "erro"
+            );
             return;
         }
 
-        mensagemAtualizar.textContent = "Produto atualizado com sucesso!";
+        exibirMensagem(
+            mensagemAtualizar,
+            "Produto atualizado com sucesso!",
+            "sucesso"
+        );
 
     } catch (erro) {
         console.error("Erro ao atualizar o produto:", erro);
-        mensagemAtualizar.textContent = "Não foi possível conectar ao servidor."
+
+        exibirMensagem(
+            mensagemAtualizar,
+            "Não foi possível conectar ao servidor.",
+            "erro"
+        );
     }
 });
+
+function exibirMensagem(elemento, mensagem, tipo) {
+    elemento.textContent = mensagem;
+
+    elemento.classList.remove(
+        "mensagem-sucesso",
+        "mensagem-erro"
+    );
+
+    if (tipo === "sucesso") {
+        elemento.classList.add("mensagem-sucesso");
+    } else if (tipo === "erro") {
+        elemento.classList.add("mensagem-erro");
+    }
+}
