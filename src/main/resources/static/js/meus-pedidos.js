@@ -22,14 +22,22 @@ async function carregarPedidos() {
         }
 
         if (!response.ok) {
-            mensagemPedidos.textContent = "Não foi possível carregar os pedidos.";
+            exibirMensagem(
+                mensagemPedidos,
+                "Não foi possível carregar os pedidos.",
+                "erro"
+            );
             return;
         }
 
         const pedidos = await response.json();
 
         if (pedidos.length === 0) {
-            mensagemPedidos.textContent = "Você ainda não possui pedidos.";
+            exibirMensagem(
+                mensagemPedidos,
+                "Você ainda não possui pedidos.",
+                "erro"
+            );
             return;
         }
 
@@ -117,8 +125,28 @@ async function carregarPedidos() {
 
     } catch (erro) {
         console.error("Erro ao carregar os pedidos:", erro);
-        mensagemPedidos.textContent = "Não foi possível conectar ao servidor.";
+
+        exibirMensagem(
+            mensagemPedidos,
+            "Não foi possível conectar ao servidor.",
+            "erro"
+        );
     }
 }
 
 carregarPedidos();
+
+function exibirMensagem(elemento, mensagem, tipo) {
+    elemento.textContent = mensagem;
+
+    elemento.classList.remove(
+        "mensagem-sucesso",
+        "mensagem-erro"
+    );
+
+    if (tipo === "sucesso") {
+        elemento.classList.add("mensagem-sucesso");
+    } else if (tipo === "erro") {
+        elemento.classList.add("mensagem-erro");
+    }
+}
