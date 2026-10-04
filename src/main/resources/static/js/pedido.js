@@ -57,13 +57,14 @@ async function carregarPedido() {
 
         if (statusPedido === "Pago") {
             status.classList.add("status-pago");
+            codigoButton.style.display = "block";
         }
         else if (statusPedido === "Pendente") {
             status.classList.add("status-pendente");
+            cancelarButton.classList.add("btn-danger");
             cancelarButton.style.display = "block";
-        } else if (statusPedido === "Pago") {
+        } else if (statusPedido === "Cancelado") {
             status.classList.add("status-cancelado");
-            codigoButton.style.display = "block";
         }
 
         const dataPedido = new Date(dadosPedido.dataPedido);
