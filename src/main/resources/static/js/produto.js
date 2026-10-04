@@ -10,7 +10,11 @@ const valor = document.getElementById("valorProduto");
 
 async function carregarProduto() {
     if (!idProduto) {
-        mensagemProduto.textContent = "Produto não informado."
+        exibirMensagem(
+            mensagemProduto,
+            "Produto não informado.",
+            "erro"
+        );
         return;
     }
 
@@ -18,7 +22,11 @@ async function carregarProduto() {
         const response = await fetch("/api/produtos/" + idProduto);
 
         if (!response.ok) {
-            mensagemProduto.textContent = "Não foi possível encontrar o produto."
+            exibirMensagem(
+                mensagemProduto,
+                "Não foi possível encontrar o produto.",
+                "erro"
+            );
             return;
         }
 
@@ -35,9 +43,15 @@ async function carregarProduto() {
                 style: "currency",
                 currency: "BRL"
             });
+
     } catch (erro) {
         console.error("Erro ao carregar o produto:", erro);
-        mensagemProduto.textContent = "Não foi possível conectar ao servidor."
+
+        exibirMensagem(
+            mensagemProduto,
+            "Não foi possível conectar ao servidor.",
+            "erro"
+        )
     }
 }
 
@@ -72,13 +86,41 @@ comprarButton.addEventListener("click", async function (){
        const data = await response.json();
 
        if (!response.ok) {
-           mensagemProduto.textContent = data.mensagem || "Não foi possível realizar a compra.";
+           exibirMensagem(
+               mensagemProduto,
+               data.mensagem || "Não foi possível realizar a compra.",
+               "erro"
+           );
            return;
        }
-       console.log("Pedido criado:", data);
-       mensagemProduto.textContent = "Pedido criado com sucesso!";
+
+       exibirMensagem(
+           mensagemProduto,
+           "Pedido criado com sucesso!",
+           "sucesso"
+       );
    } catch (erro) {
        console.error("Erro ao realizar a compra:", erro);
-       mensagemProduto.textContent = "Não foi possível conectar ao servidor."
+
+       exibirMensagem(
+           mensagemProduto,
+           "Não foi possível conectar ao servidor.",
+           "erro"
+       );
    }
 });
+
+function exibirMensagem(elemento, mensagem, tipo) {
+    elemento.textContent = mensagem;
+
+    elemento.classList.remove(
+        "mensagem-sucesso",
+        "mensagem-erro"
+    );
+
+    if (tipo === "sucesso") {
+        elemento.classList.add("mensagem-sucesso");
+    } else if (tipo === "erro") {
+        elemento.classList.add("mensagem-erro");
+    }
+}
