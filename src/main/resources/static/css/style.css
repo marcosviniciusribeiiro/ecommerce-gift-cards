@@ -184,6 +184,7 @@ form button {
 }
 
 /*Catálogo de Produtos*/
+
 #listaProdutos {
     display: grid;
 
@@ -291,4 +292,103 @@ form button {
 .status-cancelado {
     color: #f87171;
     font-weight: 600;
+}
+
+/*Detalhes*/
+
+.detalhes {
+    max-width: 700px;
+
+    padding: 28px;
+
+    background-color: var(--cor-superficie);
+
+    border: 1px solid #3f3f46;
+    border-radius: 10px;
+}
+
+.detalhes h2 {
+    margin-bottom: 24px;
+
+    color: var(--cor-texto);
+}
+
+.detalhes p {
+    margin: 16px 0;
+
+    line-height: 1.5;
+}
+
+.detalhes button {
+    margin-top: 12px;
+}
+
+.link-button {
+    display: inline-block;
+
+    padding: 10px 18px;
+
+    border-radius: 6px;
+
+    background-color: var(--cor-destaque);
+    color: var(--cor-texto);
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition:
+            background-color 0.2s ease,
+            transform 0.2s ease;
+}
+
+.link-button:hover {
+    background-color: #6d28d9;
+    color: var(--cor-texto);
+}
+
+.link-button:active {
+    transform: scale(0.97);
+}
+
+.btn-danger {
+    background-color: #dc2626;
+}
+
+.btn-danger:hover {
+    background-color: #b91c1c;
+}
+
+/*Mensagens*/
+
+.mensagem {
+    display: none;
+
+    max-width: 700px;
+
+    margin-bottom: 20px;
+    padding: 12px 16px;
+
+    border-radius: 6px;
+
+    font-weight: 600;
+}
+
+.mensagem-sucesso {
+    display: block;
+
+    background-color: rgba(34, 197, 94, 0.12);
+    border: 1px solid #22c55e;
+
+    color: #4ade80;
+}
+
+.mensagem-erro {
+    display: block;
+
+    background-color: rgba(239, 68, 68, 0.12);
+    border: 1px solid #ef4444;
+
+    color: #f87171;
 }
