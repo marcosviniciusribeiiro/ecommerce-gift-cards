@@ -13,7 +13,11 @@ async function carregarProdutos() {
         });
 
         if (!response.ok) {
-            mensagemProdutos.textContent = "Não foi possível carregar os produtos.";
+            exibirMensagem(
+                mensagemProdutos,
+                "Não foi possível carregar os produtos.",
+                "erro"
+            );
             return;
         }
 
@@ -21,7 +25,12 @@ async function carregarProdutos() {
         exibirProdutos(produtos);
     } catch (erro) {
         console.error("Erro ao carregar os produtos:", erro);
-        mensagemProdutos.textContent = "Não foi possível conectar ao servidor.";
+
+        exibirMensagem(
+            mensagemProdutos,
+          "Não foi possível conectar ao servidor.",
+            "erro"
+        );
     }
 }
 
@@ -30,7 +39,11 @@ carregarProdutos();
 function exibirProdutos(produtos) {
 
     if (produtos.length === 0) {
-        mensagemProdutos.textContent = "Nenhum produto cadastrado.";
+        exibirMensagem(
+            mensagemProdutos,
+            "Nenhum produto cadastrado.",
+            "erro"
+        );
         return;
     }
 
@@ -132,22 +145,54 @@ async function excluirProduto(
         }
 
         if (response.status === 403) {
-            mensagemProdutos.textContent = "Você não possui permissão para excluir produtos.";
+            exibirMensagem(
+                mensagemProdutos,
+                "Você não possui permissão para excluir produtos.",
+                "erro"
+            )
             return;
         }
 
         if (!response.ok) {
             const erro = await response.json();
-            mensagemProdutos.textContent = erro.mensagem || "Não foi possível excluir o produto.";
+
+            exibirMensagem(
+                mensagemProdutos,
+                erro.mensagem || "Não foi possível excluir o produto.",
+                "erro"
+            );
             return;
         }
 
         card.remove();
 
-        mensagemProdutos.textContent = "Produto excluído com sucesso!";
-
+        exibirMensagem(
+            mensagemProdutos,
+            "Produto excluído com sucesso!",
+            "sucesso"
+        );
     } catch (erro) {
         console.error("Erro ao excluir o produto:", erro);
-        mensagemProdutos.textContent = "Não foi posível conectar ao servidor.";
+
+        exibirMensagem(
+            mensagemProdutos,
+            "Não foi posível conectar ao servidor.",
+            "erro"
+        );
+    }
+}
+
+function exibirMensagem(elemento, mensagem, tipo) {
+    elemento.textContent = mensagem;
+
+    elemento.classList.remove(
+        "mensagem-sucesso",
+        "mensagem-erro"
+    );
+
+    if (tipo === "sucesso") {
+        elemento.classList.add("mensagem-sucesso");
+    } else if (tipo === "erro") {
+        elemento.classList.add("mensagem-erro");
     }
 }
