@@ -23,7 +23,11 @@ const codigoSpan = document.getElementById("codigoSpan");
 
 async function carregarPedido() {
     if (!idPedido) {
-        mensagemPedido.textContent = "Pedido não informado.";
+        exibirMensagem(
+            mensagemPedido,
+            "Pedido não informado.",
+            "erro"
+        );
         return;
     }
 
@@ -42,7 +46,11 @@ async function carregarPedido() {
         }
 
         if (!response.ok) {
-            mensagemPedido.textContent = "Não foi possível encontrar o pedido";
+            exibirMensagem(
+                mensagemPedido,
+                "Não foi possível encontrar o pedido",
+                "erro"
+            );
             return;
         }
 
@@ -81,7 +89,12 @@ async function carregarPedido() {
 
     } catch (erro) {
         console.error("Erro ao carregar o pedido:", erro);
-        mensagemPedido.textContent = "Não foi possível conectar ao servidor.";
+
+        exibirMensagem(
+            mensagemPedido,
+            "Não foi possível conectar ao servidor.",
+            "erro"
+        );
     }
 }
 
@@ -108,19 +121,32 @@ cancelarButton.addEventListener("click", async function () {
 
         if (!response.ok) {
             const erro = await response.json();
-            mensagemPedido.textContent =
-                erro.mensagem || "Não foi possível cancelar o pedido.";
+
+            exibirMensagem(
+                mensagemPedido,
+                erro.mensagem || "Não foi possível cancelar o pedido.",
+                "erro"
+            );
             return;
         }
 
-        mensagemPedido.textContent = "Pedido cancelado com sucesso!";
+        exibirMensagem(
+            mensagemPedido,
+            "Pedido cancelado com sucesso!",
+            "sucesso"
+        );
 
         status.textContent = "Cancelado";
         cancelarButton.style.display = "none";
 
     } catch (erro) {
         console.error("Erro ao cancelar o pedido:", erro);
-        mensagemPedido.textContent = "Não foi possível conectar ao servidor.";
+
+        exibirMensagem(
+            mensagemPedido,
+            "Não foi possível conectar ao servidor.",
+            "erro"
+        );
     }
 });
 
@@ -144,13 +170,22 @@ codigoButton.addEventListener("click", async function () {
         }
 
         if (response.status === 403) {
-            mensagemPedido.textContent = "Você não possui acesso a este código.";
+            exibirMensagem(
+                mensagemPedido,
+                "Você não possui acesso a este código.",
+                "erro"
+            );
             return;
         }
 
         if (!response.ok) {
             const erro = await response.json();
-            mensagemPedido.textContent = erro.mensagem || "Não foi possível obter o código.";
+
+            exibirMensagem(
+                mensagemPedido,
+                erro.mensagem || "Não foi possível obter o código.",
+                "erro"
+            );
             return;
         }
 
@@ -162,6 +197,26 @@ codigoButton.addEventListener("click", async function () {
 
     } catch (erro) {
         console.error("Erro ao carregar o Gift Card:", erro);
-        mensagemPedido.textContent = "Não foi possível conectar ao servidor.";
+
+        exibirMensagem(
+            mensagemPedido,
+            "Não foi possível conectar ao servidor.",
+            "erro"
+        );
     }
 });
+
+function exibirMensagem(elemento, mensagem, tipo) {
+    elemento.textContent = mensagem;
+
+    elemento.classList.remove(
+        "mensagem-sucesso",
+        "mensagem-erro"
+    );
+
+    if (tipo === "sucesso") {
+        elemento.classList.add("mensagem-sucesso");
+    } else if (tipo === "erro") {
+        elemento.classList.add("mensagem-erro");
+    }
+}
