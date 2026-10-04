@@ -36,21 +36,55 @@ formulario.addEventListener("submit", async function (event) {
         }
 
         if (response.status === 403) {
-            mensagemCadastro.textContent = "Você não possui permissão para cadastrar produtos.";
+            exibirMensagem(
+                mensagemCadastro,
+                "Você não possui permissão para cadastrar produtos.",
+                "erro"
+            );
             return;
         }
 
         if (!response.ok) {
             const erro = await response.json();
-            mensagemCadastro.textContent = erro.mensagem || "Não foi possível cadastrar o produto.";
+
+            exibirMensagem(
+                mensagemCadastro,
+                erro.mensagem || "Não foi possível cadastrar o produto.",
+                "erro"
+            );
             return;
         }
 
-        mensagemCadastro.textContent = "Produto cadastrado com sucesso!";
+        exibirMensagem(
+            mensagemCadastro,
+            "Produto cadastrado com sucesso!",
+            "sucesso"
+        );
 
-        // formulario.reset();
+        formulario.reset();
+
     } catch (erro) {
         console.error("Erro ao cadastrar o produto:", erro);
-        mensagemCadastro.textContent = "Não foi possível conectar ao servidor.";
+
+        exibirMensagem(
+            mensagemCadastro,
+            "Não foi possível conectar ao servidor.",
+            "erro"
+        );
     }
-})
+});
+
+function exibirMensagem(elemento, mensagem, tipo) {
+    elemento.textContent = mensagem;
+
+    elemento.classList.remove(
+        "mensagem-sucesso",
+        "mensagem-erro"
+    );
+
+    if (tipo === "sucesso") {
+        elemento.classList.add("mensagem-sucesso");
+    } else if (tipo === "erro") {
+        elemento.classList.add("mensagem-erro");
+    }
+}
