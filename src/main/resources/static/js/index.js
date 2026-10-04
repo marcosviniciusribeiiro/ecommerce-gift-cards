@@ -8,7 +8,11 @@ async function carregarProdutos(){
         });
 
         if (!response.ok) {
-            mensagemProdutos.textContent = "Não foi possível carregar os produtos.";
+            exibirMensagem(
+                mensagemProdutos,
+                "Não foi possível carregar os produtos.",
+                "erro"
+            );
             return;
         }
 
@@ -70,8 +74,29 @@ async function carregarProdutos(){
         });
     } catch (erro) {
         console.error("Erro ao carregar os produtos:", erro);
-        mensagemProdutos.textContent = "Não foi possível conectar ao servidor.";
+
+        exibirMensagem(
+            mensagemProdutos,
+            "Não foi possível conectar ao servidor.",
+            "erro"
+        );
     }
 }
 
 carregarProdutos();
+
+
+function exibirMensagem(elemento, mensagem, tipo) {
+    elemento.textContent = mensagem;
+
+    elemento.classList.remove(
+        "mensagem-sucesso",
+        "mensagem-erro"
+    );
+
+    if (tipo === "sucesso") {
+        elemento.classList.add("mensagem-sucesso");
+    } else if (tipo === "erro") {
+        elemento.classList.add("mensagem-erro");
+    }
+}
