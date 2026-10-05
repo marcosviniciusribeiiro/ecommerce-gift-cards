@@ -85,6 +85,31 @@ VALUES
 (DEFAULT, 'Gift Card Playstation R$ 100', 'Gift card digital para Playstation', 'Playstation', 100),
 (DEFAULT, 'Gift Card Nintendo Switch R$ 100', 'Gift card digital para Nintendo Switch', 'Nintendo', 100);
 
+INSERT INTO tb_codigos_giftcard
+    (id_produto, id_item_pedido, codigo, status)
+VALUES
+(3, NULL, 'NS250-A7K9-P2MX', 'Disponivel'),
+(3, NULL, 'NS250-B4Q8-N6TZ', 'Disponivel'),
+(3, NULL, 'NS250-C9W3-R5JL', 'Disponivel'),
+(4, NULL, 'XB100-H2M8-K4QP', 'Disponivel'),
+(4, NULL, 'XB100-J7T3-V9LN', 'Disponivel'),
+(4, NULL, 'XB100-P5R2-W8KD', 'Disponivel'),
+(5, NULL, 'XB150-F8K3-M2TR', 'Disponivel'),
+(5, NULL, 'XB150-N4V7-Q9LP', 'Disponivel'),
+(5, NULL, 'XB150-W6J2-C5RX', 'Disponivel'),
+(6, NULL, 'NS050-D7M4-K8QP', 'Disponivel'),
+(6, NULL, 'NS050-H2R9-V5LT', 'Disponivel'),
+(6, NULL, 'NS050-P6X3-N4JW', 'Disponivel'),
+(7, NULL, 'PS050-A8F2-M7KQ', 'Disponivel'),
+(7, NULL, 'PS050-C5T9-R3VX', 'Disponivel'),
+(7, NULL, 'PS050-J4N6-W8LP', 'Disponivel'),
+(8, NULL, 'PS100-B7K3-X5MT', 'Disponivel'),
+(8, NULL, 'PS100-G9R2-N6QV', 'Disponivel'),
+(8, NULL, 'PS100-L4W8-P3JC', 'Disponivel'),
+(9, NULL, 'NS100-E6M2-K9TR', 'Disponivel'),
+(9, NULL, 'NS100-H4Q7-V3PX', 'Disponivel'),
+(9, NULL, 'NS100-N8J5-W2LC', 'Disponivel');
+
 SELECT * FROM tb_usuarios;
 SELECT * FROM tb_produtos;
 SELECT * FROM tb_pedidos;
