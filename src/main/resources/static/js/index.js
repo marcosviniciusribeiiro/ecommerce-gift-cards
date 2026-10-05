@@ -1,5 +1,11 @@
 const mensagemProdutos = document.getElementById("mensagemProdutos");
 const listaProdutos = document.getElementById("listaProdutos");
+const token = localStorage.getItem("token");
+const login = document.getElementById("login");
+
+if (token) {
+    login.style.display = "none";
+}
 
 async function carregarProdutos(){
     try {
