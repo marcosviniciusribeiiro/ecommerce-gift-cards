@@ -115,6 +115,9 @@ formulario.addEventListener("submit", async function (event){
             "sucesso"
         );
 
+        setTimeout(function () {
+            window.location.href = "/admin-produtos.html";
+        }, 1500);
     } catch (erro) {
         console.error("Erro ao atualizar o produto:", erro);
 
@@ -125,18 +128,3 @@ formulario.addEventListener("submit", async function (event){
         );
     }
 });
-
-function exibirMensagem(elemento, mensagem, tipo) {
-    elemento.textContent = mensagem;
-
-    elemento.classList.remove(
-        "mensagem-sucesso",
-        "mensagem-erro"
-    );
-
-    if (tipo === "sucesso") {
-        elemento.classList.add("mensagem-sucesso");
-    } else if (tipo === "erro") {
-        elemento.classList.add("mensagem-erro");
-    }
-}
