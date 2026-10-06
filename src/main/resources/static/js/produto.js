@@ -38,11 +38,7 @@ async function carregarProduto() {
 
         plataforma.textContent = produto.plataforma;
 
-        valor.textContent = Number(produto.valor)
-            .toLocaleString("pt-BR", {
-                style: "currency",
-                currency: "BRL"
-            });
+        valor.textContent = formatarMoeda(produto.valor)
 
     } catch (erro) {
         console.error("Erro ao carregar o produto:", erro);

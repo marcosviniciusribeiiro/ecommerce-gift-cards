@@ -61,11 +61,7 @@ async function carregarProdutos(){
             valorStrong.textContent = "Valor: ";
 
             const valorSpan = document.createElement("span");
-            valorSpan.textContent = Number(produto.valor)
-                   .toLocaleString("pt-BR", {
-                       style: "currency",
-                       currency: "BRL"
-                   });
+            valorSpan.textContent = formatarMoeda(produto.valor)
 
             valor.appendChild(valorStrong);
             valor.appendChild(valorSpan);

@@ -91,12 +91,7 @@ async function carregarPedidos() {
             dataStrong.textContent = "Data do Pedido: ";
 
             const dataSpan = document.createElement("span");
-
-            const dataPedido = new Date(pedido.dataPedido);
-            dataSpan.textContent = dataPedido.toLocaleString("pt-BR", {
-                dateStyle: "short",
-                timeStyle: "short"
-            });
+            dataSpan.textContent = formatarDataHora(pedido.dataPedido)
 
             data.appendChild(dataStrong);
             data.appendChild(dataSpan);
@@ -108,11 +103,7 @@ async function carregarPedidos() {
             valorStrong.textContent = "Valor Total: ";
 
             const valorSpan = document.createElement("span");
-            valorSpan.textContent = Number(pedido.valorTotal)
-                    .toLocaleString("pt-BR", {
-                        style: "currency",
-                        currency: "BRL"
-                    });
+            valorSpan.textContent = formatarMoeda(pedido.valorTotal)
 
             valor.appendChild(valorStrong);
             valor.appendChild(valorSpan);

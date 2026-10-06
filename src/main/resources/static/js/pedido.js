@@ -75,18 +75,9 @@ async function carregarPedido() {
             status.classList.add("status-cancelado");
         }
 
-        const dataPedido = new Date(dadosPedido.dataPedido);
-        data.textContent = dataPedido.toLocaleString("pt-BR", {
-            dateStyle: "short",
-            timeStyle: "short"
-        });
+        data.textContent = formatarDataHora(dadosPedido.dataPedido);
 
-        valor.textContent = Number(dadosPedido.valorTotal)
-            .toLocaleString("pt-BR", {
-                style: "currency",
-                currency: "BRL"
-            });
-
+        valor.textContent = formatarMoeda(dadosPedido.valorTotal);
     } catch (erro) {
         console.error("Erro ao carregar o pedido:", erro);
 
