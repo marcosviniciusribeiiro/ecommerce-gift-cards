@@ -10,6 +10,8 @@ CREATE TABLE tb_usuarios (
     tipo_usuario ENUM('Cliente', 'Administrador') NOT NULL DEFAULT 'Cliente',
     data_cadastro DATE NOT NULL
 );
+DESC tb_usuarios;
+SELECT * FROM tb_usuarios;
 
 CREATE TABLE tb_produtos(
 	id INT AUTO_INCREMENT PRIMARY KEY,
@@ -23,6 +25,8 @@ CREATE TABLE tb_produtos(
     ) NOT NULL,
     valor_produto DECIMAL(10,2) NOT NULL
 );
+DESC tb_produtos;
+SELECT * FROM tb_produtos;
 
 CREATE TABLE tb_pedidos(
 	id INT PRIMARY KEY AUTO_INCREMENT,
@@ -36,6 +40,8 @@ CREATE TABLE tb_pedidos(
     valor_total DECIMAL(10,2) NOT NULL,
     FOREIGN KEY(id_usuario) REFERENCES tb_usuarios(id)
 );
+DESC tb_pedidos;
+SELECT * FROM tb_pedidos;
 
 CREATE TABLE tb_itens_pedido(
 	id INT PRIMARY KEY AUTO_INCREMENT,
@@ -45,6 +51,8 @@ CREATE TABLE tb_itens_pedido(
     FOREIGN KEY(id_produto) REFERENCES tb_produtos(id),
     FOREIGN KEY(id_pedido) REFERENCES tb_pedidos(id)
 );
+DESC tb_itens_pedido;
+SELECT * FROM tb_itens_pedido;
 
 CREATE TABLE tb_codigos_giftcard(
 	id INT PRIMARY KEY AUTO_INCREMENT,
@@ -58,6 +66,8 @@ CREATE TABLE tb_codigos_giftcard(
     FOREIGN KEY(id_produto) REFERENCES tb_produtos(id),
     FOREIGN KEY(id_item_pedido) REFERENCES tb_itens_pedido(id)
 );
+DESC tb_codigos_giftcard;
+SELECT * FROM tb_codigos_giftcard;
 
 CREATE TABLE tb_tokens_recuperacao(
 	id INT PRIMARY KEY AUTO_INCREMENT,
@@ -70,6 +80,7 @@ CREATE TABLE tb_tokens_recuperacao(
 );
 
 DESC tb_tokens_recuperacao;
+SELECT * FROM tb_tokens_recuperacao;
 
 UPDATE tb_usuarios
 SET tipo_usuario = 'Administrador'
@@ -109,10 +120,3 @@ VALUES
 (9, NULL, 'NS100-E6M2-K9TR', 'Disponivel'),
 (9, NULL, 'NS100-H4Q7-V3PX', 'Disponivel'),
 (9, NULL, 'NS100-N8J5-W2LC', 'Disponivel');
-
-SELECT * FROM tb_usuarios;
-SELECT * FROM tb_produtos;
-SELECT * FROM tb_pedidos;
-SELECT * FROM tb_itens_pedido;
-SELECT * FROM tb_codigos_giftcard;
-SELECT * FROM tb_tokens_recuperacao;
