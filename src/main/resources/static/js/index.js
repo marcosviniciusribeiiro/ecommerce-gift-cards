@@ -1,6 +1,6 @@
 const mensagemProdutos = document.getElementById("mensagemProdutos");
 const listaProdutos = document.getElementById("listaProdutos");
-const token = localStorage.getItem("token");
+const token = obterToken();
 const login = document.getElementById("login");
 
 if (token) {
