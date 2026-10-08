@@ -54,12 +54,7 @@ async function carregarProduto() {
 carregarProduto();
 
 comprarButton.addEventListener("click", async function (){
-   const token = localStorage.getItem("token");
-
-   if (!token){
-       window.location.href = "/login.html";
-       return;
-   }
+   const token = exigirAutenticacao();
 
    try {
        const response = await fetch("/api/pedidos", {
