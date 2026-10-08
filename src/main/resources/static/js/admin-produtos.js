@@ -1,10 +1,6 @@
 const listaProdutos = document.getElementById("listaProdutos");
 const mensagemProdutos = document.getElementById("mensagemProdutos");
-const token = localStorage.getItem("token");
-
-if (!token) {
-    window.location.href = "/login.html";
-}
+const token = exigirAutenticacao();
 
 async function carregarProdutos() {
     try {
