@@ -1,6 +1,6 @@
 const formulario = document.getElementById("atualizarForm");
 const mensagemAtualizar = document.getElementById("mensagemAtualizar");
-const token = localStorage.getItem("token");
+const token = exigirAutenticacao();
 
 formulario.addEventListener("submit", async function (event) {
     event.preventDefault();
