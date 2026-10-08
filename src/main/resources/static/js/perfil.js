@@ -1,10 +1,6 @@
-const token = localStorage.getItem("token");
+const token = exigirAutenticacao();
 const mensagemPerfil = document.getElementById("mensagemPerfil");
 const navPerfil = document.getElementById("navPerfil");
-
-if (!token) {
-    window.location.href = "/login.html";
-}
 
 const nome =  document.getElementById("nome");
 const email = document.getElementById("email");
