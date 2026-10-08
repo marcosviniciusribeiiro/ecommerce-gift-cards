@@ -1,10 +1,6 @@
 const formulario = document.getElementById("cadastroProdutoForm");
 const mensagemCadastro = document.getElementById("mensagemCadastro");
-const token = localStorage.getItem("token");
-
-if (!token) {
-    window.location.href = "/login.html";
-}
+const token = exigirAutenticacao();
 
 formulario.addEventListener("submit", async function (event) {
     event.preventDefault();
