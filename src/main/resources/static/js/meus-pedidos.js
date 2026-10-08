@@ -1,10 +1,6 @@
 const listaPedidos = document.getElementById("listaPedidos");
 const mensagemPedidos = document.getElementById("mensagemPedidos");
-const token = localStorage.getItem("token");
-
-if (!token) {
-    window.location.href = "/login.html";
-}
+const token = exigirAutenticacao();
 
 async function carregarPedidos() {
     try {
