@@ -1,6 +1,6 @@
 const parametros = new URLSearchParams(window.location.search);
 const idPedido = parametros.get("id");
-const token = localStorage.getItem("token");
+const token = exigirAutenticacao();
 
 const mensagemPedido = document.getElementById("mensagemPedido");
 const codigoGiftCard = document.getElementById("codigoGiftCard");
@@ -8,11 +8,6 @@ const codigoButton = document.getElementById("codigoButton");
 const cancelarButton = document.getElementById("cancelarButton");
 codigoButton.style.display = "none";
 cancelarButton.style.display = "none";
-
-
-if (!token){
-    window.location.href = "/login.html"
-}
 
 const pedido = document.getElementById("pedido");
 const produto = document.getElementById("produto");
