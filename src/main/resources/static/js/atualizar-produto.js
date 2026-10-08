@@ -1,12 +1,8 @@
 const formulario = document.getElementById("atualizarProdutoForm");
-const token = localStorage.getItem("token");
+const token = exigirAutenticacao();
 const mensagemAtualizar = document.getElementById("mensagemAtualizar");
 const parametros = new URLSearchParams(window.location.search);
 const idProduto = parametros.get("id");
-
-if (!token) {
-    window.location.href = "/login.html";
-}
 
 const nome = document.getElementById("nome");
 const descricao = document.getElementById("descricao");
