@@ -154,19 +154,7 @@ async function confirmarPagamento(
                 }
             });
 
-        if (response.status === 401) {
-            localStorage.removeItem("token");
-            window.location.href =
-                "/login.html";
-            return;
-        }
-
-        if (response.status === 403) {
-            exibirMensagem(
-                mensagemPedidos,
-                "Você não possui permissão para confirmar pedidos.",
-                "erro"
-            );
+        if (tratarErroAutenticacao(response, mensagemPedidos)) {
             return;
         }
 
