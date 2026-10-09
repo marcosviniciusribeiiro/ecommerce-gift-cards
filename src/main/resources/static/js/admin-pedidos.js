@@ -182,7 +182,7 @@ async function confirmarPagamento(
         console.error("Erro ao confirmar pagamento:", erro);
 
         exibirMensagem(
-            mensagemPedidos,
+            mensagemPedido,
             "Não foi possível conectar ao servidor.",
             "erro"
         );

@@ -54,7 +54,6 @@ async function carregarProduto() {
 carregarProduto();
 
 comprarButton.addEventListener("click", async function (){
-   const token = exigirAutenticacao();
 
    try {
        const response = await fetchAutenticado("/api/pedidos", {
