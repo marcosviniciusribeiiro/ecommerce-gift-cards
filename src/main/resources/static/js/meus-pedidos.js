@@ -28,14 +28,7 @@ async function carregarPedidos() {
 
         const pedidos = await response.json();
 
-        if (pedidos.length === 0) {
-            exibirMensagem(
-                mensagemPedidos,
-                "Você ainda não possui pedidos.",
-                "erro"
-            );
-            return;
-        }
+        exibirMensagemLength(pedidos, mensagemPedidos, "Você ainda não possui pedidos.")
 
         pedidos.forEach(function (pedido) {
             const card = document.createElement("article");
