@@ -4,12 +4,7 @@ const token = exigirAutenticacao();
 
 async function carregarPedidos() {
     try {
-        const response = await fetch("/api/pedidos/me", {
-            method: "GET",
-            headers: {
-                "Authorization": "Bearer " + token
-            }
-        });
+        const response = await fetchAutenticado("/api/pedidos/me");
 
         if (response.status === 401 || response.status === 403) {
             localStorage.removeItem("token");

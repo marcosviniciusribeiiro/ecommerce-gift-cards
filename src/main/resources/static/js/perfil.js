@@ -8,12 +8,7 @@ const tipoUsuario = document.getElementById("tipoUsuario");
 
 async function carregarPerfil(){
     try{
-        const response = await fetch("/api/usuarios/me", {
-            method: "GET",
-            headers: {
-                "Authorization": "Bearer " + token
-            }
-        });
+        const response = await fetchAutenticado("/api/usuarios/me");
 
         if (response.status === 401 || response.status === 403) {
             localStorage.removeItem("token");
@@ -49,7 +44,7 @@ async function carregarPerfil(){
             navPerfil.appendChild(admPedidos);
         }
     } catch (erro) {
-        console.error("Erro ao conectar ao servidor:",erro);
+        console.error("Erro ao conectar ao servidor:", erro);
 
         exibirMensagem(
             mensagemPerfil,

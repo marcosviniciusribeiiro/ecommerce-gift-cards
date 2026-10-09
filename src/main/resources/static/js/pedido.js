@@ -27,12 +27,7 @@ async function carregarPedido() {
     }
 
     try {
-        const response = await fetch("/api/pedidos/me/" + idPedido, {
-            method: "GET",
-            headers: {
-                "Authorization": "Bearer " + token
-            }
-        });
+        const response = await fetchAutenticado("/api/pedidos/me/" + idPedido);
 
         if (response.status === 401 || response.status === 403) {
             localStorage.removeItem("token");
@@ -142,12 +137,7 @@ codigoButton.addEventListener("click", async function () {
     if (!confirmar) return;
 
     try {
-        const response = await fetch("/api/pedidos/me/" + idPedido + "/codigos", {
-            method: "GET",
-            headers: {
-                "Authorization": "Bearer " + token
-            }
-        });
+        const response = await fetchAutenticado("/api/pedidos/me/" + idPedido + "/codigos");
 
         if (tratarErroAutenticacao(response, mensagemPedido)) {
             return;

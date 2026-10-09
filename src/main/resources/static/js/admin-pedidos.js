@@ -4,12 +4,7 @@ const listaPedidos = document.getElementById("listaPedidos");
 
 async function carregarPedidos() {
     try {
-        const response = await fetch("/api/pedidos/all", {
-            method: "GET",
-            headers: {
-                "Authorization": "Bearer " + token
-            }
-        });
+        const response = await fetchAutenticado("/api/pedidos/all");
 
         if (response.status === 401 || response.status === 403) {
             exibirMensagem(
