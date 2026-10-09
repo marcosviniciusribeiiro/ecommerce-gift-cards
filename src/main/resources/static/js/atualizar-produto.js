@@ -79,18 +79,7 @@ formulario.addEventListener("submit", async function (event){
             })
         });
 
-        if (response.status === 401) {
-            localStorage.removeItem("token");
-            window.location.href = "/login.html";
-            return;
-        }
-
-        if (response.status === 403) {
-            exibirMensagem(
-                mensagemAtualizar,
-                "Você não possui permissão para atualizar produtos.",
-                "erro"
-            );
+        if (tratarErroAutenticacao(response, mensagemAtualizar)) {
             return;
         }
 
