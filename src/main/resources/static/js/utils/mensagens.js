@@ -13,13 +13,14 @@ function exibirMensagem(elemento, mensagem, tipo) {
     }
 }
 
-function exibirMensagemLength (elementoResponse, elementoMensagem, mensagem) {
+function exibirMensagemListaVazia (elementoResponse, elementoMensagem, mensagem) {
     if (elementoResponse.length === 0) {
         exibirMensagem(
             elementoMensagem,
             mensagem,
             "erro"
         );
+        return true;
     }
-    return true;
+    return false;
 }

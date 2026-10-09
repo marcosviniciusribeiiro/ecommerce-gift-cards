@@ -26,7 +26,12 @@ async function carregarPedidos() {
 
         const pedidos = await response.json();
 
-        exibirMensagemLength(pedidos, mensagemPedidos, "Nenhum pedido encontrado.");
+        if(exibirMensagemListaVazia(
+            pedidos,
+            mensagemPedidos,
+            "Nenhum pedido encontrado.")) {
+            return;
+        }
 
         pedidos.forEach(function (pedido) {
             const card = document.createElement("article");
@@ -96,15 +101,21 @@ async function carregarPedidos() {
             if (pedido.status === "Pendente") {
                 const confirmarButton = document.createElement("button");
                 confirmarButton.textContent = "Confirmar Pagamento";
-                confirmarButton.addEventListener("click",function () {
+                confirmarButton.addEventListener("click",() => {
                     confirmarPagamento(
                         pedido.idPedido,
                         statusSpan,
-                        confirmarButton
+                        confirmarButton,
+                        mensagemPedido
                     );
                 })
                 card.appendChild(confirmarButton);
             }
+
+            const mensagemPedido = document.createElement("p");
+            mensagemPedido.classList.add("mensagem");
+
+            card.appendChild(mensagemPedido);
 
             listaPedidos.appendChild(card);
         });
@@ -125,7 +136,8 @@ carregarPedidos();
 async function confirmarPagamento(
     idPedido,
     elementoStatus,
-    botao
+    botao,
+    elementoMensagem
 ) {
     const confirmar = confirm("Deseja confirmar o pagamento deste pedido?");
 
@@ -138,7 +150,7 @@ async function confirmarPagamento(
             method: "PUT"
         });
 
-        if (tratarErroAutenticacao(response, mensagemPedidos)) {
+        if (tratarErroAutenticacao(response, elementoMensagem)) {
             return;
         }
 
@@ -146,7 +158,7 @@ async function confirmarPagamento(
             const erro = await response.json();
 
             exibirMensagem(
-                mensagemPedidos,
+                elementoMensagem,
                 erro.mensagem || "Não foi possível confirmar o pagamento.",
                 "erro"
             );
@@ -161,7 +173,7 @@ async function confirmarPagamento(
         botao.remove();
 
         exibirMensagem(
-            mensagemPedidos,
+            elementoMensagem,
             "Pagamento confirmado com sucesso!",
             "sucesso"
         )

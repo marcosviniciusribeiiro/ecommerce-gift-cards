@@ -34,7 +34,12 @@ carregarProdutos();
 
 function exibirProdutos(produtos) {
 
-    exibirMensagemLength(produtos, mensagemProdutos, "Nenhum produto cadastrado.");
+    if (exibirMensagemListaVazia(
+        produtos,
+        mensagemProdutos,
+        "Nenhum produto cadastrado.")) {
+        return;
+    }
 
     produtos.forEach(function (produto) {
         const card = document.createElement("article");
@@ -93,15 +98,20 @@ function exibirProdutos(produtos) {
         excluirButton.classList.add("btn-danger");
         excluirButton.addEventListener(
             "click",
-            function () {
+            () => {
                 excluirProduto(
                     produto.id,
-                    card
+                    card,
+                    mensagemProduto
                 );
             }
         );
-
         card.appendChild(excluirButton);
+
+        const mensagemProduto = document.createElement("p");
+        mensagemProduto.classList.add("mensagem");
+
+        card.appendChild(mensagemProduto);
 
         listaProdutos.appendChild(card);
     });
@@ -109,7 +119,8 @@ function exibirProdutos(produtos) {
 
 async function excluirProduto(
     idProduto,
-    card
+    card,
+    mensagemProduto
 ){
     const confirmar = confirm("Deseja realmente excluir este produto?");
 
@@ -120,7 +131,7 @@ async function excluirProduto(
             method: "DELETE"
         });
 
-        if (tratarErroAutenticacao(response, mensagemProdutos)) {
+        if (tratarErroAutenticacao(response, mensagemProduto)) {
             return;
         }
 
@@ -128,20 +139,25 @@ async function excluirProduto(
             const erro = await response.json();
 
             exibirMensagem(
-                mensagemProdutos,
+                mensagemProduto,
                 erro.mensagem || "Não foi possível excluir o produto.",
                 "erro"
             );
             return;
         }
 
-        card.remove();
+        const mensagemSucesso = document.createElement("p");
+
+        card.after(mensagemSucesso);
 
         exibirMensagem(
-            mensagemProdutos,
+            mensagemSucesso,
             "Produto excluído com sucesso!",
             "sucesso"
         );
+
+        card.remove();
+
     } catch (erro) {
         console.error("Erro ao excluir o produto:", erro);
 

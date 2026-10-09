@@ -24,7 +24,12 @@ async function carregarProdutos(){
 
         const produtos = await response.json();
 
-        exibirMensagemLength(produtos, mensagemProdutos, "Nenhum produto cadastrado.");
+        if (exibirMensagemListaVazia(
+            produtos,
+            mensagemProdutos,
+            "Nenhum produto cadastrado.")) {
+            return;
+        }
 
         produtos.forEach(function (produto){
             const card = document.createElement("article");

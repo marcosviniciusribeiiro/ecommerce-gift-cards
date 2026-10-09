@@ -23,7 +23,12 @@ async function carregarPedidos() {
 
         const pedidos = await response.json();
 
-        exibirMensagemLength(pedidos, mensagemPedidos, "Você ainda não possui pedidos.")
+        if (exibirMensagemListaVazia(
+            pedidos,
+            mensagemPedidos,
+            "Você ainda não possui pedidos.")) {
+            return;
+        }
 
         pedidos.forEach(function (pedido) {
             const card = document.createElement("article");
