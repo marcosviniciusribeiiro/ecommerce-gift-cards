@@ -65,11 +65,10 @@ formulario.addEventListener("submit", async function (event){
     const valor = document.getElementById("valor").value;
 
     try {
-        const response = await fetch("/api/produtos/" + idProduto, {
+        const response = await fetchAutenticado("/api/produtos/" + idProduto, {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + token
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 nome: nome,

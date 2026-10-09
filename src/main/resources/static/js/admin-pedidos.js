@@ -134,13 +134,9 @@ async function confirmarPagamento(
     }
 
     try {
-        const response = await fetch(
-            "/api/pedidos/" + idPedido + "/confirmar", {
-                method: "PUT",
-                headers: {
-                    "Authorization": "Bearer " + token
-                }
-            });
+        const response = await fetchAutenticado("/api/pedidos/" + idPedido + "/confirmar", {
+            method: "PUT"
+        });
 
         if (tratarErroAutenticacao(response, mensagemPedidos)) {
             return;

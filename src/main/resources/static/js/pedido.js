@@ -87,11 +87,8 @@ cancelarButton.addEventListener("click", async function () {
     if (!confirmar) return;
 
     try {
-        const response = await fetch("/api/pedidos/me/" + idPedido + "/cancelar", {
+        const response = await fetchAutenticado("/api/pedidos/me/" + idPedido + "/cancelar", {
             method: "PUT",
-            headers: {
-                "Authorization": "Bearer " + token
-            }
         });
 
         if (response.status === 401 || response.status === 403) {

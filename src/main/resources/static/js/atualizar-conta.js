@@ -10,11 +10,10 @@ formulario.addEventListener("submit", async function (event) {
     const senha = document.getElementById("senha").value;
 
     try {
-        const response = await fetch("/api/usuarios/me", {
+        const response = await fetchAutenticado("/api/usuarios/me", {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + token
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 nome: nome,

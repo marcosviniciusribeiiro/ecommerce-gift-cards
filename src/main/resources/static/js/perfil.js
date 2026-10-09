@@ -80,11 +80,8 @@ deleteButton.addEventListener("click", async function (event) {
     }
 
     try {
-        const response = await fetch("/api/usuarios/me", {
-            method: "DELETE",
-            headers: {
-                "Authorization": "Bearer " + token
-            }
+        const response = await fetchAutenticado("/api/usuarios/me", {
+            method: "DELETE"
         });
 
         if (!response.ok){

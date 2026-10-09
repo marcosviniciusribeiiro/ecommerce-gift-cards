@@ -57,11 +57,10 @@ comprarButton.addEventListener("click", async function (){
    const token = exigirAutenticacao();
 
    try {
-       const response = await fetch("/api/pedidos", {
+       const response = await fetchAutenticado("/api/pedidos", {
            method: "POST",
            headers: {
-               "Content-Type": "application/json",
-               "Authorization": "Bearer " + token
+               "Content-Type": "application/json"
            },
            body: JSON.stringify({
                idProduto: Number(idProduto)

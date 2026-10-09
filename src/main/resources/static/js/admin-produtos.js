@@ -116,11 +116,8 @@ async function excluirProduto(
     if (!confirmar) return;
 
     try {
-        const response = await fetch("/api/produtos/" + idProduto, {
-            method: "DELETE",
-            headers: {
-                "Authorization": "Bearer " + token
-            }
+        const response = await fetchAutenticado("/api/produtos/" + idProduto, {
+            method: "DELETE"
         });
 
         if (tratarErroAutenticacao(response, mensagemProdutos)) {
@@ -150,7 +147,7 @@ async function excluirProduto(
 
         exibirMensagem(
             mensagemProdutos,
-            "Não foi posível conectar ao servidor.",
+            "Não foi possível conectar ao servidor.",
             "erro"
         );
     }
