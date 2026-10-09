@@ -130,18 +130,7 @@ async function excluirProduto(
             }
         });
 
-        if (response.status === 401) {
-            localStorage.removeItem("token");
-            window.location.href = "/login.html";
-            return;
-        }
-
-        if (response.status === 403) {
-            exibirMensagem(
-                mensagemProdutos,
-                "Você não possui permissão para excluir produtos.",
-                "erro"
-            )
+        if (tratarErroAutenticacao(response, mensagemProdutos)) {
             return;
         }
 
