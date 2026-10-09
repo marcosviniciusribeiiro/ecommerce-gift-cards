@@ -149,18 +149,7 @@ codigoButton.addEventListener("click", async function () {
             }
         });
 
-        if (response.status === 401) {
-            localStorage.removeItem("token");
-            window.location.href = "/login.html";
-            return;
-        }
-
-        if (response.status === 403) {
-            exibirMensagem(
-                mensagemPedido,
-                "Você não possui acesso a este código.",
-                "erro"
-            );
+        if (tratarErroAutenticacao(response, mensagemPedido)) {
             return;
         }
 
