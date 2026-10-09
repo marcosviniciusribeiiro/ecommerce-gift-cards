@@ -34,14 +34,7 @@ carregarProdutos();
 
 function exibirProdutos(produtos) {
 
-    if (produtos.length === 0) {
-        exibirMensagem(
-            mensagemProdutos,
-            "Nenhum produto cadastrado.",
-            "erro"
-        );
-        return;
-    }
+    exibirMensagemLength(produtos, mensagemProdutos, "Nenhum produto cadastrado.");
 
     produtos.forEach(function (produto) {
         const card = document.createElement("article");
