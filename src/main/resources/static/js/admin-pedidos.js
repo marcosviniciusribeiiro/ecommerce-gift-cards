@@ -31,14 +31,7 @@ async function carregarPedidos() {
 
         const pedidos = await response.json();
 
-        if (pedidos.length === 0) {
-            exibirMensagem(
-                mensagemPedidos,
-                "Nenhum pedido encontrado.",
-                "erro"
-            );
-            return;
-        }
+        exibirMensagemLength(pedidos, mensagemPedidos, "Nenhum pedido encontrado.");
 
         pedidos.forEach(function (pedido) {
             const card = document.createElement("article");
