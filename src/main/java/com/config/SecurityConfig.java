@@ -37,7 +37,7 @@ public class SecurityConfig {
                                 "/index.html",
                                 "/produto.html",
                                 "/login.html",
-                                "/cadastro.html",
+                                "/cadastrar.html",
                                 "/recuperar-senha.html",
                                 "/redefinir-senha.html",
                                 "/perfil.html", //autorização necessária
@@ -46,7 +46,7 @@ public class SecurityConfig {
                                 "/pedido.html", //autorização necessária
                                 "/admin-pedidos.html", //autorização necessária
                                 "/admin-produtos.html", //autorização necessária
-                                "/cadastro-produto.html", //autorização adm necessária
+                                "/cadastrar-produto.html", //autorização adm necessária
                                 "/atualizar-produto.html", //autorização adm necessária
                                 "/js/**",
                                 "/css/**",
