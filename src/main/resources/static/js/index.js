@@ -24,6 +24,8 @@ async function carregarProdutos(){
 
         const produtos = await response.json();
 
+        exibirMensagemLength(produtos, mensagemProdutos, "Nenhum produto cadastrado.");
+
         produtos.forEach(function (produto){
             const card = document.createElement("article");
 
