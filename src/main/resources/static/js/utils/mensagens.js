@@ -12,3 +12,14 @@ function exibirMensagem(elemento, mensagem, tipo) {
         elemento.classList.add("mensagem-erro");
     }
 }
+
+function exibirMensagemLength (elementoResponse, elementoMensagem, mensagem) {
+    if (elementoResponse.length === 0) {
+        exibirMensagem(
+            elementoMensagem,
+            mensagem,
+            "erro"
+        );
+    }
+    return true;
+}
