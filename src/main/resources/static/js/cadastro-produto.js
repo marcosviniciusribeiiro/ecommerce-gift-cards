@@ -25,18 +25,7 @@ formulario.addEventListener("submit", async function (event) {
             })
         });
 
-        if (response.status === 401) {
-            localStorage.removeItem("token");
-            window.location.href = "/login.html";
-            return;
-        }
-
-        if (response.status === 403) {
-            exibirMensagem(
-                mensagemCadastro,
-                "Você não possui permissão para cadastrar produtos.",
-                "erro"
-            );
+        if (tratarErroAutenticacao(response, mensagemCadastro)) {
             return;
         }
 
