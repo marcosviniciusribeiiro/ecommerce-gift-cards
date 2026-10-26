@@ -1,43 +1,44 @@
 const parametros = new URLSearchParams(window.location.search);
+
 const idCodigo = parametros.get("id");
 const idProduto = parametros.get("idProduto");
 
-alert("ok");
-
-const formAtualizarCodigo = document.getElementById("formAtualizarCodigo");
+const form = document.getElementById("formAtualizarCodigo");
 const campoCodigo = document.getElementById("codigo");
-const mensagemCodigo = document.getElementById("mensagemCodigo");;
+const mensagemCodigo = document.getElementById("mensagemCodigo");
 const voltarCodigos = document.getElementById("voltarCodigos");
 
 const token = exigirAutenticacao();
 
 if (idProduto) {
-    voltarCodigos.href = `/admin-codigos.html?id=${idProduto}`;
+    voltarCodigos.href =
+        `/admin-codigos.html?id=${idProduto}`;
 }
 
-async  function carregarCodigo() {
+async function carregarCodigo() {
     if (!token) return;
 
     if (!idCodigo) {
         exibirMensagem(
             mensagemCodigo,
-            "Código não informado",
+            "Código não informado.",
             "erro"
         );
-        formAtualizarCodigo.style.display = "none";
+        form.style.display = "none";
         return;
     }
 
     try {
-        const response = await fetchAutenticado(`/api/codigos/${idCodigo}`);
+        const response = await fetchAutenticado(
+            `/api/codigos/${idCodigo}`
+        );
 
         if (tratarErroAutenticacao(response, mensagemCodigo)) {
             return;
         }
 
         if (!response.ok) {
-            const erro = await response.json();
-            mensagemCodigo.textContent = erro.mensagem || "Não foi possível carregar o código.";
+            throw new Error("Não foi possível carregar o código.");
         }
 
         const codigo = await response.json();
@@ -49,24 +50,24 @@ async  function carregarCodigo() {
                 "erro"
             );
 
-            formAtualizarCodigo.style.display = "none";
+            form.style.display = "none";
             return;
         }
 
         campoCodigo.value = codigo.codigo;
 
     } catch (erro) {
-        console.error("Erro ao atualizar código:", erro);
+        console.error("Erro ao carregar código:", erro);
 
         exibirMensagem(
             mensagemCodigo,
-            "Não foi possível conectar ao servidor.",
+            "Não foi possível carregar o código.",
             "erro"
         );
     }
 }
 
-formAtualizarCodigo.addEventListener("submit", async function (event) {
+form.addEventListener("submit", async function (event) {
     event.preventDefault();
 
     if (!token || !idCodigo) return;
@@ -83,15 +84,18 @@ formAtualizarCodigo.addEventListener("submit", async function (event) {
     }
 
     try {
-        const response = fetchAutenticado(`/api/codigos/${idCodigo}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                codigo: novoCodigo
-            })
-        });
+        const response = await fetchAutenticado(
+            `/api/codigos/${idCodigo}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    codigo: novoCodigo
+                })
+            }
+        );
 
         if (tratarErroAutenticacao(response, mensagemCodigo)) {
             return;
@@ -113,6 +117,7 @@ formAtualizarCodigo.addEventListener("submit", async function (event) {
             "Código atualizado com sucesso!",
             "sucesso"
         );
+
     } catch (erro) {
         console.error("Erro ao atualizar código:", erro);
 
