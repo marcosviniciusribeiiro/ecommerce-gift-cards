@@ -46,8 +46,11 @@ public class SecurityConfig {
                                 "/pedido.html", //autorização necessária
                                 "/admin-pedidos.html", //autorização necessária
                                 "/admin-produtos.html", //autorização necessária
+                                "/admin-codigos.html", //autorização necessária
                                 "/cadastrar-produto.html", //autorização adm necessária
+                                "/cadastrar-codigo.html", //autorização adm necessária
                                 "/atualizar-produto.html", //autorização adm necessária
+                                "/atualizar-codigo.html", //autorização adm necessária
                                 "/js/**",
                                 "/css/**",
                                 "/api/usuarios/cadastro",
@@ -72,6 +75,12 @@ public class SecurityConfig {
                         .requestMatchers(
                                 HttpMethod.POST,
                                 "/api/codigos"
+                        ).hasRole("ADMINISTRADOR")
+
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/api/codigos",
+                                "/api/codigos/**"
                         ).hasRole("ADMINISTRADOR")
 
                         // Cadastro de produto - somente administrador
