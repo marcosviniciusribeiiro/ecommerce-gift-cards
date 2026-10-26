@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Atualizar Código | Gift Cards</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+    <h1>Atualizar Código | Gift Cards</h1>
+
+    <nav>
+        <a id="voltarCodigos" href="admin-produtos.html">Gerenciar Códigos</a>
+        <a href="admin-produtos.html">Gerenciar Produtos</a>
+        <a href="perfil.html">Perfil</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Atualizar Código Digital</h2>
+
+    <form id="formAtualizarCodigo">
+        <label for="codigo">Novo Código:</label>
+        <input type="text" id="codigo" required autocomplete="off">
+
+        <button type="submit">Atualizar</button>
+    </form>
+
+    <p id="mensagemCodigo" class="mensagem"></p>
+</main>
+
+<script src="/js/utils/mensagens.js"></script>
+<script src="/js/utils/autenticacao.js"></script>
+<script src="/js/utils/api.js"></script>
+<script src="/js/atualizar-codigo.js"></script>
+
+</body>
+</html>

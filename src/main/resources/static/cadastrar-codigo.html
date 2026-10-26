@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="pt_BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cadastrar Código | Gift Cards</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+    <h1>Cadastrar Código | Gift Cards</h1>
+
+    <nav>
+        <a href="admin-produtos.html">Gerenciar Produtos</a>
+        <a href="admin-pedidos.html">Gerenciar Pedidos</a>
+        <a href="perfil.html">Perfil</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Cadastrar Código Digital</h2>
+
+    <form id="formCodigo">
+        <label for="codigo">Código do Gift Card:</label>
+        <input type="text" id="codigo" name="codigo" required autocomplete="off">
+
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <p id="mensagemCodigo" class="mensagem"></p>
+</main>
+
+<script src="/js/utils/mensagens.js"></script>
+<script src="/js/utils/autenticacao.js"></script>
+<script src="/js/utils/api.js"></script>
+<script src="/js/cadastrar-codigo.js"></script>
+</body>
+</html>

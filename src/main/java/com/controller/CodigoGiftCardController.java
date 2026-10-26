@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.dto.AtualizarCodigoGiftCardRequest;
 import com.dto.CodigoGiftCardRequest;
 import com.dto.CodigoGiftCardResponse;
 import com.dto.EstoqueProdutoResponse;
@@ -90,6 +91,15 @@ public class CodigoGiftCardController {
                 .ok(
                         new EstoqueProdutoResponse(id, quantidade)
                 );
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CodigoGiftCardResponse> atualizar (
+            @PathVariable Integer id,
+            @Valid @RequestBody AtualizarCodigoGiftCardRequest request) {
+        CodigoGiftCard codigoAtualizado = codigoGiftCardService.atualizar(id, request.getCodigo());
+
+        return ResponseEntity.ok(converterParaResponse(codigoAtualizado));
     }
 
     public CodigoGiftCardResponse converterParaResponse(CodigoGiftCard codigo) {

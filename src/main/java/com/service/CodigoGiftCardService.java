@@ -1,5 +1,6 @@
 package com.service;
 
+import com.exception.CodeConflictException;
 import com.exception.CodeNotFoundException;
 import com.exception.ProductNotFoundException;
 import com.model.CodigoGiftCard;
@@ -107,5 +108,29 @@ public class CodigoGiftCardService {
                 );
 
         return codigoGiftCardRepository.countByProdutoAndStatus(produto, StatusCodigo.Disponivel);
+    }
+
+    public CodigoGiftCard atualizar(
+            Integer id,
+            String novoCodigo) {
+
+        CodigoGiftCard codigoGiftCard = codigoGiftCardRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> new CodeNotFoundException(
+                                "Código não encontrado."
+                        )
+                );
+
+        if (codigoGiftCard.getStatus() != StatusCodigo.Disponivel
+                || codigoGiftCard.getItemPedido() != null) {
+            throw new CodeConflictException(
+                    "Não é possível atualizar um código vendido ou associado a um pedido"
+            );
+        }
+
+        codigoGiftCard.setCodigo(novoCodigo);
+
+        return codigoGiftCardRepository.save(codigoGiftCard);
     }
 }

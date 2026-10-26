@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciar Códigos | Gift Cards</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+    <h1>Gerenciar Códigos | Gift Cards</h1>
+
+    <nav>
+        <a href="admin-produtos.html">Gerenciar Produtos</a>
+        <a href="admin-pedidos.html">Gerenciar Pedidos</a>
+        <a href="perfil.html">Perfil</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Códigos do Produto: <span id="produto"></span></h2>
+
+    <a id="linkCadastrarCodigo" class="link-button">Cadastrar Código</a>
+
+    <p id="mensagemCodigos" class="mensagem"></p>
+
+    <section id="listaCodigos"></section>
+</main>
+
+<script src="/js/utils/mensagens.js"></script>
+<script src="/js/utils/autenticacao.js"></script>
+<script src="/js/utils/api.js"></script>
+<script src="/js/admin-codigos.js"></script>
+
+</body>
+</html>

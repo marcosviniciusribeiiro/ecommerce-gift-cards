@@ -32,7 +32,7 @@ async function carregarProdutos() {
 
 carregarProdutos();
 
-function exibirProdutos(produtos) {
+async function exibirProdutos(produtos) {
 
     if (exibirMensagemListaVazia(
         produtos,
@@ -41,7 +41,7 @@ function exibirProdutos(produtos) {
         return;
     }
 
-    produtos.forEach(function (produto) {
+    for (const produto of produtos) {
         const card = document.createElement("article");
 
         const nome = document.createElement("h3");
@@ -84,6 +84,29 @@ function exibirProdutos(produtos) {
         valor.appendChild(valorSpan);
         card.appendChild(valor);
 
+        const estoque = document.createElement("p")
+        estoque.textContent = "Estoque: Carregando...";
+        card.appendChild(estoque);
+
+        try {
+            const dadosEstoque = await consultarEstoque(produto.id);
+
+            const qtd = dadosEstoque.quantidadeDisponivel;
+
+            if (qtd > 0) {
+                estoque.classList.add("estoque-disponivel");
+            } else {
+                estoque.classList.add("estoque-esgotado")
+            }
+
+            estoque.textContent = `Estoque: ${qtd} códigos disponíveis`;
+
+        } catch (erro) {
+            console.error("Erro ao consultar estoque:", erro);
+
+            estoque.classList.add("estoque-indisponivel");
+            estoque.textContent = "Estoque indisponível";
+        }
 
         const linkEditar = document.createElement("a");
         linkEditar.textContent = "Editar";
@@ -113,8 +136,15 @@ function exibirProdutos(produtos) {
 
         card.appendChild(mensagemProduto);
 
+        const linkCodigos = document.createElement("a");
+        linkCodigos.textContent = "Gerenciar Códigos";
+        linkCodigos.href = `/admin-codigos.html?id=${produto.id}`
+        linkCodigos.classList.add("link-button");
+
+        card.appendChild(linkCodigos);
+
         listaProdutos.appendChild(card);
-    });
+    }
 }
 
 async function excluirProduto(
@@ -167,4 +197,16 @@ async function excluirProduto(
             "erro"
         );
     }
+}
+
+async function consultarEstoque(idProduto) {
+    const response = await fetchAutenticado(
+        `/api/codigos/produto/${idProduto}/estoque`
+    );
+
+    if (!response.ok) {
+        throw new Error("Não foi possível consultar o estoque.");
+    }
+
+    return await response.json();
 }
