@@ -2,6 +2,7 @@ package com.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,10 @@ public class JwtService {
     public JwtService (
             @Value("${jwt.secret}") String secret
     ) {
-        this.chave = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        this.chave = Keys.hmacShaKeyFor(
+                Decoders.BASE64.decode(secret)
+//                secret.getBytes(StandardCharsets.UTF_8)
+        );
     }
 
     private Claims obterClaims(String token){
