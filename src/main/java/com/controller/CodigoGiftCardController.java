@@ -102,6 +102,12 @@ public class CodigoGiftCardController {
         return ResponseEntity.ok(converterParaResponse(codigoAtualizado));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar (@PathVariable Integer id){
+        codigoGiftCardService.deletar(id);
+
+        return ResponseEntity.notFound().build();
+    }
     public CodigoGiftCardResponse converterParaResponse(CodigoGiftCard codigo) {
         return new CodigoGiftCardResponse(
                 codigo.getId(),
