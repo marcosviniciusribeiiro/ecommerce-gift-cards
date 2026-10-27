@@ -29,6 +29,9 @@ async function carregarCodigos() {
     }
 
     const produto = await buscarProduto(idProduto);
+
+    if (!produto) return;
+
     spanProduto.textContent = produto.nome;
 
     try {
@@ -46,6 +49,7 @@ async function carregarCodigos() {
         }
 
         const codigos = await response.json();
+        listaCodigos.replaceChildren();
 
         if (exibirMensagemListaVazia(
             codigos,
@@ -88,6 +92,26 @@ async function carregarCodigos() {
                 linkEditar.classList.add("link-button");
 
                 card.appendChild(linkEditar);
+
+                const botaoExcluir = document.createElement("button");
+                botaoExcluir.textContent = "Excluir";
+                botaoExcluir.classList.add("btn-danger");
+
+                card.appendChild(botaoExcluir);
+
+                const mensagemCodigo = document.createElement("p");
+                mensagemCodigo.classList.add("mensagem");
+
+                card.appendChild(mensagemCodigo);
+
+                botaoExcluir.addEventListener("click", () => {
+                    excluirCodigo(
+                        codigo.id,
+                        card,
+                        mensagemCodigo
+                    )
+                })
+
             }
 
             listaCodigos.appendChild(card);
@@ -119,6 +143,58 @@ async function buscarProduto(idProduto) {
         exibirMensagem(
             mensagemCodigos,
             "Não foi possível conectar ao servidor.",
+            "erro"
+        );
+    }
+}
+
+async function excluirCodigo(idCodigo, card, mensagemCodigo) {
+    const confirmar = confirm("Deseja realmente excluir este código?");
+
+    if (!confirmar) return;
+
+    try {
+        const response = await fetchAutenticado(`/api/codigos/${idCodigo}`, {
+            method: "DELETE"
+        });
+
+        if (tratarErroAutenticacao(response, mensagemCodigo)) {
+            return;
+        }
+
+        if (!response.ok) {
+            const erro = await response.json();
+
+            exibirMensagem(
+                mensagemCodigo,
+                erro.mensagem || "Não foi possível excluir o código.",
+                "erro"
+            );
+            return;
+        }
+
+        listaCodigos
+            .querySelectorAll(".mensagem-listagem")
+            .forEach(elemento => elemento.remove());
+
+        const mensagemSucesso = document.createElement("p");
+        mensagemSucesso.classList.add("mensagem", "mensagem-listagem");
+
+        card.after(mensagemSucesso);
+
+        exibirMensagem(
+            mensagemSucesso,
+            "Código excluído com sucesso!",
+            "sucesso"
+        );
+
+        card.remove();
+    } catch (erro) {
+        console.error("Erro ao excluir código:", erro);
+
+        exibirMensagem(
+            mensagemCodigo,
+            "Não foi possível excluir o código.",
             "erro"
         );
     }
