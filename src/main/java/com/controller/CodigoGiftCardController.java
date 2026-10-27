@@ -106,7 +106,9 @@ public class CodigoGiftCardController {
     public ResponseEntity<Void> deletar (@PathVariable Integer id){
         codigoGiftCardService.deletar(id);
 
-        return ResponseEntity.notFound().build();
+        return ResponseEntity
+                .noContent()
+                .build();
     }
     public CodigoGiftCardResponse converterParaResponse(CodigoGiftCard codigo) {
         return new CodigoGiftCardResponse(
