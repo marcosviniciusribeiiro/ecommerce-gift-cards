@@ -118,6 +118,10 @@ form.addEventListener("submit", async function (event) {
             "sucesso"
         );
 
+        setTimeout(function () {
+            window.location.href = `/admin-codigos.html?id=${idProduto}`;
+        }, 1500);
+
     } catch (erro) {
         console.error("Erro ao atualizar código:", erro);
 
