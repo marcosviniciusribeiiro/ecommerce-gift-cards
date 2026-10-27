@@ -133,4 +133,21 @@ public class CodigoGiftCardService {
 
         return codigoGiftCardRepository.save(codigoGiftCard);
     }
+
+    public void deletar(Integer id) {
+        CodigoGiftCard codigoGiftCard = codigoGiftCardRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> new CodeNotFoundException("Código não encontrado.")
+                );
+
+        if (codigoGiftCard.getStatus() != StatusCodigo.Disponivel
+                || codigoGiftCard.getItemPedido() != null) {
+            throw new CodeConflictException(
+                    "Não é possível deletar um código vendido ou associado a um pedido"
+            );
+
+        }
+        codigoGiftCardRepository.deleteById(id);
+    }
 }
