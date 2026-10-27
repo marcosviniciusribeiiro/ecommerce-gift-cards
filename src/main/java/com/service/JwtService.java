@@ -20,7 +20,6 @@ public class JwtService {
     ) {
         this.chave = Keys.hmacShaKeyFor(
                 Decoders.BASE64.decode(secret)
-//                secret.getBytes(StandardCharsets.UTF_8)
         );
     }
 
