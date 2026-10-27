@@ -5,6 +5,10 @@ const token = exigirAutenticacao();
 const parametros = new URLSearchParams(window.location.search);
 const idProduto = parametros.get("id");
 
+if (idProduto) {
+    voltarCodigos.href = `/admin-codigos.html?id=${idProduto}`;
+}
+
 formCodigo.addEventListener("submit", async function (event) {
     event.preventDefault();
 
