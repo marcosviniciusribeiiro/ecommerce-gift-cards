@@ -198,4 +198,18 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.CONFLICT)
                 .body(erro);
     }
+
+    @ExceptionHandler(PedidoCarrinhoException.class)
+    public ResponseEntity<ErrorResponse> carrinhoVazioException (
+            PedidoCarrinhoException exception
+    ) {
+        ErrorResponse erro = new ErrorResponse(
+                HttpStatus.NOT_ACCEPTABLE.value(),
+                exception.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_ACCEPTABLE)
+                .body(erro);
+    }
 }
