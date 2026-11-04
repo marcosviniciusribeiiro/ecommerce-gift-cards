@@ -5,6 +5,7 @@
     --cor-texto: #f8fafc;
     --cor-texto-secundario: #cbd5e1;
     --cor-destaque: #6366f1;
+    --cor-borda: #3f3f46;
 }
 
 /* Configurações gerais */
@@ -43,17 +44,13 @@ p {
 
 header {
     background-color: var(--cor-superficie);
-
     padding: 24px 5%;
-
-    border-bottom: 1px solid #3f3f46;
+    border-bottom: 1px solid var(--cor-borda);
 }
 
 header h1 {
     max-width: 1200px;
-
     margin: 0 auto 20px;
-
     color: var(--cor-texto);
 }
 
@@ -63,14 +60,12 @@ nav {
 
     display: flex;
     align-items: center;
-
-    gap: 20px;
     flex-wrap: wrap;
+    gap: 20px;
 }
 
 nav a {
     color: var(--cor-texto-secundario);
-
     text-decoration: none;
     font-weight: 600;
 
@@ -81,9 +76,30 @@ nav a:hover {
     color: var(--cor-destaque);
 }
 
-/* Botões */
+/* Links gerais */
 
-button {
+a {
+    color: var(--cor-destaque);
+    text-decoration: none;
+    font-weight: 600;
+
+    transition:
+            color 0.2s ease,
+            opacity 0.2s ease;
+}
+
+a:hover {
+    color: #8b5cf6;
+}
+
+a:active {
+    opacity: 0.75;
+}
+
+/* Botões e links com aparência de botão */
+
+button,
+.link-button {
     padding: 10px 18px;
 
     border: none;
@@ -102,31 +118,36 @@ button {
             transform 0.2s ease;
 }
 
-button:hover {
-    background-color: #6d28d9;
+.link-button {
+    display: inline-block;
+    text-decoration: none;
 }
 
-button:active {
+button:hover,
+.link-button:hover {
+    background-color: #6d28d9;
+    color: var(--cor-texto);
+}
+
+button:active,
+.link-button:active {
     transform: scale(0.97);
 }
 
-a {
-    color: var(--cor-destaque);
-
-    text-decoration: none;
-    font-weight: 600;
-
-    transition:
-            color 0.2s ease,
-            opacity 0.2s ease;
+button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
 }
 
-a:hover {
-    color: #8b5cf6;
+/* Botões destrutivos */
+
+.btn-danger {
+    background-color: #dc2626;
 }
 
-a:active {
-    opacity: 0.75;
+.btn-danger:hover {
+    background-color: #b91c1c;
 }
 
 /* Formulários */
@@ -175,18 +196,19 @@ form button {
     margin-top: 8px;
 }
 
-/* Listagens de Produtos, Pedidos e Códigos */
+/* Listagens compartilhadas */
 
 #listaProdutos,
 #listaPedidos,
-#listaCodigos {
+#listaCodigos,
+#listaCarrinho {
     display: grid;
 
     gap: 24px;
     margin-top: 24px;
 }
 
-/* Quantidade e largura das colunas */
+/* Largura das colunas */
 
 #listaProdutos,
 #listaCodigos {
@@ -199,16 +221,22 @@ form button {
         repeat(auto-fit, minmax(300px, 1fr));
 }
 
-/* Estilização compartilhada dos cards */
+#listaCarrinho {
+    grid-template-columns:
+        repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* Cards compartilhados */
 
 #listaProdutos article,
 #listaPedidos article,
-#listaCodigos article {
+#listaCodigos article,
+#listaCarrinho article {
     padding: 24px;
 
     background-color: var(--cor-superficie);
 
-    border: 1px solid #3f3f46;
+    border: 1px solid var(--cor-borda);
     border-radius: 10px;
 }
 
@@ -216,7 +244,8 @@ form button {
 
 #listaProdutos article h3,
 #listaPedidos article h3,
-#listaCodigos article h3 {
+#listaCodigos article h3,
+#listaCarrinho article h3 {
     margin-bottom: 20px;
 
     color: var(--cor-texto);
@@ -227,9 +256,9 @@ form button {
 
 #listaProdutos article p,
 #listaPedidos article p,
-#listaCodigos article p {
+#listaCodigos article p,
+#listaCarrinho article p {
     margin: 12px 0;
-
     line-height: 1.5;
 }
 
@@ -237,29 +266,44 @@ form button {
 
 #listaProdutos article a,
 #listaPedidos article a,
-#listaCodigos article a {
+#listaCodigos article a,
+#listaCarrinho article a {
     display: inline-block;
-
     margin-top: 12px;
 }
 
-/* Efeito hover nos cards de produtos e códigos */
+/* Efeito hover nos cards */
 
 #listaProdutos article,
-#listaCodigos article {
+#listaCodigos article,
+#listaCarrinho article {
     transition:
             transform 0.2s ease,
             border-color 0.2s ease;
 }
 
 #listaProdutos article:hover,
-#listaCodigos article:hover {
+#listaCodigos article:hover,
+#listaCarrinho article:hover {
     transform: translateY(-4px);
-
     border-color: var(--cor-destaque);
 }
 
-/* Status dos Pedidos */
+/* Listagem de itens dos pedidos */
+
+#listaPedidos article ul {
+    padding-left: 20px;
+    margin: 8px 0 16px;
+
+    color: var(--cor-texto-secundario);
+}
+
+#listaPedidos article li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+/* Status dos pedidos */
 
 .status-pago {
     color: #4ade80;
@@ -276,7 +320,7 @@ form button {
     font-weight: 600;
 }
 
-/* Detalhes */
+/* Detalhes dos produtos e pedidos */
 
 .detalhes {
     max-width: 700px;
@@ -285,19 +329,17 @@ form button {
 
     background-color: var(--cor-superficie);
 
-    border: 1px solid #3f3f46;
+    border: 1px solid var(--cor-borda);
     border-radius: 10px;
 }
 
 .detalhes h2 {
     margin-bottom: 24px;
-
     color: var(--cor-texto);
 }
 
 .detalhes p {
     margin: 16px 0;
-
     line-height: 1.5;
 }
 
@@ -305,46 +347,40 @@ form button {
     margin-top: 12px;
 }
 
-/* Links com aparência de botão */
+/* Produtos e códigos adquiridos */
 
-.link-button {
-    display: inline-block;
+.grupo-produtos,
+.grupo-codigos {
+    padding-left: 0;
+    margin: 16px 0;
 
-    padding: 10px 18px;
+    color: var(--cor-texto-secundario);
+}
 
-    border-radius: 6px;
+#produto ul,
+#codigoGiftCard ul {
+    padding-left: 20px;
+    margin: 12px 0;
 
-    background-color: var(--cor-destaque);
-    color: var(--cor-texto);
+    color: var(--cor-texto-secundario);
+}
 
-    font-size: 14px;
+#produto li,
+#codigoGiftCard li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+#codigoGiftCard li {
+    overflow-wrap: anywhere;
+}
+
+#codigoGiftCard li span {
+    color: #4ade80;
     font-weight: 600;
-
-    text-decoration: none;
-
-    transition:
-            background-color 0.2s ease,
-            transform 0.2s ease;
 }
 
-.link-button:hover {
-    background-color: #6d28d9;
-    color: var(--cor-texto);
-}
-
-.link-button:active {
-    transform: scale(0.97);
-}
-
-.btn-danger {
-    background-color: #dc2626;
-}
-
-.btn-danger:hover {
-    background-color: #b91c1c;
-}
-
-/* Mensagens de sucesso e erro */
+/* Mensagens */
 
 .mensagem {
     display: none;
@@ -356,7 +392,6 @@ form button {
     padding: 12px;
 
     border-radius: 6px;
-
     font-weight: 600;
 }
 
@@ -365,7 +400,6 @@ form button {
 
     background-color: rgba(34, 197, 94, 0.12);
     border: 1px solid #22c55e;
-    padding: 12px;
 
     color: #4ade80;
 }
@@ -378,6 +412,8 @@ form button {
 
     color: #f87171;
 }
+
+/* Mensagens nas listagens */
 
 .mensagem-listagem {
     grid-column: 1 / -1;
@@ -399,6 +435,12 @@ form button {
 .estoque-indisponivel {
     color: #eccc00;
     font-weight: 600;
+}
+
+/* Resumo do carrinho */
+
+.resumo-carrinho {
+    margin-top: 24px;
 }
 
 /* Responsividade */
@@ -423,17 +465,21 @@ form button {
         padding: 24px;
     }
 
-    /* Listagens em coluna única */
+    /* Todas as listagens em coluna única */
 
     #listaProdutos,
     #listaPedidos,
-    #listaCodigos {
+    #listaCodigos,
+    #listaCarrinho {
         grid-template-columns: minmax(0, 1fr);
     }
 
+    /* Reduz o padding dos cards */
+
     #listaProdutos article,
     #listaPedidos article,
-    #listaCodigos article {
+    #listaCodigos article,
+    #listaCarrinho article {
         padding: 20px;
     }
 
@@ -451,4 +497,25 @@ form button {
         width: 100%;
         max-width: 100%;
     }
+}
+
+/* Controles do Carrinho */
+
+.controles-carrinho {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.controles-carrinho button {
+    min-width: 40px;
+}
+
+.controles-carrinho button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
 }
