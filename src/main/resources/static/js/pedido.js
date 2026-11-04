@@ -17,6 +17,9 @@ const valor = document.getElementById("valor");
 const codigoSpan = document.getElementById("codigoSpan");
 
 async function carregarPedido() {
+
+    if (!token) return;
+
     if (!idPedido) {
         exibirMensagem(
             mensagemPedido,
@@ -27,11 +30,9 @@ async function carregarPedido() {
     }
 
     try {
-        const response = await fetchAutenticado("/api/pedidos/me/" + idPedido);
+        const response = await fetchAutenticado(`/api/pedidos/me/${idPedido}`);
 
-        if (response.status === 401 || response.status === 403) {
-            localStorage.removeItem("token");
-            window.location.href = "/login";
+        if (tratarErroAutenticacao(response, mensagemPedido)) {
             return;
         }
 
@@ -47,7 +48,20 @@ async function carregarPedido() {
         const dadosPedido = await response.json();
 
         pedido.textContent = "Pedido # " + dadosPedido.id;
-        produto.textContent = dadosPedido.nomeProduto;
+
+        produto.replaceChildren();
+
+        const listaProdutos = document.createElement("ul");
+
+        dadosPedido.itens.forEach(function (item) {
+            const elementoItem = document.createElement("li");
+
+            elementoItem.textContent = `${item.nomeProduto} — ${formatarMoeda(item.valorUnitario)}`;
+
+            listaProdutos.appendChild(elementoItem);
+        });
+
+        produto.appendChild(listaProdutos);
 
         const statusPedido = dadosPedido.statusPedido;
 
@@ -87,13 +101,11 @@ cancelarButton.addEventListener("click", async function () {
     if (!confirmar) return;
 
     try {
-        const response = await fetchAutenticado("/api/pedidos/me/" + idPedido + "/cancelar", {
+        const response = await fetchAutenticado(`/api/pedidos/me/${idPedido}/cancelar`, {
             method: "PUT",
         });
 
-        if (response.status === 401 || response.status === 403) {
-            localStorage.removeItem("token");
-            window.location.href = "/login.html";
+        if (tratarErroAutenticacao(response, mensagemPedido)) {
             return;
         }
 
@@ -115,6 +127,10 @@ cancelarButton.addEventListener("click", async function () {
         );
 
         status.textContent = "Cancelado";
+
+        status.classList.remove("status-pendente");
+        status.classList.add("status-cancelado");
+
         cancelarButton.style.display = "none";
 
     } catch (erro) {
@@ -134,7 +150,7 @@ codigoButton.addEventListener("click", async function () {
     if (!confirmar) return;
 
     try {
-        const response = await fetchAutenticado("/api/pedidos/me/" + idPedido + "/codigos");
+        const response = await fetchAutenticado(`/api/pedidos/me/${idPedido}/codigos`);
 
         if (tratarErroAutenticacao(response, mensagemPedido)) {
             return;
@@ -151,10 +167,29 @@ codigoButton.addEventListener("click", async function () {
             return;
         }
 
-        const dadosCodigo = await  response.json();
+        const dadosCodigo = await response.json();
+
+        codigoGiftCard.replaceChildren();
+
+        const listaCodigos = document.createElement("ul");
+
+        dadosCodigo.itens.forEach(function (item) {
+            const elementoItem = document.createElement("li");
+
+            const nomeProduto = document.createElement("strong");
+            nomeProduto.textContent = `${item.nomeProduto}: `;
+            elementoItem.appendChild(nomeProduto);
+
+            const valorCodigo = document.createElement("span");
+            valorCodigo.textContent = item.codigo;
+            elementoItem.appendChild(valorCodigo);
+
+            listaCodigos.appendChild(elementoItem);
+        });
+
+        codigoGiftCard.appendChild(listaCodigos);
 
         codigoSpan.style.display = "block";
-        codigoGiftCard.textContent = dadosCodigo.codigo;
         codigoButton.style.display = "none";
 
     } catch (erro) {

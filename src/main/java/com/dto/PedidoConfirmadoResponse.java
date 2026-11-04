@@ -3,23 +3,24 @@ package com.dto;
 import com.model.StatusPedido;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class PedidoConfirmadoResponse {
     private Integer idPedido;
     private StatusPedido status;
     private BigDecimal valorTotal;
-    private String codigoGiftCard;
+    private List<Integer> idsCodigos;
 
     public PedidoConfirmadoResponse(
             Integer idPedido,
             StatusPedido status,
             BigDecimal valorTotal,
-            String codigoGiftCard
+            List<Integer> idsCodigos
     ) {
         this.idPedido = idPedido;
         this.status = status;
         this.valorTotal = valorTotal;
-        this.codigoGiftCard = codigoGiftCard;
+        this.idsCodigos = idsCodigos;
     }
 
     public Integer getIdPedido() {
@@ -34,7 +35,7 @@ public class PedidoConfirmadoResponse {
         return valorTotal;
     }
 
-    public String getCodigoGiftCard() {
-        return codigoGiftCard;
+    public List<Integer> getIdsCodigos() {
+        return idsCodigos;
     }
 }

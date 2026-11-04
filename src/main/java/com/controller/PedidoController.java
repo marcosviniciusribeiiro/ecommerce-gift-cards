@@ -36,6 +36,26 @@ public class PedidoController {
                 .body(service.converterParaPedidoResponse(pedido));
     }
 
+    @PostMapping("/carrinho")
+    public ResponseEntity<PedidoCriadoResponse> criarPedidoCarrinho (
+            @Valid @RequestBody CriarPedidoCarrinhoRequest request,
+            Authentication authentication) {
+        Pedido pedido = service.criarPedidoCarrinho(
+                authentication.getName(),
+                request
+        );
+
+        PedidoCriadoResponse resposta = new PedidoCriadoResponse(
+                pedido.getId(),
+                pedido.getStatus(),
+                pedido.getValorTotal()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(resposta);
+    }
+
     @PutMapping("/{id}/confirmar")
     public ResponseEntity<PedidoConfirmadoResponse> confirmarPedido(@PathVariable Integer id) {
         PedidoConfirmadoResponse response = service.confirmarPedido(id);

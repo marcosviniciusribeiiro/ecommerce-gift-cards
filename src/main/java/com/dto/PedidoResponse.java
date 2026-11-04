@@ -4,31 +4,24 @@ import com.model.StatusPedido;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class PedidoResponse {
     private Integer id;
-
-    private Integer idProduto;
-
-    private String nomeProduto;
-
+    private List<ItemPedidoResponse> itens;
     private StatusPedido statusPedido;
-
     private LocalDateTime dataPedido;
-
     private BigDecimal valorTotal;
 
     public PedidoResponse(
             Integer id,
-            Integer idProduto,
-            String nomeProduto,
+            List<ItemPedidoResponse> itens,
             StatusPedido statusPedido,
             LocalDateTime dataPedido,
             BigDecimal valorTotal
     ) {
         this.id = id;
-        this.idProduto = idProduto;
-        this.nomeProduto = nomeProduto;
+        this.itens = itens;
         this.statusPedido = statusPedido;
         this.dataPedido = dataPedido;
         this.valorTotal = valorTotal;
@@ -38,44 +31,36 @@ public class PedidoResponse {
         return id;
     }
 
-    public Integer getIdProduto() {
-        return idProduto;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getNomeProduto() {
-        return nomeProduto;
+    public List<ItemPedidoResponse> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemPedidoResponse> itens) {
+        this.itens = itens;
     }
 
     public StatusPedido getStatusPedido() {
         return statusPedido;
     }
 
-    public LocalDateTime getDataPedido() {
-        return dataPedido;
-    }
-
-    public BigDecimal getValorTotal() {
-        return valorTotal;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setIdProduto(Integer idProduto) {
-        this.idProduto = idProduto;
-    }
-
-    public void setNomeProduto(String nomeProduto) {
-        this.nomeProduto = nomeProduto;
-    }
-
     public void setStatusPedido(StatusPedido statusPedido) {
         this.statusPedido = statusPedido;
     }
 
+    public LocalDateTime getDataPedido() {
+        return dataPedido;
+    }
+
     public void setDataPedido(LocalDateTime dataPedido) {
         this.dataPedido = dataPedido;
+    }
+
+    public BigDecimal getValorTotal() {
+        return valorTotal;
     }
 
     public void setValorTotal(BigDecimal valorTotal) {

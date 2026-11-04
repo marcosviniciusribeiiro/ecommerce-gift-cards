@@ -19,10 +19,11 @@
 <main>
     <section class="detalhes">
         <h2 id="pedido"></h2>
-        <p>
-            <strong>Produto:</strong>
-            <span id="produto"></span>
-        </p>
+
+        <div class="grupo-produtos">
+            <strong>Produto(s):</strong>
+            <div id="produto"></div>
+        </div>
 
         <p>
             <strong>Status:</strong>
@@ -40,12 +41,12 @@
         </p>
 
         <button id="cancelarButton">Cancelar Pedido</button>
-        <button id="codigoButton">Visualizar Código</button>
+        <button id="codigoButton">Visualizar Código(s)</button>
 
-        <p>
-            <strong id="codigoSpan" style="display: none">Código:</strong>
-            <span id="codigoGiftCard"></span>
-        </p>
+        <div id="codigoSpan" class="grupo-codigos" style="display: none">
+            <strong>Código(s) adquirido(s):</strong>
+            <div id="codigoGiftCard"></div>
+        </div>
 
         <p id="mensagemPedido" class="mensagem"></p>
     </section>

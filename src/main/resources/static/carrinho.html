@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrinho de Compras | Gift Cards</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+    <h1>Carrinho de Compras | Gift Cards</h1>
+    <nav>
+        <a href="/index.html">Lista de Produtos</a>
+        <a href="/meus-pedidos.html">Meus Pedidos</a>
+        <a href="/perfil.html">Perfil</a>
+    </nav>
+</header>
+<main>
+    <h2>Meu Carrinho</h2>
+
+    <section id="listaCarrinho"></section>
+
+    <div class="resumo-carrinho">
+        <p>
+            <strong>Valor Total:</strong>
+            <span id="valorTotal">R$ 0,00</span>
+        </p>
+
+        <button id="finalizarButton">Finalizar Pedido</button>
+
+        <a id="linkPedidoCriado" class="link-button" style="display: none">Visualizar Pedido</a>
+    </div>
+
+    <p id="mensagemCarrinho" class="mensagem"></p>
+</main>
+
+<script src="/js/utils/mensagens.js"></script>
+<script src="/js/utils/formatadores.js"></script>
+<script src="/js/utils/autenticacao.js"></script>
+<script src="/js/utils/api.js"></script>
+<script src="/js/utils/carrinho.js"></script>
+<script src="/js/carrinho.js"></script>
+</body>
+</html>

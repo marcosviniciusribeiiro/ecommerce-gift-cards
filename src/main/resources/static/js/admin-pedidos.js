@@ -1,8 +1,11 @@
-const token = exigirAutenticacao();
 const mensagemPedidos = document.getElementById("mensagemPedidos");
 const listaPedidos = document.getElementById("listaPedidos");
+const token = exigirAutenticacao();
 
 async function carregarPedidos() {
+
+    if (!token) return;
+
     try {
         const response = await fetchAutenticado("/api/pedidos/all");
 
@@ -26,6 +29,8 @@ async function carregarPedidos() {
 
         const pedidos = await response.json();
 
+        listaPedidos.replaceChildren();
+
         if(exibirMensagemListaVazia(
             pedidos,
             mensagemPedidos,
@@ -40,17 +45,26 @@ async function carregarPedidos() {
             numeroPedido.textContent = "Pedido #" + pedido.idPedido;
             card.appendChild(numeroPedido);
 
-            const produto = document.createElement("p");
+            const produtos = document.createElement("div");
 
-            const produtoStrong = document.createElement("strong");
-            produtoStrong.textContent = "Produto: ";
+            const produtosStrong = document.createElement("strong");
+            produtosStrong.textContent = "Produto(s):";
 
-            const produtoSpan = document.createElement("span");
-            produtoSpan.textContent = pedido.nomeProduto;
+            produtos.appendChild(produtosStrong);
 
-            produto.appendChild(produtoStrong);
-            produto.appendChild(produtoSpan);
-            card.appendChild(produto);
+            const listaItens = document.createElement("ul");
+
+            pedido.itens.forEach(function (item) {
+               const elementoItem = document.createElement("li");
+
+               elementoItem.textContent = `${item.nomeProduto} — ${formatarMoeda(item.valorUnitario)}`;
+
+               listaItens.appendChild(elementoItem);
+
+            });
+
+            produtos.appendChild(listaItens);
+            card.appendChild(produtos);
 
             const status = document.createElement("p");
 
@@ -182,7 +196,7 @@ async function confirmarPagamento(
         console.error("Erro ao confirmar pagamento:", erro);
 
         exibirMensagem(
-            mensagemPedido,
+            elementoMensagem,
             "Não foi possível conectar ao servidor.",
             "erro"
         );

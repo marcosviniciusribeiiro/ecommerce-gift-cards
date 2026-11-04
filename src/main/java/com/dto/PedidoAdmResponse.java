@@ -4,14 +4,17 @@ import com.model.StatusPedido;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class PedidoAdmResponse {
     private Integer idPedido;
+
     private Integer idUsuario;
     private String nomeUsuario;
     private String emailUsuario;
-    private Integer idProduto;
-    private String nomeProduto;
+
+    private List<ItemPedidoResponse> itens;
+
     private StatusPedido status;
     private LocalDateTime dataPedido;
     private BigDecimal valorTotal;
@@ -21,8 +24,7 @@ public class PedidoAdmResponse {
             Integer idUsuario,
             String nomeUsuario,
             String emailUsuario,
-            Integer idProduto,
-            String nomeProduto,
+            List<ItemPedidoResponse> itens,
             StatusPedido status,
             LocalDateTime dataPedido,
             BigDecimal valorTotal
@@ -31,8 +33,7 @@ public class PedidoAdmResponse {
         this.idUsuario = idUsuario;
         this.nomeUsuario = nomeUsuario;
         this.emailUsuario = emailUsuario;
-        this.idProduto = idProduto;
-        this.nomeProduto = nomeProduto;
+        this.itens = itens;
         this.status = status;
         this.dataPedido = dataPedido;
         this.valorTotal = valorTotal;
@@ -54,11 +55,9 @@ public class PedidoAdmResponse {
         return emailUsuario;
     }
 
-    public Integer getIdProduto() {
-        return idProduto;
+    public List<ItemPedidoResponse> getItens() {
+        return itens;
     }
-
-    public String getNomeProduto() { return nomeProduto; }
 
     public StatusPedido getStatus() {
         return status;

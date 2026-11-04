@@ -1,36 +1,29 @@
 package com.dto;
 
+import java.util.List;
+
 public class CodigoCompradoResponse {
     private Integer idPedido;
-    private Integer idProduto;
-    private String nomeProduto;
-    private String codigo;
+    private List<ItemCodigoCompradoResponse> itens;
 
-    public CodigoCompradoResponse(
-            Integer idPedido,
-            Integer idProduto,
-            String nomeProduto,
-            String codigo
-    ) {
+    public CodigoCompradoResponse(Integer idPedido, List<ItemCodigoCompradoResponse> itens) {
         this.idPedido = idPedido;
-        this.idProduto = idProduto;
-        this.nomeProduto = nomeProduto;
-        this.codigo = codigo;
+        this.itens = itens;
     }
 
     public Integer getIdPedido() {
         return idPedido;
     }
 
-    public Integer getIdProduto() {
-        return idProduto;
+    public void setIdPedido(Integer idPedido) {
+        this.idPedido = idPedido;
     }
 
-    public String getNomeProduto() {
-        return nomeProduto;
+    public List<ItemCodigoCompradoResponse> getItens() {
+        return itens;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public void setItens(List<ItemCodigoCompradoResponse> itens) {
+        this.itens = itens;
     }
 }

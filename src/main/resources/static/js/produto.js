@@ -2,6 +2,7 @@ const mensagemProduto = document.getElementById("mensagemProduto");
 const parametros = new URLSearchParams (window.location.search);
 const idProduto = parametros.get("id");
 const comprarButton = document.getElementById("comprarButton");
+const adicionarCarrinhoButton = document.getElementById("adicionarCarrinhoButton");
 
 const nome = document.getElementById("nomeProduto");
 const descricao = document.getElementById("descricaoProduto");
@@ -96,5 +97,45 @@ comprarButton.addEventListener("click", async function (){
            "Não foi possível conectar ao servidor.",
            "erro"
        );
+   }
+});
+
+adicionarCarrinhoButton.addEventListener("click", async function () {
+   if (!idProduto) {
+       exibirMensagem(
+           mensagemProduto,
+           "Produto não informado.",
+           "erro"
+       );
+       return;
+   }
+
+   const token = exigirAutenticacao();
+
+   if (!token) return;
+
+   adicionarCarrinhoButton.disabled = true;
+
+   try {
+       await inicializarCarrinho();
+
+       adicionarAoCarrinho(idProduto);
+
+       exibirMensagem(
+           mensagemProduto,
+           "Produto adicionado ao carrinho com sucesso!",
+           "sucesso"
+       );
+
+   } catch (erro) {
+       console.error("Erro ao adicionar produto:", erro);
+
+       exibirMensagem(
+           mensagemProduto,
+           "Não foi possível identificar o usuário.",
+           "erro"
+       );
+   } finally {
+       adicionarCarrinhoButton.disabled = false;
    }
 });
