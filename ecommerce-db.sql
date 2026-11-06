@@ -54,6 +54,32 @@ CREATE TABLE tb_itens_pedido(
 DESC tb_itens_pedido;
 SELECT * FROM tb_itens_pedido;
 
+CREATE TABLE tb_pagamentos (
+    id_pagamento INT PRIMARY KEY AUTO_INCREMENT,
+    id_pedido INT NOT NULL,
+    id_pagamento_asaas VARCHAR(100) UNIQUE,
+    valor DECIMAL(12,2) NOT NULL,
+    forma_pagamento ENUM(
+        'PIX',
+        'CREDIT_CARD'
+    ) NOT NULL,
+    status ENUM(
+        'PENDING',
+        'CONFIRMED',
+        'RECEIVED',
+        'OVERDUE',
+        'REFUNDED',
+        'CANCELLED'
+    ) NOT NULL DEFAULT 'PENDING',
+    data_criacao DATETIME NOT NULL,
+    data_confirmacao DATETIME,
+
+    FOREIGN KEY (id_pedido)
+        REFERENCES tb_pedidos(id)
+);
+DESC tb_pagamentos;
+SELECT * FROM tb_pagamentos;
+
 CREATE TABLE tb_codigos_giftcard(
 	id INT PRIMARY KEY AUTO_INCREMENT,
     id_produto INT NOT NULL,
@@ -78,7 +104,6 @@ CREATE TABLE tb_tokens_recuperacao(
     
     FOREIGN KEY (id_usuario) REFERENCES tb_usuarios(id)
 );
-
 DESC tb_tokens_recuperacao;
 SELECT * FROM tb_tokens_recuperacao;
 
