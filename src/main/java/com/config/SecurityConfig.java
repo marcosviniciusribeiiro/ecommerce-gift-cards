@@ -42,6 +42,7 @@ public class SecurityConfig {
                                 "/redefinir-senha.html",
                                 "/perfil.html", //autorização necessária
                                 "/carrinho.html", //autorização necessária
+                                "/pagamento.html", //autorização necessária
                                 "/atualizar-conta.html", //autorização necessária
                                 "/meus-pedidos.html", //autorização necessária
                                 "/pedido.html", //autorização necessária
@@ -112,6 +113,18 @@ public class SecurityConfig {
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/api/pedidos/all"
+                        ).hasRole("ADMINISTRADOR")
+
+
+                        // Webhook Asaas
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/pagamentos/webhook"
+                        ).permitAll()
+
+                        // Processamento de webhooks - somente administrador
+                        .requestMatchers(
+                                "/api/admin/webhooks/**"
                         ).hasRole("ADMINISTRADOR")
 
                         // Todo o restante exige autenticação
