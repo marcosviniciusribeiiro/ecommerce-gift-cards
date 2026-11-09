@@ -167,29 +167,48 @@ public class PedidoService {
 
     @Transactional
     public PedidoConfirmadoResponse confirmarPedido(Integer idPedido){
-        Pedido pedido = pedidoRepository.findById(idPedido)
-                .orElseThrow(() ->
-                        new ProductNotFoundException("Pedido não encontrado."));
 
-        if(pedido.getStatus() != StatusPedido.Pendente){
-            throw new CodeConflictException("Somente pedidos pendentes podem ser confirmados.");
+        Pedido pedido = pedidoRepository.buscarPorIdComBloqueio(idPedido)
+                .orElseThrow(
+                        () -> new PedidoNotFoundException("Pedido não encontrado.")
+                );
+
+        if(pedido.getStatus() == StatusPedido.Pago){
+            throw new IllegalStateException("Este pedido já foi confirmado.");
+        }
+
+        if (pedido.getStatus() == StatusPedido.Cancelado) {
+            throw new IllegalStateException("Não é possível confirmar um pedido cancelado.");
         }
 
         List<ItemPedido> itens = itemPedidoRepository.findByPedido(pedido);
+
+        List<Integer> idsProdutos = itens.stream()
+                .map(item -> item.getProduto().getId())
+                .distinct()
+                .sorted()
+                .toList();
+
+        for (Integer idProduto : idsProdutos) {
+            produtoRepository.buscarPorIdComBloqueio(idProduto)
+                    .orElseThrow(
+                            () -> new IllegalArgumentException("Produto não encontrado: " + idProduto)
+                    );
+        }
 
         if (itens.isEmpty()) {
             throw new ItemPedidoNotFoundException("Nenhum item encontrado para este pedido.");
         }
 
-        List<Integer> codigos = new ArrayList<>();
+        List<Integer> idsCodigos = new ArrayList<>();
 
         for (ItemPedido item : itens) {
-            CodigoGiftCard codigoGiftCard = codigoGiftCardService
+            CodigoGiftCard codigo = codigoGiftCardService
                     .atribuirCodigo(
                             item.getProduto(),
                             item
                     );
-            codigos.add(codigoGiftCard.getId());
+            idsCodigos.add(codigo.getId());
         }
 
         pedido.setStatus(StatusPedido.Pago);
@@ -200,7 +219,7 @@ public class PedidoService {
                 pedido.getId(),
                 pedido.getStatus(),
                 pedido.getValorTotal(),
-                codigos
+                idsCodigos
         );
     }
 
@@ -230,15 +249,17 @@ public class PedidoService {
         return converterParaPedidoResponse(pedido);
     }
 
+    @Transactional
     public PedidoResponse cancelarPorId(
             Integer id,
             String email){
-        Usuario usuario = usuarioRepository.findByEmail(email)
-                .orElseThrow(() ->
-                        new UserNotFoundException("Usuário não encontrado."));
 
-        Pedido pedido = pedidoRepository.findByIdAndUsuario(id, usuario)
+        Pedido pedido = pedidoRepository.buscarPorIdComBloqueio(id)
                 .orElseThrow(() -> new PedidoNotFoundException("Pedido não encontrado."));
+
+        if (!pedido.getUsuario().getEmail().equals(email)) {
+            throw new PedidoNotFoundException("Pedido não encontrado.");
+        }
 
         if (pedido.getStatus() != StatusPedido.Pendente){
             throw new PedidoCanceladoException("Não foi possível cancelar o pedido.");

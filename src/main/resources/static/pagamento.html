@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento Pix | Gift Cards</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+    <h1>Pagamento Pix | Gift Cards</h1>
+
+    <nav>
+        <a href="/index.html">Lista de Produtos</a>
+        <a href="/carrinho.html">Meu Carrinho</a>
+        <a href="/meus-pedidos.html">Meus Pedidos</a>
+        <a href="/perfil.html">Perfil</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Finalizar Pagamento</h2>
+
+    <section class="card-pagamento">
+
+        <h3 id="numeroPedido">Carregando pedido...</h3>
+
+        <p>
+            <strong>Valor:</strong>
+            <span id="valorPagamento">R$ 0,00</span>
+        </p>
+
+        <p>
+            <strong>Status da cobrança:</strong>
+            <span id="statusPagamento">Carregando...</span>
+        </p>
+
+        <div id="areaPix" hidden>
+            <h3>Pagamento via Pix</h3>
+
+            <p>
+                Escaneie o Qr Code abaixo ou copie o código Pix para realizar o pagamento.
+            </p>
+
+            <img id="imagemQrCode" alt="Qr Code para pagamento Pix" width="240" height="240">
+
+            <label for="codigoPix">
+                <strong>Pix Copia e Cola:</strong>
+            </label>
+
+            <textarea id="codigoPix" rows="4" readonly></textarea>
+
+            <button id="copiarPixButton" type="button">Copiar código Pix</button>
+            <p>
+                <strong>Expiração:</strong>
+                <span id="expiracaoPix">—</span>
+            </p>
+
+        </div>
+
+        <p id="mensagemPagamento" class="mensagem" role="status" aria-live="polite"></p>
+
+        <a id="voltarPedido" class="link-button" href="/meus-pedidos.html">Visualizar Pedido</a>
+    </section>
+</main>
+<script src="/js/utils/mensagens.js"></script>
+<script src="/js/utils/formatadores.js"></script>
+<script src="/js/utils/autenticacao.js"></script>
+<script src="/js/utils/api.js"></script>
+<script src="/js/pagamento.js"></script>
+
+</body>
+</html>
