@@ -2,7 +2,7 @@ CREATE DATABASE ecommerce_db;
 
 USE ecommerce_db;
 
-CREATE TABLE tb_usuarios (
+CREATE TABLE IF NOT EXISTS tb_usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome_usuario VARCHAR(255) NOT NULL,
     email_usuario VARCHAR(255) NOT NULL UNIQUE,
@@ -13,7 +13,7 @@ CREATE TABLE tb_usuarios (
 DESC tb_usuarios;
 SELECT * FROM tb_usuarios;
 
-CREATE TABLE tb_produtos(
+CREATE TABLE IF NOT EXISTS tb_produtos(
 	id INT AUTO_INCREMENT PRIMARY KEY,
     nome_produto VARCHAR(80) NOT NULL,
     descricao_produto VARCHAR(255),
@@ -28,7 +28,7 @@ CREATE TABLE tb_produtos(
 DESC tb_produtos;
 SELECT * FROM tb_produtos;
 
-CREATE TABLE tb_pedidos(
+CREATE TABLE IF NOT EXISTS tb_pedidos(
 	id INT PRIMARY KEY AUTO_INCREMENT,
     id_usuario INT NOT NULL,
     status ENUM(
@@ -43,7 +43,7 @@ CREATE TABLE tb_pedidos(
 DESC tb_pedidos;
 SELECT * FROM tb_pedidos;
 
-CREATE TABLE tb_itens_pedido(
+CREATE TABLE IF NOT EXISTS tb_itens_pedido(
 	id INT PRIMARY KEY AUTO_INCREMENT,
     id_produto INT NOT NULL,
     id_pedido INT NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE tb_itens_pedido(
 DESC tb_itens_pedido;
 SELECT * FROM tb_itens_pedido;
 
-CREATE TABLE tb_pagamentos (
+CREATE TABLE IF NOT EXISTS tb_pagamentos (
     id_pagamento INT PRIMARY KEY AUTO_INCREMENT,
     id_pedido INT NOT NULL,
     id_pagamento_asaas VARCHAR(100) UNIQUE,
@@ -80,7 +80,22 @@ CREATE TABLE tb_pagamentos (
 DESC tb_pagamentos;
 SELECT * FROM tb_pagamentos;
 
-CREATE TABLE tb_codigos_giftcard(
+CREATE TABLE IF NOT EXISTS tb_eventos_webhook(
+	id_evento_asaas VARCHAR(100) PRIMARY KEY,
+    tipo_evento VARCHAR(80) NOT NULL,
+    id_pagamento_asaas VARCHAR(100) NOT NULL,
+    payload LONGTEXT NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'RECEBIDO',
+    data_recebimento DATETIME NOT NULL,
+    data_processamento DATETIME,
+    
+    INDEX idx_eventos_pagamento (id_pagamento_asaas),
+    INDEX idx_eventos_status (status)
+);
+DESC tb_eventos_webhook;
+SELECT * FROM tb_eventos_webhook;
+
+CREATE TABLE IF NOT EXISTS tb_codigos_giftcard(
 	id INT PRIMARY KEY AUTO_INCREMENT,
     id_produto INT NOT NULL,
     id_item_pedido INT UNIQUE,
@@ -95,7 +110,7 @@ CREATE TABLE tb_codigos_giftcard(
 DESC tb_codigos_giftcard;
 SELECT * FROM tb_codigos_giftcard;
 
-CREATE TABLE tb_tokens_recuperacao(
+CREATE TABLE IF NOT EXISTS tb_tokens_recuperacao(
 	id INT PRIMARY KEY AUTO_INCREMENT,
     id_usuario INT NOT NULL,
     token VARCHAR(255) UNIQUE NOT NULL,
