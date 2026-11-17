@@ -5,11 +5,15 @@ import com.dto.UsuarioRequest;
 import com.exception.EmailAlreadyExistsException;
 import com.exception.InvalidCredentialsException;
 import com.exception.UserNotFoundException;
+import com.exception.UsuarioComPedidosException;
 import com.model.TipoUsuario;
 import com.model.Usuario;
+import com.repository.PedidoRepository;
+import com.repository.TokenRecuperacaoRepository;
 import com.repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -17,14 +21,20 @@ import java.util.Optional;
 @Service
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
+    private final PedidoRepository pedidoRepository;
+    private final TokenRecuperacaoRepository tokenRecuperacaoRepository;
     private  final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
     public UsuarioService(
             UsuarioRepository usuarioRepository,
+            PedidoRepository pedidoRepository,
+            TokenRecuperacaoRepository tokenRecuperacaoRepository,
             PasswordEncoder passwordEncoder,
             JwtService jwtService) {
         this.usuarioRepository = usuarioRepository;
+        this.pedidoRepository = pedidoRepository;
+        this.tokenRecuperacaoRepository = tokenRecuperacaoRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
     }
@@ -74,12 +84,19 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
+    @Transactional
     public void deletar(String emailUsuario){
         Usuario usuario = usuarioRepository
                 .findByEmail(emailUsuario)
                 .orElseThrow(
                         () -> new UserNotFoundException("Usuário não encontrado.")
                 );
+
+        if (pedidoRepository.existsByUsuario(usuario)) {
+            throw new UsuarioComPedidosException("Não é possível excluir uma conta que possui pedidos registrados.");
+        }
+
+        tokenRecuperacaoRepository.deleteByUsuario(usuario);
 
         usuarioRepository.delete(usuario);
     }
