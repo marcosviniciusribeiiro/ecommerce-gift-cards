@@ -110,7 +110,8 @@ public class CodigoGiftCardController {
                 .noContent()
                 .build();
     }
-    public CodigoGiftCardResponse converterParaResponse(CodigoGiftCard codigo) {
+
+    private CodigoGiftCardResponse converterParaResponse(CodigoGiftCard codigo) {
         return new CodigoGiftCardResponse(
                 codigo.getId(),
                 codigo.getProduto().getId(),
