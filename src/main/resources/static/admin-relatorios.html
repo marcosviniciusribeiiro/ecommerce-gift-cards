@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Vendas | Gift Cards</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+<header>
+    <h1>Relatório de Vendas | Gift Cards</h1>
+
+    <nav>
+        <a href="/index.html">Lista de Produtos</a>
+        <a href="/admin-produtos.html">Gerenciar Produtos</a>
+        <a href="/admin-pedidos.html">Gerenciar Pedidos</a>
+        <a href="/perfil.html">Perfil</a>
+    </nav>
+</header>
+
+<main>
+    <p id="mensagemRelatorio" class="mensagem"></p>
+
+    <div id="conteudoRelatorio">
+        <section class="filtros-relatorio">
+            <h2>Filtrar vendas por período</h2>
+
+            <form id="formFiltroRelatorio">
+                <div class="campos-periodo">
+                    <div>
+                        <label for="dataInicio">Data inicial</label>
+                        <input type="date" id="dataInicio" name="inicio">
+                    </div>
+
+                    <div>
+                        <label for="dataFim">Data final</label>
+                        <input type="date" id="dataFim" name="fim">
+                    </div>
+                </div>
+
+                <div class="acoes-relatorio">
+                    <button type="submit">Aplicar filtro</button>
+                    <button type="button" id="limparFiltro">
+                        Limpar filtro
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <section class="secao-relatorio">
+            <h2>Resumo de Vendas</h2>
+
+            <div class="cards-relatorio">
+                <article class="card-indicador">
+                    <h3>Pedidos pagos</h3>
+                    <p id="totalPedidosPagos">—</p>
+                </article>
+
+                <article class="card-indicador">
+                    <h3>Gift Cards vendidos</h3>
+                    <p id="totalGiftCardsVendidos">—</p>
+                </article>
+
+                <article class="card-indicador">
+                    <h3>Faturamento total</h3>
+                    <p id="faturamentoTotal">—</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="secao-relatorio">
+            <h2>Produtos mais vendidos</h2>
+
+            <div class="tabela-relatorio-container">
+                <table class="tabela-relatorio">
+                    <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Quantidade vendida</th>
+                        <th>Faturamento</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="tabelaProdutosVendidos">
+                    <tr>
+                        <td colspan="3">Carregando produtos...</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</main>
+
+<script src="/js/utils/mensagens.js"></script>
+<script src="/js/utils/formatadores.js"></script>
+<script src="/js/utils/autenticacao.js"></script>
+<script src="/js/utils/api.js"></script>
+<script src="/js/admin-relatorios.js"></script>
+</body>
+</html>
