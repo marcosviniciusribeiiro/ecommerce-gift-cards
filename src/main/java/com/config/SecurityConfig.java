@@ -1,6 +1,7 @@
 package com.config;
 
 import com.service.JwtAuthenticationFilter;
+import jakarta.servlet.DispatcherType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -32,6 +33,9 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
+                        .dispatcherTypeMatchers(DispatcherType.ERROR)
+                        .permitAll()
+
                         // Rotas públicas
                         .requestMatchers(
                                 "/index.html",
@@ -48,6 +52,7 @@ public class SecurityConfig {
                                 "/pedido.html", //autorização necessária
                                 "/admin-pedidos.html", //autorização necessária
                                 "/admin-produtos.html", //autorização necessária
+                                "/admin-relatorios.html", //autorização necessária
                                 "/admin-codigos.html", //autorização necessária
                                 "/cadastrar-produto.html", //autorização adm necessária
                                 "/cadastrar-codigo.html", //autorização adm necessária
@@ -85,6 +90,11 @@ public class SecurityConfig {
                                 "/api/codigos/**"
                         ).hasRole("ADMINISTRADOR")
 
+                        .requestMatchers(
+                                HttpMethod.DELETE,
+                                "/api/codigos/**"
+                        ).hasRole("ADMINISTRADOR")
+
                         // Cadastro de produto - somente administrador
                         .requestMatchers(
                                 HttpMethod.POST,
@@ -115,7 +125,6 @@ public class SecurityConfig {
                                 "/api/pedidos/all"
                         ).hasRole("ADMINISTRADOR")
 
-
                         // Webhook Asaas
                         .requestMatchers(
                                 HttpMethod.POST,
@@ -125,6 +134,12 @@ public class SecurityConfig {
                         // Processamento de webhooks - somente administrador
                         .requestMatchers(
                                 "/api/admin/webhooks/**"
+                        ).hasRole("ADMINISTRADOR")
+
+                        // Relatórios - somente administradores
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/admin/relatorios/**"
                         ).hasRole("ADMINISTRADOR")
 
                         // Todo o restante exige autenticação
