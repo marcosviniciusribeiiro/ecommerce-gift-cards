@@ -8,6 +8,7 @@ import com.repository.CodigoGiftCardRepository;
 import com.repository.ItemPedidoRepository;
 import com.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,12 +26,11 @@ public class ProdutoService {
         this.codigoGiftCardRepository = codigoGiftCardRepository;
     }
 
+    @Transactional
     public Produto cadastrar(ProdutoRequest request) {
         Produto produto = new Produto();
-        produto.setNome(request.getNome());
-        produto.setDescricao(request.getDescricao());
-        produto.setPlataforma(request.getPlataforma());
-        produto.setValor(request.getValor());
+
+        preencherDados(produto, request);
 
         return produtoRepository.save(produto);
     }
@@ -47,19 +47,13 @@ public class ProdutoService {
                 );
     }
 
+    @Transactional
     public Produto atualizar(
             Integer id,
             ProdutoRequest request) {
-        Produto produto = produtoRepository
-                .findById(id)
-                .orElseThrow(
-                        () -> new ProductNotFoundException("Produto não encontrado.")
-                );
+        Produto produto = buscarPorId(id);
 
-        produto.setNome(request.getNome());
-        produto.setDescricao(request.getDescricao());
-        produto.setPlataforma(request.getPlataforma());
-        produto.setValor(request.getValor());
+        preencherDados(produto, request);
 
         return produtoRepository.save(produto);
     }
@@ -76,5 +70,15 @@ public class ProdutoService {
             throw new ProdutoEmUsoException("Não é possível excluir um produto com pedidos ou códigos associados.");
         }
         produtoRepository.delete(produto);
+    }
+
+    private void preencherDados(
+            Produto produto,
+            ProdutoRequest request
+    ) {
+        produto.setNome(request.getNome());
+        produto.setDescricao(request.getDescricao());
+        produto.setPlataforma(request.getPlataforma());
+        produto.setValor(request.getValor());
     }
 }
