@@ -36,16 +36,17 @@ public class PedidoService {
         this.codigoGiftCardService = codigoGiftCardService;
     }
 
+    @Transactional
     public Pedido criarPedido(
             String email,
             Integer idProduto){
         Usuario usuario = usuarioRepository
                 .findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Email não encontrado."));
+                .orElseThrow(() -> new UserNotFoundException("Email não encontrado."));
 
         Produto produto = produtoRepository
                 .findById(idProduto)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado."));
+                .orElseThrow(() -> new ProductNotFoundException("Produto não encontrado."));
 
         long quantidadeDisponivel = codigoGiftCardService.contarDisponiveisPorProduto(idProduto);
 
@@ -338,11 +339,6 @@ public class PedidoService {
     }
 
     public PedidoResponse converterParaPedidoResponse(Pedido pedido) {
-
-        ItemPedido itemPedido = itemPedidoRepository.findFirstByPedido(pedido)
-                .orElseThrow(() ->
-                        new ItemPedidoNotFoundException("Item pedido não encontrado."));
-
         return new PedidoResponse(
                 pedido.getId(),
                 converterItens(pedido),
@@ -354,10 +350,6 @@ public class PedidoService {
 
     private PedidoAdmResponse converterParaAdmResponse(Pedido pedido){
         Usuario usuario = pedido.getUsuario();
-
-        ItemPedido item = itemPedidoRepository.findFirstByPedido(pedido)
-                .orElseThrow(() ->
-                        new ItemPedidoNotFoundException("Item pedido não encontrado."));
 
         return new PedidoAdmResponse(
                 pedido.getId(),
