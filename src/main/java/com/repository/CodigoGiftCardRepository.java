@@ -4,7 +4,9 @@ import com.model.CodigoGiftCard;
 import com.model.ItemPedido;
 import com.model.Produto;
 import com.model.StatusCodigo;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,4 +24,13 @@ public interface CodigoGiftCardRepository
     long countByProdutoAndStatus(Produto produto, StatusCodigo status);
 
     boolean existsByProduto(Produto produto);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    Optional<CodigoGiftCard>
+    findFirstByProdutoAndStatusOrderByIdAsc(
+            Produto produto,
+            StatusCodigo status
+    );
+
+    boolean existsByCodigo(String codigo);
 }
