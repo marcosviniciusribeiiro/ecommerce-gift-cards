@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/usuarios")
 public class UsuarioController {
-    public final UsuarioService usuarioService;
-    public final TokenRecuperacaoService tokenRecuperacaoService;
+    private final UsuarioService usuarioService;
+    private final TokenRecuperacaoService tokenRecuperacaoService;
 
     public UsuarioController(UsuarioService usuarioService,
                              TokenRecuperacaoService tokenRecuperacaoService
@@ -111,7 +111,7 @@ public class UsuarioController {
     }
 
 
-    public UsuarioResponse converterParaResponse(Usuario usuario){
+    private UsuarioResponse converterParaResponse(Usuario usuario){
         return new UsuarioResponse(
                 usuario.getId(),
                 usuario.getNome(),
