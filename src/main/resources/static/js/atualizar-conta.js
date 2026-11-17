@@ -1,6 +1,7 @@
 const formulario = document.getElementById("atualizarForm");
 const mensagemAtualizar = document.getElementById("mensagemAtualizar");
-const token = exigirAutenticacao();
+
+exigirAutenticacao();
 
 formulario.addEventListener("submit", async function (event) {
     event.preventDefault();
@@ -45,6 +46,12 @@ formulario.addEventListener("submit", async function (event) {
             window.location.href = "/login.html";
         }, 1500);
     } catch (erro){
-        console.error("Não foi possivel conectar ao servidor.");
+        console.error("Erro ao atualizar a conta:", erro);
+
+        exibirMensagem(
+            mensagemAtualizar,
+            "Não foi possível conectar ao servidor. Tente novamente.",
+            "erro"
+        );
     }
 });

@@ -32,16 +32,21 @@ async function carregarPerfil(){
 
         if (dadosUsuario.tipoUsuario === "Administrador") {
 
-            const admProdutos = document.createElement("a");
-            admProdutos.textContent = "Gerenciar Produtos";
-            admProdutos.href = "/admin-produtos.html";
+            const admRelatorios = document.createElement("a");
+            admRelatorios.textContent = "Relatório de Vendas";
+            admRelatorios.href = "/admin-relatorios.html";
 
-            const admPedidos = document.createElement("a");
-            admPedidos.textContent = "Gerenciar Pedidos";
-            admPedidos.href = "/admin-pedidos.html";
+            const adminProdutos = document.createElement("a");
+            adminProdutos.textContent = "Gerenciar Produtos";
+            adminProdutos.href = "/admin-produtos.html";
 
-            navPerfil.appendChild(admProdutos);
-            navPerfil.appendChild(admPedidos);
+            const adminPedidos = document.createElement("a");
+            adminPedidos.textContent = "Gerenciar Pedidos";
+            adminPedidos.href = "/admin-pedidos.html";
+
+            navPerfil.appendChild(admRelatorios);
+            navPerfil.appendChild(adminProdutos);
+            navPerfil.appendChild(adminPedidos);
         }
     } catch (erro) {
         console.error("Erro ao conectar ao servidor:", erro);

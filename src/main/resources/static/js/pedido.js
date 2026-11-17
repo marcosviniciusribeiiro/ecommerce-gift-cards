@@ -15,6 +15,7 @@ const status = document.getElementById("status");
 const data = document.getElementById("data");
 const valor = document.getElementById("valor");
 const codigoSpan = document.getElementById("codigoSpan");
+const linkPagamento = document.getElementById("linkPagamento");
 
 async function carregarPedido() {
 
@@ -65,18 +66,34 @@ async function carregarPedido() {
 
         const statusPedido = dadosPedido.statusPedido;
 
+        status.classList.remove(
+            "status-pago",
+            "status-pendente",
+            "status-cancelado"
+        );
+
         status.textContent = statusPedido;
+
+        if (statusPedido === "Pendente") {
+            linkPagamento.href = `/pagamento.html?idPedido=${dadosPedido.id}`;
+            linkPagamento.style.display = "inline-block";
+        } else {
+            linkPagamento.style.display = "none";
+        }
 
         if (statusPedido === "Pago") {
             status.classList.add("status-pago");
             codigoButton.style.display = "block";
+
         }
         else if (statusPedido === "Pendente") {
             status.classList.add("status-pendente");
             cancelarButton.classList.add("btn-danger");
             cancelarButton.style.display = "block";
+
         } else if (statusPedido === "Cancelado") {
             status.classList.add("status-cancelado");
+
         }
 
         data.textContent = formatarDataHora(dadosPedido.dataPedido);
