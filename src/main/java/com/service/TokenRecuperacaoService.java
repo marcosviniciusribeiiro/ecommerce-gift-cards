@@ -8,6 +8,7 @@ import com.repository.TokenRecuperacaoRepository;
 import com.repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -47,11 +48,12 @@ public class TokenRecuperacaoService {
         return tokenRecuperacaoRepository.save(token);
     }
 
+    @Transactional
     public void redefinirSenha(
             String token,
             String novaSenha
     ){
-        TokenRecuperacao tokenRecuperacao = tokenRecuperacaoRepository.findByToken(token)
+        TokenRecuperacao tokenRecuperacao = tokenRecuperacaoRepository.buscarPorTokenComBloqueio(token)
                 .orElseThrow(() ->
                         new TokenRecuperacaoInvalidoException("Token de recuperação inválido."));
 
