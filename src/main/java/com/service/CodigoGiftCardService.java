@@ -10,6 +10,7 @@ import com.model.StatusCodigo;
 import com.repository.CodigoGiftCardRepository;
 import com.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,11 +29,13 @@ public class CodigoGiftCardService {
     public CodigoGiftCard cadastrar(
             Integer id,
             String codigo) {
-        Produto produto = produtoRepository
-                .findById(id)
-                .orElseThrow(
-                        () -> new ProductNotFoundException("Produto não encontrado.")
-                );
+        Produto produto = buscarProduto(id);
+
+        if (codigoGiftCardRepository.existsByCodigo(codigo)) {
+            throw new CodeConflictException(
+                    "Este código de gift card já está cadastrado."
+            );
+        }
 
         CodigoGiftCard codigoGiftCard = new CodigoGiftCard();
         codigoGiftCard.setProduto(produto);
@@ -47,7 +50,7 @@ public class CodigoGiftCardService {
             Produto produto,
             ItemPedido item) {
         CodigoGiftCard codigoGiftCard = codigoGiftCardRepository
-                .findFirstByProdutoAndStatus(produto, StatusCodigo.Disponivel)
+                .findFirstByProdutoAndStatusOrderByIdAsc(produto, StatusCodigo.Disponivel)
                 .orElseThrow(
                         () -> new CodeNotFoundException("Não há códigos disponíveis para esse produto.")
                 );
@@ -110,23 +113,18 @@ public class CodigoGiftCardService {
         return codigoGiftCardRepository.countByProdutoAndStatus(produto, StatusCodigo.Disponivel);
     }
 
+    @Transactional
     public CodigoGiftCard atualizar(
             Integer id,
             String novoCodigo) {
 
-        CodigoGiftCard codigoGiftCard = codigoGiftCardRepository
-                .findById(id)
-                .orElseThrow(
-                        () -> new CodeNotFoundException(
-                                "Código não encontrado."
-                        )
-                );
+        CodigoGiftCard codigoGiftCard = buscarPorId(id);
 
-        if (codigoGiftCard.getStatus() != StatusCodigo.Disponivel
-                || codigoGiftCard.getItemPedido() != null) {
-            throw new CodeConflictException(
-                    "Não é possível atualizar um código vendido ou associado a um pedido"
-            );
+        validarCodigoDisponivel(codigoGiftCard);
+
+
+        if (!codigoGiftCard.getCodigo().equals(novoCodigo) && codigoGiftCardRepository.existsByCodigo(novoCodigo)) {
+            throw new CodeConflictException("Este código de gift card já está cadastrado.");
         }
 
         codigoGiftCard.setCodigo(novoCodigo);
@@ -134,20 +132,33 @@ public class CodigoGiftCardService {
         return codigoGiftCardRepository.save(codigoGiftCard);
     }
 
+    @Transactional
     public void deletar(Integer id) {
-        CodigoGiftCard codigoGiftCard = codigoGiftCardRepository
-                .findById(id)
-                .orElseThrow(
-                        () -> new CodeNotFoundException("Código não encontrado.")
-                );
+        CodigoGiftCard codigoGiftCard = buscarPorId(id);
 
-        if (codigoGiftCard.getStatus() != StatusCodigo.Disponivel
-                || codigoGiftCard.getItemPedido() != null) {
-            throw new CodeConflictException(
-                    "Não é possível deletar um código vendido ou associado a um pedido"
-            );
+        validarCodigoDisponivel(codigoGiftCard);
 
-        }
         codigoGiftCardRepository.deleteById(id);
     }
+
+    private Produto buscarProduto(Integer id) {
+        return produtoRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> new ProductNotFoundException(
+                                "Produto não encontrado."
+                        )
+                );
+    }
+
+    private void validarCodigoDisponivel(CodigoGiftCard codigo) {
+        if (codigo.getStatus() != StatusCodigo.Disponivel
+                || codigo.getItemPedido() != null) {
+
+            throw new CodeConflictException(
+                    "Não é possível modificar um código vendido ou associado a um pedido."
+            );
+        }
+    }
+
 }
