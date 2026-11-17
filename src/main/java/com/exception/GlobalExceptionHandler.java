@@ -212,4 +212,33 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_ACCEPTABLE)
                 .body(erro);
     }
+
+    @ExceptionHandler(PeriodoInvalidoException.class)
+    public ResponseEntity<ErrorResponse> periodoInvalido(
+            PeriodoInvalidoException exception
+    ) {
+        ErrorResponse erro = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                exception.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(erro);
+    }
+
+
+    @ExceptionHandler(UsuarioComPedidosException.class)
+    public ResponseEntity<ErrorResponse> usuarioComPedidos(
+            UsuarioComPedidosException exception
+    ) {
+        ErrorResponse erro = new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                exception.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(erro);
+    }
 }
